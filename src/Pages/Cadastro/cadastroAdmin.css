@@ -1,121 +1,156 @@
 /* Estilo para o formulário e campos */
+@import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
+
+:root {
+  --primary-font: "Yeseva One", serif;
+  --color-dark-blue: #1F2B6C;
+  --color-dark-hover: #1f2b6ca8;
+  --color-blue-card-info: #2c3e50;
+  --color-card-info: #7f8c8d;
+  --color-background-card: #7dbeff25;
+  --color-light-blue: #159EEC;
+  --color-azul-calcinha: #BFD2F8;
+  --color-dark-gray: #333;
+}
+
 .background {
   background: url(../../Img/administracao.png) no-repeat center center;
   background-size: cover;
   min-height: 100vh;
   padding: 30px;
   box-sizing: border-box;
+  font-family: var(--primary-font);
+  
 }
 
-.tituloAdm{
-  text-align: center;
-  margin-top: 20px;
+/* Estilos gerais */
+.background {
+  background-color: #f8f9fa;
+  padding: 20px;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .formularioAdm {
-  max-width: 40%;
-  margin: 0 auto;
+  background-color: #ffffff;
   padding: 30px;
-  background-color: #fff;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  box-sizing: border-box;
-  margin-top: 90px;
-  padding-left: 70px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 900px;
+  width: 100%;
 }
 
-.form-groupAdm, .form-groupSegundo {
-  margin-bottom: 15px;
-}
-
-.form-controlAdm, .form-controlSegundo {
-  width: 80%;
-  padding: 8px;
-  margin-top: 5px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 14px;
-  margin: auto;
-}
-
-.form-controlAdm:focus, .form-controlSegundo:focus {
-  border-color: #007bff;
-  outline: none;
-  background-color: #e9f4ff;
-}
-
-.botaoCadastrar {
-  background-color: #28a745;
-  color: white;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  font-size: 14px;
-  display: block;
-  margin: 20px auto 0;
-  margin-top: 20px;
-}
-
-.botaoCadastrar:hover {
-  background-color: #218838;
+.tituloAdm {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #000000;
+  margin-bottom: 20px;
 }
 
 .linha-colunas {
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+  gap: 20px;
 }
 
 .coluna-vertical {
-  width: 48%;
+  flex: 1;
   display: flex;
   flex-direction: column;
+  gap: 15px;
 }
 
-.coluna-horizontal {
-  width: 48%;
+.form-groupAdm, .form-groupSegundo {
   display: flex;
-  flex-direction: column; /* Agora a segunda coluna também está empilhada */
+  flex-direction: column;
+  gap: 5px;
 }
 
 .form-groupAdm label, .form-groupSegundo label {
-  display: block;
-  margin-bottom: 5px;
-  color: #2c2828;
-  font-weight: bold;
-}
-
-@media (max-width: 768px) {
-  .linha-colunas {
-    flex-direction: column;
-  }
-
-  .coluna-vertical, .coluna-horizontal {
-    width: 100%;
-  }
-}
-.inputImagem {
-  display: block; /* Garante que o campo seja exibido como bloco */
-  width: 40%; /* Largura ajustada para ocupar todo o espaço disponível */
-  padding: 8px;
-  margin: 10px auto; /* Centraliza o input de imagem */
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  background-color: #f9f9f9;
   font-size: 14px;
-  
+  font-weight: 500;
+  color: #333;
 }
 
-.inputImagem:focus {
-  border-color: #007bff;
+.form-groupAdm input, .form-groupSegundo input, .form-groupSegundo select {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #f9f9f9;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-groupAdm input:focus, .form-groupSegundo input:focus, .form-groupSegundo select:focus {
+  border-color: #1f2b6c;
+  box-shadow: 0 0 5px rgba(31, 43, 108, 0.3);
   outline: none;
-  background-color: #e9f4ff;
+}
+
+.form-groupSegundo select {
+  appearance: none;
+  background-color: #f9f9f9;
+}
+
+.form-group {
+  margin-top: 20px;
+}
+
+.form-group input[type="file"] {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  background-color: #f9f9f9;
 }
 
 .imgPreview {
   margin-top: 20px;
+  text-align: center;
+}
+
+.imgPreviewImage {
   max-width: 100%;
   height: auto;
-  border-radius: 10px;
+  border-radius: 6px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.botaoCadastrar {
+  width: 100%;
+  padding: 12px;
+  background-color: #226c1f;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.botaoCadastrar:hover {
+  background-color: #1d992d;
+}
+
+/* Estilos para mensagens de erro */
+.error-message {
+  color: #ff4d4d; /* Cor vermelha */
+  font-size: 12px; /* Tamanho menor */
+  margin-top: 4px; /* Espaçamento menor acima da mensagem */
+  display: block; /* Garante que a mensagem apareça em uma nova linha */
+  font-weight: 500; /* Peso da fonte (opcional) */
+  padding-left: 5px; /* Espaçamento à esquerda para alinhar com o campo */
+  background-color: #fff3f3; /* Fundo vermelho claro */
+  border: 1px solid #ff4d4d; /* Borda vermelha */
+  border-radius: 4px; /* Bordas arredondadas */
+  padding: 6px 10px; /* Espaçamento interno */
+  width: fit-content; /* Ajusta a largura ao conteúdo */
+}
+
+.input-error {
+  border-color: #ff4d4d !important; /* Borda vermelha para campos inválidos */
+  box-shadow: 0 0 5px rgba(255, 77, 77, 0.3); /* Sombra sutil para destacar */
 }
