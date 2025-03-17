@@ -1,18 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ysabeau+Infant:ital,wght@0,1..1000;1,1..1000&display=swap');
 
-:root {
-  --primary-font: "Yeseva One", serif;
-  --second-font: "Ysabeau Infant", serif;
-  --color-dark-blue: #1F2B6C;
-  --color-light-blue: #159EEC;
-  --color-dark-gray: #333;
-  --color-white: #ffffff;
-  --color-primary: #065e0d;
-  --color-primary-hover: #088804;
-  --color-background: #f0f2f5;
-}
-
 .backgroundImage {
   background-image: url('../../Img/admin.png');
   background-size: cover;

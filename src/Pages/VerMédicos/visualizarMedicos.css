@@ -1,0 +1,57 @@
+.background-image {
+    background-image: url('../../Img/fundoAdm.png');
+    background-size: cover;
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+
+}
+
+.quadroMedico {
+    display: flex;
+    gap: 30px;
+    background-color: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+    height: 150px;
+    width: 500px;
+}
+
+.imgMedico {
+    background-color:gray;
+    width: 250px;
+    height: 120px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    margin-top: -20px;
+}
+
+.componentes {
+    background-color: white;
+    width: 300px;
+    padding: 25px;
+    border-radius: 10px;
+    font-size: 1.1em;
+    color: #333;
+    height: 120px;
+    margin-top: -20px;
+}
+.componente-a{
+    margin-top: -20px;
+    
+}
+.componentes p {
+    font-size: 20px;
+}
+.corpo{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

@@ -128,22 +128,6 @@ font-family: var(--second-font);
 .botaoCadastrar:hover {
   background-color: #1d992d;
 }
-
-/* Estilos para mensagens de erro */
-.error-message {
-  color: #ff4d4d; /* Cor vermelha */
-  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-  margin-top: 4px; /* Espaçamento menor acima da mensagem */
-  display: block; /* Garante que a mensagem apareça em uma nova linha */
-  font-weight: 300; /* Peso da fonte (opcional) */
-  padding-left: 5px; /* Espaçamento à esquerda para alinhar com o campo */
-  background-color: #fff3f3; /* Fundo vermelho claro */
-  border: 1px solid #ff4d4d; /* Borda vermelha */
-  border-radius: 4px; /* Bordas arredondadas */
-  padding: 5px ; /* Espaçamento interno */
-  width: fit-content; /* Ajusta a largura ao conteúdo */
-}
-
 .input-error {
   border-color: #ff4d4d !important; /* Borda vermelha para campos inválidos */
   box-shadow: 0 0 5px rgba(255, 77, 77, 0.3); /* Sombra sutil para destacar */

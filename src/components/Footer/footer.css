@@ -1,0 +1,25 @@
+.footerAdm {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    background-color: #000000;
+    color: white;
+    padding: 35px;
+    font-size: 20px;
+    margin-top: -100px;
+}
+
+.img-footeer {
+    width: 50px;
+}
+
+.linha-footer {
+    width: 80%;
+}
+
+.footer-social {
+    width: 80px;
+    display: flex;
+    justify-content: space-around;
+}
+
