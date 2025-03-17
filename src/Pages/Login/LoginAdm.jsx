@@ -60,7 +60,6 @@ export default function LoginAdm() {
             <br />
             <form className='formularioLogin' onSubmit={handleSubmit}>
                 <h2>Login</h2>
-
                 <div className="form-group">
                     <label htmlFor="crm" className='campos'>EMAIL:</label>
                     <input
