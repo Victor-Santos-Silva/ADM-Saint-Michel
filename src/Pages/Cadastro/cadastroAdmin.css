@@ -1,16 +1,13 @@
 /* Estilo para o formulário e campos */
 @import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
-
+@import url('https://fonts.googleapis.com/css2?family=Ysabeau+Infant:ital,wght@0,1..1000;1,1..1000&display=swap');
 :root {
-  --primary-font: "Yeseva One", serif;
-  --color-dark-blue: #1F2B6C;
-  --color-dark-hover: #1f2b6ca8;
-  --color-blue-card-info: #2c3e50;
-  --color-card-info: #7f8c8d;
-  --color-background-card: #7dbeff25;
-  --color-light-blue: #159EEC;
-  --color-azul-calcinha: #BFD2F8;
-  --color-dark-gray: #333;
+    --primary-font: "Yeseva One", serif;
+    --second-font: "Ysabeau Infant", serif;
+    --color-dark-blue: #1F2B6C;
+    --color-dark-hover: #1f2b6ca8;
+    --color-light-blue: #159EEC;
+    --color-dark-gray: #333;
 }
 
 .background {
@@ -19,7 +16,6 @@
   min-height: 100vh;
   padding: 30px;
   box-sizing: border-box;
-  font-family: var(--primary-font);
   
 }
 
@@ -69,7 +65,7 @@
 }
 
 .form-groupAdm label, .form-groupSegundo label {
-  font-size: 14px;
+font-family: var(--second-font);
   font-weight: 500;
   color: #333;
 }
@@ -78,7 +74,6 @@
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
-  font-size: 14px;
   background-color: #f9f9f9;
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
@@ -108,11 +103,10 @@
 
 .imgPreview {
   margin-top: 20px;
-  text-align: center;
 }
 
 .imgPreviewImage {
-  max-width: 100%;
+  width: 25%;
   height: auto;
   border-radius: 6px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
@@ -138,15 +132,15 @@
 /* Estilos para mensagens de erro */
 .error-message {
   color: #ff4d4d; /* Cor vermelha */
-  font-size: 12px; /* Tamanho menor */
+  font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
   margin-top: 4px; /* Espaçamento menor acima da mensagem */
   display: block; /* Garante que a mensagem apareça em uma nova linha */
-  font-weight: 500; /* Peso da fonte (opcional) */
+  font-weight: 300; /* Peso da fonte (opcional) */
   padding-left: 5px; /* Espaçamento à esquerda para alinhar com o campo */
   background-color: #fff3f3; /* Fundo vermelho claro */
   border: 1px solid #ff4d4d; /* Borda vermelha */
   border-radius: 4px; /* Bordas arredondadas */
-  padding: 6px 10px; /* Espaçamento interno */
+  padding: 5px ; /* Espaçamento interno */
   width: fit-content; /* Ajusta a largura ao conteúdo */
 }
 
