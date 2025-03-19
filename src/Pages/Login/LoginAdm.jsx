@@ -54,7 +54,7 @@ export default function LoginAdm() {
                 alert('Credenciais inválidas');
                 setError({ email: true, senha: true });
             } else {
-                alert('Erro no servidor. Tente novamente mais tarde.');
+                alert('Email ou senha incorretos, tente novamente.');
             }
         }
     };

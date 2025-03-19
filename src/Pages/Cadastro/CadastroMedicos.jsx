@@ -281,7 +281,7 @@ export default function CadastroMedicos() {
                     </div>
 
                     <div className="form-group">
-                        <input type="file" id="imagem" accept="image/*" onChange={handleImagemChange} />
+                        <input className='img' type="file" id="imagem" accept="image/*" onChange={handleImagemChange} />
                         {errors.foto && <span className="error-message">{errors.foto}</span>}
                     </div>
 
