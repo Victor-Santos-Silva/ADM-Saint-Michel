@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
-import './loginAdm.css'
+import './loginAdm.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext.jsx';
 
 export default function LoginAdm() {
-
-
     const navigate = useNavigate();
     const { login } = useAuth();
     const [formData, setFormData] = useState({
-
         email: '',
         senha: ''
     });
@@ -20,75 +17,90 @@ export default function LoginAdm() {
         senha: false
     });
 
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
-        setError({ ...error, [name]: false }); // Remove erro ao digitar
+        setError(prev => ({ ...prev, [name]: false }));
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        if (!formData.email || !formData.senha) {
-            alert("Preencha todos os campos!");
-            setError({ email: !formData.email, senha: !formData.senha });
+        // Validação client-side
+        const newError = {
+            email: !formData.email,
+            senha: !formData.senha
+        };
+
+        if (newError.email || newError.senha) {
+            setError(newError);
             return;
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/admin/login', formData);
+            const response = await axios.post(
+                `http://localhost:5000/admin/login`,
+                formData
+            );
 
-            login(response.data.usuario); // Passa o nome do usuário para o contexto
-
-            setFormData({ email: '', senha: '' }); // Limpa os campos após login
-
-            navigate('/cadastro'); // indo para a pagina home
+            login(response.data.usuario);
+            setFormData({ email: '', senha: '' });
+            navigate('/cadastro'); // Altere para a rota correta
         } catch (error) {
-            console.error('Erro no login:', error.response?.data?.error || error.message);
+            const errorMsg = error.response?.data?.error || 'Erro ao fazer login';
+            console.error('Erro no login:', errorMsg);
 
-            setError({
-                email: true,
-                senha: true
-            });
+            if (error.response?.status === 401) {
+                alert('Credenciais inválidas');
+                setError({ email: true, senha: true });
+            } else {
+                alert('Erro no servidor. Tente novamente mais tarde.');
+            }
         }
     };
-
 
     return (
         <div className="backgroundImage">
             <br />
             <form className='formularioLogin' onSubmit={handleSubmit}>
-                <h2>Login</h2>
+                <h2>Login Administrativo</h2>
+                
                 <div className="form-group">
-                    <label htmlFor="crm" className='campos'>EMAIL:</label>
+                    <label htmlFor="email" className='campos'>EMAIL:</label>
                     <input
-                        type="text"
-                        className="form-control"
+                        type="email"
+                        className={`form-control ${error.email ? 'is-invalid' : ''}`}
                         id="email"
                         placeholder="Informe o seu email corporativo"
                         value={formData.email}
                         onChange={handleChange}
                         name='email'
+                        autoComplete='username'
                     />
+                    {error.email && 
+                        <div className="invalid-feedback">Campo obrigatório</div>}
                 </div>
 
                 <div className="form-group">
                     <label htmlFor="password" className='campos'>SENHA:</label>
                     <input
                         type="password"
-                        className="form-control"
+                        className={`form-control ${error.senha ? 'is-invalid' : ''}`}
                         id="password"
                         placeholder="Informe a sua senha corporativa"
                         value={formData.senha}
                         onChange={handleChange}
                         name='senha'
+                        autoComplete='current-password'
                     />
+                    {error.senha && 
+                        <div className="invalid-feedback">Campo obrigatório</div>}
                 </div>
 
-                <button type="submit" className="botaoEntrar">Entrar</button>
+                <button type="submit" className="botaoEntrar">
+                    Entrar
+                </button>
             </form>
         </div>
-
-    )
+    );
 }

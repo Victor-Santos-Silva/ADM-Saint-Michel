@@ -11,10 +11,10 @@ export default function Header({ isLoggedIn, username, logout }) {
 
       <nav className="navbar">
         <div>
-          <Link to='/cadastroMedicos' className='links'>Cadastrar médicos</Link>
+          <Link to='/cadastro' className='links'>Cadastrar médicos</Link>
         </div>
         <div>
-          <Link to='/erroPage' className='links'>Visualizar médicos</Link>
+          <Link to='/verMedicos' className='links'>Visualizar médicos</Link>
         </div>
       </nav>
 
