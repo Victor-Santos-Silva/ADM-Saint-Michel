@@ -6,7 +6,6 @@ import { useAuth } from '../../context/AuthContext.jsx';
 
 export default function LoginAdm() {
     const navigate = useNavigate();
-    const { login } = useAuth();
     const [formData, setFormData] = useState({
         email: '',
         senha: ''
@@ -16,6 +15,8 @@ export default function LoginAdm() {
         email: false,
         senha: false
     });
+
+    const { login } = useAuth();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -38,13 +39,12 @@ export default function LoginAdm() {
         }
 
         try {
-            const response = await axios.post(
-                `http://localhost:5000/admin/login`,
-                formData
-            );
+            const response = await axios.post(`http://localhost:5000/admin/login`, formData);
 
-            login(response.data.usuario);
+            login(response.data.nome, response.data.token, response.data.id);
+
             setFormData({ email: '', senha: '' });
+
             navigate('/cadastro'); // Altere para a rota correta
         } catch (error) {
             const errorMsg = error.response?.data?.error || 'Erro ao fazer login';
@@ -64,7 +64,7 @@ export default function LoginAdm() {
             <br />
             <form className='formularioLogin' onSubmit={handleSubmit}>
                 <h2>Login Administrativo</h2>
-                
+
                 <div className="form-group">
                     <label htmlFor="email" className='campos'>EMAIL:</label>
                     <input
@@ -77,7 +77,7 @@ export default function LoginAdm() {
                         name='email'
                         autoComplete='username'
                     />
-                    {error.email && 
+                    {error.email &&
                         <div className="invalid-feedback">Campo obrigatório</div>}
                 </div>
 
@@ -93,7 +93,7 @@ export default function LoginAdm() {
                         name='senha'
                         autoComplete='current-password'
                     />
-                    {error.senha && 
+                    {error.senha &&
                         <div className="invalid-feedback">Campo obrigatório</div>}
                 </div>
 

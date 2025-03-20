@@ -1,8 +1,12 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 import './header.css';
 
-export default function Header({ isLoggedIn, username, logout }) {
+export default function Header() {
+
+  const { logout } = useAuth();
+
   return (
     <header className="headerAdm">
       <div className="logoHeader">
@@ -18,8 +22,8 @@ export default function Header({ isLoggedIn, username, logout }) {
         </div>
       </nav>
 
-        <button className="submit-btn">Sair</button>
-     
+      <button className="submit-btn" onClick={logout}>Sair</button>
+
     </header >
   );
 }
