@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import './cadastroMedicos.css';
 import Header from '../../components/Header/Header';
@@ -20,12 +20,12 @@ export default function CadastroMedicos() {
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewImagem, setPreviewImagem] = useState(null);
-    const [errors, setErrors] = useState({}); // Estado para armazenar mensagens de erro
+    const [errors, setErrors] = useState({});
+    const fileInputRef = useRef(null);
 
     const handleChange = (event) => {
         const { id, value } = event.target;
         setFormData({ ...formData, [id]: value });
-        // Limpa o erro ao digitar no campo
         setErrors((prevErrors) => ({ ...prevErrors, [id]: '' }));
     };
 
@@ -37,65 +37,56 @@ export default function CadastroMedicos() {
         }
     };
 
-    // Função para validar o formulário no frontend
     const validateForm = () => {
         const newErrors = {};
 
-        // Validação do Nome Completo
         if (!formData.nome_completo.trim()) {
             newErrors.nome_completo = 'O nome completo não pode estar vazio.';
         }
 
-        // Validação da Idade
         if (!formData.idade) {
             newErrors.idade = 'A idade é obrigatória.';
         } else if (formData.idade < 18 || formData.idade > 80) {
             newErrors.idade = 'A idade deve estar entre 18 e 80 anos.';
         }
 
-        // Validação do CPF
         if (!formData.cpf.trim()) {
             newErrors.cpf = 'O CPF é obrigatório.';
         } else if (!/^\d{11}$/.test(formData.cpf)) {
             newErrors.cpf = 'O CPF deve ter 11 dígitos.';
         }
 
-        // Validação do CRM
         if (!formData.crm.trim()) {
             newErrors.crm = 'O CRM é obrigatório.';
         } else if (!/^[0-9]{6}\/[A-Z]{2}$/.test(formData.crm)) {
             newErrors.crm = 'CRM inválido! Formato correto: 123456/SP.';
         }
 
-        // Validação do Telefone
         if (!formData.telefone.trim()) {
             newErrors.telefone = 'O telefone é obrigatório.';
         } else if (!/^\d{10,11}$/.test(formData.telefone)) {
             newErrors.telefone = 'O telefone deve ter 10 ou 11 dígitos.';
         }
 
-        // Validação do Email Corporativo
         if (!formData.email_corporativo.trim()) {
             newErrors.email_corporativo = 'O email corporativo é obrigatório.';
         } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email_corporativo)) {
             newErrors.email_corporativo = 'Informe um email válido.';
         }
 
-        // Validação da Senha Corporativa
         if (!formData.senha_corporativa.trim()) {
             newErrors.senha_corporativa = 'A senha corporativa é obrigatória.';
         }
 
         setErrors(newErrors);
-        return Object.keys(newErrors).length === 0; // Retorna true se não houver erros
+        return Object.keys(newErrors).length === 0;
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
 
-        // Validação no frontend
         if (!validateForm()) {
-            return; // Impede o envio se houver erros
+            return;
         }
 
         const formDataToSend = new FormData();
@@ -112,6 +103,8 @@ export default function CadastroMedicos() {
             });
 
             alert('Cadastro de Médico realizado com sucesso!');
+            
+            // Resetar todos os campos
             setFormData({
                 nome_completo: '',
                 idade: '',
@@ -124,12 +117,18 @@ export default function CadastroMedicos() {
                 email_corporativo: '',
                 senha_corporativa: '',
             });
+
+            // Limpar input de arquivo
+            if (fileInputRef.current) {
+                fileInputRef.current.value = '';
+            }
+
             setSelectedFile(null);
             setPreviewImagem(null);
-            setErrors({}); // Limpa os erros após o sucesso
+            setErrors({});
+
         } catch (error) {
             if (error.response && error.response.data.errors) {
-                // Captura os erros retornados pelo backend
                 setErrors(error.response.data.errors);
             } else {
                 alert('Erro ao cadastrar. Tente novamente mais tarde.');
@@ -281,7 +280,14 @@ export default function CadastroMedicos() {
                     </div>
 
                     <div className="form-group">
-                        <input className='img' type="file" id="imagem" accept="image/*" onChange={handleImagemChange} />
+                        <input 
+                            className='img' 
+                            type="file" 
+                            id="imagem" 
+                            accept="image/*" 
+                            onChange={handleImagemChange}
+                            ref={fileInputRef}
+                        />
                         {errors.foto && <span className="error-message">{errors.foto}</span>}
                     </div>
 
@@ -298,6 +304,5 @@ export default function CadastroMedicos() {
             </div>
             <Footer />
         </>
-
     );
 }

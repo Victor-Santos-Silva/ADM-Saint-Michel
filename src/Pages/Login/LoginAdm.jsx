@@ -30,18 +30,15 @@ export default function LoginAdm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoginError('');
-
-        // Validação client-side
+        
         const newError = {
             email: !formData.email,
             senha: !formData.senha
         };
-
         if (newError.email || newError.senha) {
             setError(newError);
             return;
         }
-
         try {
             const response = await axios.post(`http://localhost:5000/admin/login`, formData);
 
@@ -51,7 +48,6 @@ export default function LoginAdm() {
         } catch (error) {
             const errorMsg = error.response?.data?.error || 'Erro ao fazer login';
             console.error('Erro no login:', errorMsg);
-
             if (error.response?.status === 401) {
                 setLoginError('Credenciais inválidas!');
                 setError({ email: true, senha: true });
@@ -66,13 +62,11 @@ export default function LoginAdm() {
             <br />
             <form className='formularioLogin' onSubmit={handleSubmit}>
                 <h2>Login Administrativo</h2>
-                
                 {loginError && (
                     <div className="login-error-message">
                         {loginError}
                     </div>
                 )}
-
                 <div className="form-group">
                     <label htmlFor="email" className='campos'>EMAIL:</label>
                     <input
@@ -88,7 +82,6 @@ export default function LoginAdm() {
                     {error.email &&
                         <div className="invalid-feedback">Campo obrigatório</div>}
                 </div>
-
                 <div className="form-group">
                     <label htmlFor="password" className='campos'>SENHA:</label>
                     <input
@@ -104,7 +97,6 @@ export default function LoginAdm() {
                     {error.senha &&
                         <div className="invalid-feedback">Campo obrigatório</div>}
                 </div>
-
                 <button type="submit" className="botaoEntrar">
                     Entrar
                 </button>
