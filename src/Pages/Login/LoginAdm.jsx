@@ -16,16 +16,20 @@ export default function LoginAdm() {
         senha: false
     });
 
+    const [loginError, setLoginError] = useState('');
+
     const { login } = useAuth();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
         setError(prev => ({ ...prev, [name]: false }));
+        setLoginError('');
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoginError('');
 
         // Validação client-side
         const newError = {
@@ -42,19 +46,17 @@ export default function LoginAdm() {
             const response = await axios.post(`http://localhost:5000/admin/login`, formData);
 
             login(response.data.nome, response.data.token, response.data.id);
-
             setFormData({ email: '', senha: '' });
-
-            navigate('/cadastro'); // Altere para a rota correta
+            navigate('/cadastro');
         } catch (error) {
             const errorMsg = error.response?.data?.error || 'Erro ao fazer login';
             console.error('Erro no login:', errorMsg);
 
             if (error.response?.status === 401) {
-                alert('Credenciais inválidas');
+                setLoginError('Credenciais inválidas!');
                 setError({ email: true, senha: true });
             } else {
-                alert('Email ou senha incorretos, tente novamente.');
+                setLoginError('Email ou senha incorretos, tente novamente.');
             }
         }
     };
@@ -64,6 +66,12 @@ export default function LoginAdm() {
             <br />
             <form className='formularioLogin' onSubmit={handleSubmit}>
                 <h2>Login Administrativo</h2>
+                
+                {loginError && (
+                    <div className="login-error-message">
+                        {loginError}
+                    </div>
+                )}
 
                 <div className="form-group">
                     <label htmlFor="email" className='campos'>EMAIL:</label>

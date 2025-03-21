@@ -21,7 +21,6 @@
   opacity: 90%;
   font-family: var(--second-font);
   background-color: rgb(255, 255, 255);
- 
 }
 
 .formularioLogin h2 {
@@ -30,6 +29,28 @@
   color: var(--color-dark-gray);
   font-size: 30px;
   font-weight: 600;
+}
+
+.login-error-message {
+  background-color: #dc3545;
+  color: white;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 20px;
+  text-align: center;
+  font-weight: 500;
+  animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .form-group {
@@ -43,7 +64,6 @@
   font-weight: 700;
 }
 
-/* Validação Adicionada */
 .form-control.is-invalid {
   border: 2px solid #dc3545;
 }
@@ -52,6 +72,7 @@
   color: #dc3545;
   font-size: 0.875em;
   margin-top: 0.25rem;
+  text-align: left;
 }
 
 .form-control {
@@ -73,15 +94,14 @@
 .botaoEntrar {
   width: 100%;
   padding: 12px;
-  background-color: var(--color-primary);
-  color:rgb(255, 255, 255);
+  background-color: black;
+  color: rgb(255, 255, 255);
   border: none;
   border-radius: 8px;
   font-size: 16px;
   font-weight: 600;
   cursor: pointer;
   transition: background-color 0.3s ease;
-  background-color: black;
 }
 
 .botaoEntrar:hover {
@@ -92,6 +112,7 @@
   .formularioLogin {
     width: 90%;
     padding: 20px;
+    margin-right: 0;
   }
 
   .form-control,
