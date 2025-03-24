@@ -15,6 +15,7 @@ export default function PerfilMedico() {
       try {
         const response = await axios.get(`http://localhost:5000/medico/${id}`); // Supondo que o id seja 3
         setMedico(response.data);
+        console.log(response.data);
       } catch (error) {
         console.error('Erro ao buscar médico:', error);
       } finally {
@@ -35,7 +36,7 @@ export default function PerfilMedico() {
         <div className='perfilMedico'>
           <div className='quadroMedicoGrande'>
             <div className='imgMedicoGrande'>
-               <img src={medico.foto} alt="Foto do Médico" />
+              <img src={`http://localhost:5000${medico.foto}`} alt="Foto do Médico" className='medico-img'/>
             </div>
 
             <div className='componentesGrande'>
