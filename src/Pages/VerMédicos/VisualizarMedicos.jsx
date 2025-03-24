@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './visualizarMedicos.css';
 import Header from '../../components/Header/Header';
@@ -6,42 +6,55 @@ import Footer from '../../components/Footer/Footer';
 
 export default function VisualizarMedicos() {
   const navigate = useNavigate();
+  const [medicos, setMedicos] = useState([]);
 
-  // Função para navegação
-  const handleCardClick = () => {
-    navigate('/perfilMedico'); // Altere para a rota desejada
-  };
+  useEffect(() => {
+    const getMedicos = async () => {
+      try {
+        const response = await fetch('http://localhost:5000/medico');
+        const data = await response.json();
+        console.log(data);
+        setMedicos(data);
+      } catch (error) {
+        console.error('Erro ao buscar médicos:', error);
+      }
+    };
 
-  // Função para gerar os cards repetidos
-  const renderMedicoCards = (count) => {
-    return Array.from({ length: count }, (_, index) => (
-      <div 
-        className='quadroMedico' 
-        key={index}
-        onClick={handleCardClick}
-      >
-        <div className='imgMedico'>
-         {/*  <img src="../../Img/Logo.png" alt="Médico" /> */}
-        </div>
-        <div className='componentes'>
-          <p className='componente-a'>Nome Completo:</p>
-          <p>Idade:</p>
-          <p>Especialidade:</p>
-          <p>CRM:</p>
-        </div>
-      </div>
-    ));
+    getMedicos();
+  }, []);
+
+  const handleCardClick = (id) => {
+    navigate(`/perfilMedico/${id}`);
   };
 
   return (
     <>
       <Header />
-      <div className='background-image'>
-        <div className='corpo'>
-          {renderMedicoCards(4)}
-        </div>
-        <div className='SegundoCorpo'>
-          {renderMedicoCards(4)}
+      <div className="background-image">
+        <div className="corpo">
+          {medicos.map((medico) => (
+            <div
+              className="quadroMedico"
+              key={medico.id}
+              onClick={() => handleCardClick(medico.id)}
+            >
+              <div className="imgMedico">
+                <img
+                  src={`http://localhost:5000${medico.foto}`}
+                  alt={medico.nome}
+                  className="fotoMedico"
+                  onError={(e) => e.target.src = '/fallback-image.jpg'}
+                />
+
+              </div>
+              <div className="componentes">
+                <p className="componente-a">Nome: {medico.nome_completo}</p>
+                <p>Idade: {medico.idade}</p>
+                <p>Especialidade: {medico.especialidade}</p>
+                <p>CRM: {medico.crm}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
       <Footer />
