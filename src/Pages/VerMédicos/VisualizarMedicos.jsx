@@ -13,7 +13,6 @@ export default function VisualizarMedicos() {
       try {
         const response = await fetch('http://localhost:5000/medico');
         const data = await response.json();
-        console.log(data);
         setMedicos(data);
       } catch (error) {
         console.error('Erro ao buscar médicos:', error);
