@@ -28,7 +28,7 @@ export default function PerfilMedico() {
   if (loading) {
     return <div>Carregando...</div>;
   }
-
+ 
   return (
     <>
       <Header />
