@@ -9,17 +9,11 @@ import PerfilMedico from '../Pages/PerfilMedico/PerfilMedico.jsx';
 
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        errorElement: <ErroPage />,
-        children: [
-            { path: "/", element: <Login /> },
-            { path: "/login", element: <Login /> },
-            { path: "/cadastro", element: <CadastroMedicos /> },
-            { path: "/verMedicos", element: <VisualizarMedicos /> },
-            { path: "/perfilMedico", element: <PerfilMedico /> },
-        ]
-    }
+    { path: "/",element: <Login />, errorElement: <ErroPage /> },
+    { path: "/login", element: <Login /> },
+    { path: "/cadastro", element: <CadastroMedicos /> },
+    { path: "/verMedicos", element: <VisualizarMedicos /> },
+    { path: "/perfilMedico/:id", element: <PerfilMedico /> },
 ]);
 
 export default router;
