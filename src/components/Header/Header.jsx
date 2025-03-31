@@ -10,15 +10,16 @@ export default function Header() {
   return (
     <header className="headerAdm">
       <div className="logoHeader">
-        <img className="imgHeader" src="../src/Img/Logo.png" />
+        <Link to='/verMedicos'><img className="imgHeader" src="../src/Img/Logo.png" /></Link>
+
       </div>
 
       <nav className="navbar">
         <div>
-          <Link to='/cadastro' className='links'>Cadastrar médicos</Link>
+          <Link to='/verMedicos' className='links'>Visualizar médicos</Link>
         </div>
         <div>
-          <Link to='/verMedicos' className='links'>Visualizar médicos</Link>
+          <Link to='/cadastro' className='links'>Cadastrar médicos</Link>
         </div>
       </nav>
 

@@ -44,7 +44,7 @@ export default function LoginAdm() {
 
             login(response.data.nome, response.data.token, response.data.id);
             setFormData({ email: '', senha: '' });
-            navigate('/cadastro');
+            navigate('/verMedicos');
         } catch (error) {
             const errorMsg = error.response?.data?.error || 'Erro ao fazer login';
             console.error('Erro no login:', errorMsg);
