@@ -1,38 +1,59 @@
-.background-image {
-    background-image: url('../../Img/fundoAdm.png');
-    background-size: cover;
-    width: 100%;
-    min-height: 100vh;
+/* Container principal do perfil do médico */
+.container-perfil-medico {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    text-align: center;
+    margin-bottom: 7%;
+    width: 100%;
 }
 
+.container-color {
+    background-color: rgb(66, 66, 66);
+    width: 100%;
+    padding: 20px 0;
+}
+
+/* Perfil do Médico */
 .perfilMedico {
     background-color: rgb(221, 221, 221);
-    width: 800px;
-    height: 700px;
+    width: 90%;
+    max-width: 1000px;
     border-radius: 15px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    margin-top: -150px;
+    padding: 20px;
 }
 
+.title-medico {
+    font-size: 30px;
+    margin-bottom: 1%;
+    font-weight: bold;
+    color: #ffffff;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Quadro do Médico */
 .quadroMedicoGrande {
     display: flex;
-    align-items: center;
-    padding: 40px;
+    align-items: flex-start;
     gap: 50px;
     width: 100%;
+    flex-wrap: wrap;
+    margin-top: 5%;
+    justify-content: center;
 }
 
+/* Imagem do Médico */
 .imgMedicoGrande {
     background-color: gray;
     width: 300px;
-    height: 600px;
+    height: 400px;
     border-radius: 10px;
     display: flex;
     align-items: center;
@@ -41,6 +62,14 @@
     overflow: hidden;
 }
 
+.medico-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+/* Informações do Médico */
 .componentesGrande {
     font-size: 20px;
     display: flex;
@@ -51,6 +80,7 @@
     overflow-y: auto;
     max-height: 600px;
     padding-right: 10px;
+    width: 100%;
 }
 
 .componentesGrande p {
@@ -61,6 +91,7 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Botões de Ação */
 .botoesAcao {
     display: flex;
     gap: 20px;
@@ -74,16 +105,11 @@
     cursor: pointer;
     font-size: 16px;
     transition: all 0.3s ease;
+    color: white;
 }
 
 .botaoEditar {
     background-color: #3498db;
-    color: white;
-}
-
-.botaoSalvar {
-    background-color: #2ecc71;
-    color: white;
 }
 
 .botaoEditar:hover {
@@ -91,16 +117,16 @@
     transform: translateY(-2px);
 }
 
+.botaoSalvar {
+    background-color: #2ecc71;
+}
+
 .botaoSalvar:hover {
     background-color: #27ae60;
     transform: translateY(-2px);
 }
 
-.botaoEditar:active, .botaoSalvar:active {
-    transform: translateY(0);
-}
-
-/* Estilos para edição */
+/* Campos de Edição */
 .campo-edicao {
     background-color: rgba(255, 255, 255, 0.8);
     border-radius: 8px;
@@ -150,9 +176,67 @@
     background: #555;
 }
 
-.medico-img{
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border: 2px solid ;
+/* Responsividade */
+@media (max-width: 1024px) {
+    .perfilMedico {
+        max-width: 95%;
+    }
+
+    .quadroMedicoGrande {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .imgMedicoGrande {
+        width: 80%;
+        height: auto;
+    }
+}
+
+@media (max-width: 768px) {
+    .perfilMedico {
+        padding: 15px;
+    }
+
+    .title-medico {
+        font-size: 24px;
+    }
+
+    .imgMedicoGrande {
+        width: 100%;
+        height: 250px;
+    }
+
+    .componentesGrande {
+        font-size: 18px;
+    }
+
+    .botaoEditar, .botaoSalvar {
+        padding: 10px 20px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .perfilMedico {
+        padding: 10px;
+    }
+
+    .title-medico {
+        font-size: 20px;
+    }
+
+    .imgMedicoGrande {
+        width: 100%;
+        height: 200px;
+    }
+
+    .componentesGrande {
+        font-size: 16px;
+    }
+
+    .botaoEditar, .botaoSalvar {
+        padding: 8px 16px;
+        font-size: 12px;
+    }
 }

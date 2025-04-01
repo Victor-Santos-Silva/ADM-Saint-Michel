@@ -28,31 +28,35 @@ export default function PerfilMedico() {
   if (loading) {
     return <div>Carregando...</div>;
   }
- 
+
   return (
     <>
       <Header />
-      <div className='background-image'>
-        <div className='perfilMedico'>
-          <div className='quadroMedicoGrande'>
-            <div className='imgMedicoGrande'>
-              <img src={`http://localhost:5000${medico.foto}`} alt="Foto do Médico" className='medico-img'/>
-            </div>
+      <div className='container-color'>
+        <h1 className='title-medico'>Médico</h1>
+        <div className='container-perfil-medico'>
+          <div className='perfilMedico'>
+            <div className='quadroMedicoGrande'>
+              <div className='imgMedicoGrande'>
+                <img src={`http://localhost:5000${medico.foto}`} alt="Foto do Médico" className='medico-img' />
+              </div>
 
-            <div className='componentesGrande'>
-              <p>Nome: {medico.nome_completo}</p>
-              <p>Idade: {medico.idade}</p>
-              <p>Especialidade: {medico.especialidade}</p>
-              <p>CRM: {medico.crm}</p>
-              <p>CPF: {medico.cpf}</p>
-              <p>Telefone: {medico.telefone}</p>
-              <p>Endereço: {medico.endereco}</p>
-              <p>Nacionalidade: {medico.nacionalidade}</p>
-              <p>Email Corporativo: {medico.email_corporativo}</p>
+              <div className='componentesGrande'>
+                <p>Nome: {medico.nome_completo}</p>
+                <p>Idade: {medico.idade}</p>
+                <p>Especialidade: {medico.especialidade}</p>
+                <p>CRM: {medico.crm}</p>
+                <p>CPF: {medico.cpf}</p>
+                <p>Telefone: {medico.telefone}</p>
+                <p>Endereço: {medico.endereco}</p>
+                <p>Nacionalidade: {medico.nacionalidade}</p>
+                <p>Email Corporativo: {medico.email_corporativo}</p>
+              </div>
             </div>
           </div>
         </div>
       </div>
+
       <Footer />
     </>
   );

@@ -1,145 +1,187 @@
-/* Estilo para o formulário e campos */
+/* Importando fontes modernas */
 @import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Ysabeau+Infant:ital,wght@0,1..1000;1,1..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ysabeau+Infant:wght@300;600&display=swap');
 
+/* Variáveis globais */
 :root {
-  --primary-font: "Yeseva One", serif;
-  --second-font: "Ysabeau Infant", serif;
-  --color-dark-blue: #1F2B6C;
-  --color-dark-hover: #1f2b6ca8;
-  --color-light-blue: #159EEC;
-  --color-dark-gray: #333;
+    --primary-font: "Yeseva One", serif;
+    --second-font: "Ysabeau Infant", sans-serif;
+    --color-dark-blue: #1F2B6C;
+    --color-dark-hover: #1f2b6ca8;
+    --color-light-blue: #159EEC;
+    --color-gray: #444;
+    --color-background: #f4f7fc;
+    --color-white: #ffffff;
+    --color-border: #ddd;
+    --color-success: #226c1f;
+    --color-success-hover: #1d992d;
 }
 
+/* Resetando estilos padrão */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: var(--second-font);
+}
+
+/* Fundo com imagem */
 .background {
-  background: url(../../Img/administracao.png) no-repeat center center;
-  background-size: cover;
-  min-height: 100vh;
-  padding: 30px;
-  box-sizing: border-box;
-
+    background: url(../../Img/administracao.png) no-repeat center center;
+    background-size: cover;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
 }
 
-/* Estilos gerais */
-.background {
-  background-color: #f8f9fa;
-  padding: 20px;
-  min-height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
+/* Container do formulário */
 .formularioAdm {
-  background-color: #ffffff;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  max-width: 900px;
-  width: 100%;
-  margin-bottom: 5%;
+    background-color: var(--color-white);
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+    transition: transform 0.3s ease;
+    margin-bottom: 5%;
 }
 
+
+/* Título do formulário */
 .tituloAdm {
-  text-align: center;
-  font-size: 24px;
-  font-weight: bold;
-  color: #000000;
-  margin-bottom: 20px;
+    text-align: center;
+    font-size: 26px;
+    font-weight: bold;
+    font-family: var(--primary-font);
+    margin-bottom: 20px;
 }
 
+/* Layout das colunas */
 .linha-colunas {
-  display: flex;
-  gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }
 
+/* Ajuste das colunas */
 .coluna-vertical {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
 }
 
-.form-groupAdm,
-.form-groupSegundo {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
+/* Estilização dos grupos de inputs */
+.form-groupAdm, .form-groupSegundo {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
 }
 
-.form-groupAdm label,
-.form-groupSegundo label {
-  font-family: var(--second-font);
-  font-weight: 700;
-  color: #333;
+/* Labels */
+.form-groupAdm label, .form-groupSegundo label {
+    font-weight: bold;
+    color: var(--color-gray);
 }
 
-.form-groupAdm input,
-.form-groupSegundo input,
+/* Inputs e Selects */
+.form-groupAdm input, 
+.form-groupSegundo input, 
 .form-groupSegundo select {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  background-color: #f9f9f9;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+    font-size: 16px;
 }
 
-.form-groupAdm input:focus,
-.form-groupSegundo input:focus,
+/* Foco nos campos */
+.form-groupAdm input:focus, 
+.form-groupSegundo input:focus, 
 .form-groupSegundo select:focus {
-  border-color: #1f2b6c;
-  box-shadow: 0 0 5px rgba(31, 43, 108, 0.3);
-  outline: none;
+    border-color: var(--color-dark-blue);
+    box-shadow: 0 0 5px rgba(31, 43, 108, 0.3);
+    outline: none;
 }
 
+/* Select estilizado */
 .form-groupSegundo select {
-  appearance: none;
-  background-color: #f9f9f9;
+    appearance: none;
+    background-color: #f9f9f9;
+    cursor: pointer;
 }
 
-.form-group {
-  margin-top: 20px;
-}
-
+/* Input de arquivo */
 .form-group input[type="file"] {
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  font-size: 14px;
-  background-color: #f9f9f9;
+    padding: 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 6px;
+    background-color: #f9f9f9;
+    font-size: 14px;
+    margin-top: 10px;
+    cursor: pointer;
+    text-align: center;
+    width: 50%;
+    margin-left: 25%;
 }
 
+/* Prévia da imagem */
 .imgPreview {
-  margin-top: 20px;
+    margin-top: 20px;
+    text-align: center;
 }
 
 .imgPreviewImage {
-  width: 25%;
-  height: auto;
-  border-radius: 6px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 120px;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
 }
 
+.imgPreviewImage:hover {
+    transform: scale(1.05);
+}
+
+/* Botão de cadastro */
 .botaoCadastrar {
-  width: 100%;
-  padding: 12px;
-  background-color: #226c1f;
-  color: #ffffff;
-  border: none;
-  border-radius: 6px;
-  font-size: 16px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+    width: 100%;
+    padding: 14px;
+    background: var(--color-success);
+    color: var(--color-white);
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 .botaoCadastrar:hover {
-  background-color: #1d992d;
+    background: var(--color-success-hover);
+    transform: translateY(-2px);
 }
 
+/* Estilo para inputs inválidos */
 .input-error {
-  border-color: #ff4d4d !important;
-  /* Borda vermelha para campos inválidos */
-  box-shadow: 0 0 5px rgba(255, 77, 77, 0.3);
-  /* Sombra sutil para destacar */
+    border-color: #ff4d4d !important;
+    box-shadow: 0 0 5px rgba(255, 77, 77, 0.3);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .formularioAdm {
+        padding: 20px;
+    }
+
+    .linha-colunas {
+        flex-direction: column;
+    }
+
+    .botaoCadastrar {
+        font-size: 16px;
+    }
 }
