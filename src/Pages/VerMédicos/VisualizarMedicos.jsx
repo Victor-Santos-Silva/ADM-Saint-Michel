@@ -29,7 +29,7 @@ export default function VisualizarMedicos() {
   return (
     <>
       <Header />
-      <div className="background-image">
+      <div className='Container-visualizarMedicos'>
         <div className="corpo">
           {medicos.map((medico) => (
             <div

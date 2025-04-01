@@ -1,81 +1,45 @@
-.background-image {
-    background-image: url('../../Img/fundoAdm.png');
-    background-size: cover;
-    background-position: center;
+/* Importa uma fonte moderna do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap');
+
+.Container-visualizarMedicos {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+    background: #f4f6f9;
+    margin-bottom: 5%;
+}
+
+.corpo {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
     width: 100%;
-    min-height: 100vh;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    padding: 40px 20px;
-    gap: 30px;
+    max-width: 1200px;
 }
 
-/* Estilização para os containers de médicos */
-.corpo,
-.SegundoCorpo {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    justify-content: center;
-}
-
-/* Card de Médico */
 .quadroMedico {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    width: 480px;
-    transition: all 0.3s ease-in-out;
-    position: relative;
+    background: white;
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
-    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .quadroMedico:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
 }
 
-.quadroMedico:active {
-    transform: scale(0.97);
-}
-
-/* Imagem do Médico */
 .imgMedico {
-    width: 120px;
-    height: 120px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease-in-out;
-}
-
-.quadroMedico:hover .imgMedico {
-    transform: scale(1.1);
-}
-
-/* Informações do Médico */
-.componentes {
-    flex: 1;
-    font-size: 1rem;
-    color: #333;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.componentes p {
-    font-size: 18px;
-    font-weight: 500;
-    color: #444;
-    margin: 5px 0;
+    width: 100px;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 50%;
+    margin-bottom: 10px;
 }
 
 .fotoMedico {
@@ -83,27 +47,31 @@
     height: 100%;
     object-fit: cover;
     border-radius: 50%;
-    border: 2px solid;
-    border-color: white;
+    border: 2px solid #ddd;
 }
 
+.componentes {
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    color: #333;
+}
 
-/* Responsividade */
+.componente-a {
+    font-weight: 600;
+    color: #2c3e50;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.componentes p {
+    margin: 5px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+/* Responsividade para telas menores */
 @media (max-width: 768px) {
-    .quadroMedico {
-        width: 90%;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
-        padding: 20px;
-    }
-
-    .imgMedico {
-        width: 100px;
-        height: 100px;
-    }
-
-    .componentes {
-        width: 100%;
+    .corpo {
+        grid-template-columns: 1fr;
     }
 }
