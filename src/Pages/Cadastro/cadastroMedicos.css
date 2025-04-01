@@ -1,13 +1,14 @@
 /* Estilo para o formulário e campos */
 @import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Ysabeau+Infant:ital,wght@0,1..1000;1,1..1000&display=swap');
+
 :root {
-    --primary-font: "Yeseva One", serif;
-    --second-font: "Ysabeau Infant", serif;
-    --color-dark-blue: #1F2B6C;
-    --color-dark-hover: #1f2b6ca8;
-    --color-light-blue: #159EEC;
-    --color-dark-gray: #333;
+  --primary-font: "Yeseva One", serif;
+  --second-font: "Ysabeau Infant", serif;
+  --color-dark-blue: #1F2B6C;
+  --color-dark-hover: #1f2b6ca8;
+  --color-light-blue: #159EEC;
+  --color-dark-gray: #333;
 }
 
 .background {
@@ -16,7 +17,7 @@
   min-height: 100vh;
   padding: 30px;
   box-sizing: border-box;
-  
+
 }
 
 /* Estilos gerais */
@@ -36,7 +37,7 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
   max-width: 900px;
   width: 100%;
-   margin-top: -80px;
+  margin-bottom: 5%;
 }
 
 .tituloAdm {
@@ -59,19 +60,23 @@
   gap: 15px;
 }
 
-.form-groupAdm, .form-groupSegundo {
+.form-groupAdm,
+.form-groupSegundo {
   display: flex;
   flex-direction: column;
   gap: 5px;
 }
 
-.form-groupAdm label, .form-groupSegundo label {
-font-family: var(--second-font);
+.form-groupAdm label,
+.form-groupSegundo label {
+  font-family: var(--second-font);
   font-weight: 700;
   color: #333;
 }
 
-.form-groupAdm input, .form-groupSegundo input, .form-groupSegundo select {
+.form-groupAdm input,
+.form-groupSegundo input,
+.form-groupSegundo select {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 6px;
@@ -79,7 +84,9 @@ font-family: var(--second-font);
   transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.form-groupAdm input:focus, .form-groupSegundo input:focus, .form-groupSegundo select:focus {
+.form-groupAdm input:focus,
+.form-groupSegundo input:focus,
+.form-groupSegundo select:focus {
   border-color: #1f2b6c;
   box-shadow: 0 0 5px rgba(31, 43, 108, 0.3);
   outline: none;
@@ -129,7 +136,10 @@ font-family: var(--second-font);
 .botaoCadastrar:hover {
   background-color: #1d992d;
 }
+
 .input-error {
-  border-color: #ff4d4d !important; /* Borda vermelha para campos inválidos */
-  box-shadow: 0 0 5px rgba(255, 77, 77, 0.3); /* Sombra sutil para destacar */
+  border-color: #ff4d4d !important;
+  /* Borda vermelha para campos inválidos */
+  box-shadow: 0 0 5px rgba(255, 77, 77, 0.3);
+  /* Sombra sutil para destacar */
 }

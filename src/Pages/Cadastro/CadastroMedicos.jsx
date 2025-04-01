@@ -103,7 +103,7 @@ export default function CadastroMedicos() {
             });
 
             alert('Cadastro de Médico realizado com sucesso!');
-            
+
             // Resetar todos os campos
             setFormData({
                 nome_completo: '',
@@ -280,11 +280,11 @@ export default function CadastroMedicos() {
                     </div>
 
                     <div className="form-group">
-                        <input 
-                            className='img' 
-                            type="file" 
-                            id="imagem" 
-                            accept="image/*" 
+                        <input
+                            className='img'
+                            type="file"
+                            id="imagem"
+                            accept="image/*"
                             onChange={handleImagemChange}
                             ref={fileInputRef}
                         />
