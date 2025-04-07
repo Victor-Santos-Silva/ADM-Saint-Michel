@@ -29,6 +29,7 @@ export default function VisualizarMedicos() {
   return (
     <>
       <Header />
+      <h1 className='title-medicos'>Médicos</h1>
       <div className='Container-visualizarMedicos'>
         <div className="corpo">
           {medicos.map((medico) => (
