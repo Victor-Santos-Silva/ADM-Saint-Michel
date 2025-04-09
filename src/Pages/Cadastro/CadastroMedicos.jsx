@@ -34,6 +34,10 @@ export default function CadastroMedicos() {
         if (file) {
             setSelectedFile(file);
             setPreviewImagem(URL.createObjectURL(file));
+            setErrors((prevErrors) => ({ ...prevErrors, foto: '' }));
+        } else {
+            setSelectedFile(null);
+            setPreviewImagem(null);
         }
     };
 
@@ -78,6 +82,20 @@ export default function CadastroMedicos() {
             newErrors.senha_corporativa = 'A senha corporativa é obrigatória.';
         }
 
+        // Validação da imagem
+        if (!selectedFile) {
+            newErrors.foto = 'A imagem do médico é obrigatória.';
+        } else {
+            const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+            if (!allowedTypes.includes(selectedFile.type)) {
+                newErrors.foto = 'Tipo de arquivo inválido. Use JPEG, PNG ou GIF.';
+            }
+            
+            if (selectedFile.size > 2 * 1024 * 1024) {
+                newErrors.foto = 'A imagem deve ter no máximo 2MB.';
+            }
+        }
+
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
     };
@@ -93,9 +111,7 @@ export default function CadastroMedicos() {
         Object.entries(formData).forEach(([key, value]) => {
             formDataToSend.append(key, value);
         });
-        if (selectedFile) {
-            formDataToSend.append('foto', selectedFile);
-        }
+        formDataToSend.append('foto', selectedFile);
 
         try {
             await axios.post('http://localhost:5000/medico/cadastro', formDataToSend, {
@@ -104,7 +120,7 @@ export default function CadastroMedicos() {
 
             alert('Cadastro de Médico realizado com sucesso!');
 
-            // Resetar todos os campos
+            // Resetar o formulário
             setFormData({
                 nome_completo: '',
                 idade: '',
@@ -118,7 +134,6 @@ export default function CadastroMedicos() {
                 senha_corporativa: '',
             });
 
-            // Limpar input de arquivo
             if (fileInputRef.current) {
                 fileInputRef.current.value = '';
             }
@@ -280,8 +295,9 @@ export default function CadastroMedicos() {
                     </div>
 
                     <div className="form-group">
+                        <label htmlFor="imagem">Foto do Médico <span className="required">*</span></label>
                         <input
-                            className='img'
+                            className={`img ${errors.foto ? 'input-error' : ''}`}
                             type="file"
                             id="imagem"
                             accept="image/*"
