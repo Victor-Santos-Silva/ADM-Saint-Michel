@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import './cadastroMedicos.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
@@ -118,7 +120,7 @@ export default function CadastroMedicos() {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
 
-            alert('Cadastro de Médico realizado com sucesso!');
+            toast.success('Cadastro de Médico realizado com sucesso!');
 
             // Resetar o formulário
             setFormData({
@@ -146,7 +148,7 @@ export default function CadastroMedicos() {
             if (error.response && error.response.data.errors) {
                 setErrors(error.response.data.errors);
             } else {
-                alert('Erro ao cadastrar. Tente novamente mais tarde.');
+                toast.error('Erro ao cadastrar. Tente novamente mais tarde.');
                 console.error('Erro ao cadastrar:', error);
             }
         }
@@ -155,6 +157,17 @@ export default function CadastroMedicos() {
     return (
         <>
             <Header />
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
             <div className="background">
                 <form onSubmit={handleSubmit} className="formularioAdm">
                     <h2 className="tituloAdm">Cadastro de novos médicos:</h2>
