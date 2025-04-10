@@ -10,21 +10,9 @@ export default function Header() {
   return (
     <header className="headerAdm">
       <div className="logoHeader">
-        <Link to='/verMedicos'><img className="imgHeader" src="../src/Img/Logo.png" /></Link>
-
+        <Link to='/homeAdm'><img className="imgHeader" src="../../src/assets/Img/Logo.png" /></Link>
       </div>
-
-      <nav className="navbar">
-        <div>
-          <Link to='/verMedicos' className='links'>Visualizar médicos</Link>
-        </div>
-        <div>
-          <Link to='/cadastro' className='links'>Cadastrar médicos</Link>
-        </div>
-      </nav>
-
       <button className="submit-btn" onClick={logout}>Sair</button>
-
     </header >
   );
 }

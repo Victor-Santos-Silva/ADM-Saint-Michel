@@ -1,0 +1,30 @@
+.homePrincipal {
+  background-color: rgb(51, 51, 51);
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.carrossel-container {
+  width: 100%;
+  margin: 20px auto;
+  flex: 1;
+}
+
+/* Controle do tamanho do carrossel */
+.carousel {
+  overflow: hidden;
+  height: 300px; /* Altura desejada para o carrossel */
+}
+
+.carousel-inner {
+  height: 100%;
+}
+
+.carrossel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+

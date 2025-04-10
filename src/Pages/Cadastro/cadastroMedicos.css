@@ -6,15 +6,6 @@
 :root {
     --primary-font: "Yeseva One", serif;
     --second-font: "Ysabeau Infant", sans-serif;
-    --color-dark-blue: #1F2B6C;
-    --color-dark-hover: #1f2b6ca8;
-    --color-light-blue: #159EEC;
-    --color-gray: #444;
-    --color-background: #f4f7fc;
-    --color-white: #ffffff;
-    --color-border: #ddd;
-    --color-success: #226c1f;
-    --color-success-hover: #1d992d;
 }
 
 /* Resetando estilos padrão */
