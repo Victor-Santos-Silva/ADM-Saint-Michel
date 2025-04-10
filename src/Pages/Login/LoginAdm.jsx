@@ -3,6 +3,8 @@ import './loginAdm.css';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext.jsx';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default function LoginAdm() {
     const navigate = useNavigate();
@@ -17,7 +19,6 @@ export default function LoginAdm() {
     });
 
     const [loginError, setLoginError] = useState('');
-
     const { login } = useAuth();
 
     const handleChange = (e) => {
@@ -44,21 +45,39 @@ export default function LoginAdm() {
 
             login(response.data.nome, response.data.token, response.data.id);
             setFormData({ email: '', senha: '' });
+<<<<<<< HEAD
             navigate('/homeAdm');
+=======
+            toast.success('Login realizado com sucesso!');
+            navigate('/verMedicos');
+>>>>>>> 680c5bb93143ffc40322f184dff138936599b253
         } catch (error) {
             const errorMsg = error.response?.data?.error || 'Erro ao fazer login';
             console.error('Erro no login:', errorMsg);
             if (error.response?.status === 401) {
                 setLoginError('Credenciais inválidas!');
                 setError({ email: true, senha: true });
+                toast.error('Credenciais inválidas!');
             } else {
                 setLoginError('Email ou senha incorretos, tente novamente.');
+                toast.error('Email ou senha incorretos, tente novamente.');
             }
         }
     };
 
     return (
         <div className="backgroundImage">
+            <ToastContainer
+                position="top-right"
+                autoClose={5000}
+                hideProgressBar={false}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+            />
             <br />
             <form className='formularioLogin' onSubmit={handleSubmit}>
                 <h2>Login Administrativo</h2>
