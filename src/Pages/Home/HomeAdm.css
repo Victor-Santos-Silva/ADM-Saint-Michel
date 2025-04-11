@@ -1,136 +1,152 @@
+/* Base Styles */
 .homePrincipal {
-  background-color: rgb(51, 51, 51);
-  width: 100%;
+  background-color: #333;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
 }
 
+/* Content Wrapper */
+.content-wrapper {
+  flex: 1;
+  width: 100%;
+  padding-bottom: 3rem;
+}
+
+/* Carousel */
 .carrossel-container {
   width: 100%;
-  margin: 20px auto;
-  flex: 1;
+  margin: 2rem auto;
   border-radius: 10px;
+  overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Configurações Principais do Carrossel */
 .carousel {
-  overflow: hidden;
-  height: 400px;
-  border-radius: 10px;
+  height: 600px;
 }
 
 .carousel-inner {
   height: 100%;
-  position: relative;
+  transition: transform 0.6s ease;
 }
 
-/* Transição Automática Suave */
-.carousel.fade .carousel-item {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transition: opacity 1.2s ease-in-out;
-  transition-delay: 0.3s; /* Tempo antes de iniciar o fade */
-}
-
-.carousel.fade .carousel-item.active {
-  position: relative;
-  opacity: 1;
-  z-index: 1;
-  transition: opacity 1.2s ease-in-out;
-}
-
-/* Efeito durante a transição */
-.carousel.fade .carousel-item-next.carousel-item-start,
-.carousel.fade .carousel-item-prev.carousel-item-end {
-  opacity: 1;
-  z-index: 1;
-}
-
-.carousel.fade .active.carousel-item-start,
-.carousel.fade .active.carousel-item-end {
-  opacity: 0;
-  z-index: 0;
-}
-
-/* Imagens do Carrossel */
 .carrossel-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
   filter: brightness(0.7);
-  animation: subtleZoom 8s infinite alternate;
 }
 
-/* Efeito de zoom sutil */
-@keyframes subtleZoom {
-  0% {
-    transform: scale(1);
-  }
-  100% {
-    transform: scale(1.03);
-  }
-}
-/* Controles de Navegação */
-.carousel-control-prev,
-.carousel-control-next {
-  width: 5%;
-  opacity: 0.7;
-  transition: opacity 0.3s ease;
-}
-
-.carousel-control-prev:hover,
-.carousel-control-next:hover {
-  opacity: 1;
-}
-
-.container.my-5 {
-  background-color: rgba(255, 255, 255, 0.1);
+/* Doctors Container */
+.doctors-container {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 16px;
   padding: 2rem;
-  border-radius: 10px;
+  margin: 2rem auto;
+  width: 80%;
+  max-width: 1200px;
+}
+
+/* Filter */
+.filter-container {
+  max-width: 500px;
+  margin: 0 auto 2rem;
+}
+
+.filter-label {
+  color: white;
+  margin-bottom: 0.5rem;
+  display: block;
+  font-size: 1.1rem;
+}
+
+.filter-select {
+  width: 100%;
+  padding: 0.75rem;
+  border-radius: 8px;
+  border: none;
+  background: rgba(255, 255, 255, 0.9);
+  font-size: 1rem;
+}
+
+/* Doctors Grid */
+.doctors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
   margin-top: 2rem;
 }
 
-.card {
-  background-color: #fff;
-  border: none;
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+.doctor-card {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.card:hover {
+.doctor-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
 }
 
-.card-title {
-  color: #2c3e50;
-  font-weight: bold;
+.doctor-image {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
 }
 
-.card-subtitle {
-  color: #7f8c8d;
+.doctor-info {
+  padding: 1.5rem;
+  color: white;
 }
 
-/* Estilo para o select */
-.form-control {
-  background-color: rgba(255, 255, 255, 0.9);
-  border: 1px solid #ced4da;
-  border-radius: 5px;
-  padding: 10px;
+.doctor-name {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
 }
 
-/* Responsividade */
+.doctor-specialty {
+  opacity: 0.8;
+  margin-bottom: 0.5rem;
+}
+
+.doctor-crm {
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+/* No Results */
+.no-results {
+  text-align: center;
+  color: white;
+  padding: 2rem;
+  grid-column: 1 / -1;
+}
+
+/* Footer */
+footer {
+  margin-top: auto;
+  background: #222;
+  padding: 2rem 0;
+  color: white;
+}
+
+/* Responsiveness */
 @media (max-width: 768px) {
-  .carrossel-container {
-    width: 95%;
+  .carousel {
+    height: 300px;
   }
   
-  .container.my-5 {
-    padding: 1rem;
+  .doctors-container {
+    width: 90%;
+    padding: 1.5rem;
+  }
+  
+  .doctors-grid {
+    grid-template-columns: 1fr;
   }
 }
