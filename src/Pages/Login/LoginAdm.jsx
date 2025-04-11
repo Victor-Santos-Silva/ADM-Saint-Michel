@@ -45,12 +45,10 @@ export default function LoginAdm() {
 
             login(response.data.nome, response.data.token, response.data.id);
             setFormData({ email: '', senha: '' });
-<<<<<<< HEAD
             navigate('/homeAdm');
-=======
             toast.success('Login realizado com sucesso!');
-            navigate('/verMedicos');
->>>>>>> 680c5bb93143ffc40322f184dff138936599b253
+            navigate('/homeAdm');
+
         } catch (error) {
             const errorMsg = error.response?.data?.error || 'Erro ao fazer login';
             console.error('Erro no login:', errorMsg);
