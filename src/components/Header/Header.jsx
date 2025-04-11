@@ -12,7 +12,6 @@ export default function Header() {
       <div className="logoHeader">
         <Link to='/homeAdm'><img className="imgHeader" src="../../src/assets/Img/Logo.png" /></Link>
       </div>
-<<<<<<< HEAD
 
       <nav className="navbar">
         <div>
@@ -26,8 +25,6 @@ export default function Header() {
         </div>
       </nav>
 
-=======
->>>>>>> 6469c65ffc3ac6175ddbfbd8ae2d2ace6a15036f
       <button className="submit-btn" onClick={logout}>Sair</button>
     </header >
   );
