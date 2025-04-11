@@ -21,6 +21,9 @@ export default function Header() {
         <div>
           <Link to='/cadastro' className='links'>Cadastrar médicos</Link>
         </div>
+        <div>
+          <Link to='/duvidas' className='links'>Cadastrar médicos</Link>
+        </div>
       </nav>
 
       <button className="submit-btn" onClick={logout}>Sair</button>
