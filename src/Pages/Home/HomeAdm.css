@@ -1,0 +1,136 @@
+.homePrincipal {
+  background-color: rgb(51, 51, 51);
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.carrossel-container {
+  width: 100%;
+  margin: 20px auto;
+  flex: 1;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Configurações Principais do Carrossel */
+.carousel {
+  overflow: hidden;
+  height: 400px;
+  border-radius: 10px;
+}
+
+.carousel-inner {
+  height: 100%;
+  position: relative;
+}
+
+/* Transição Automática Suave */
+.carousel.fade .carousel-item {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 1.2s ease-in-out;
+  transition-delay: 0.3s; /* Tempo antes de iniciar o fade */
+}
+
+.carousel.fade .carousel-item.active {
+  position: relative;
+  opacity: 1;
+  z-index: 1;
+  transition: opacity 1.2s ease-in-out;
+}
+
+/* Efeito durante a transição */
+.carousel.fade .carousel-item-next.carousel-item-start,
+.carousel.fade .carousel-item-prev.carousel-item-end {
+  opacity: 1;
+  z-index: 1;
+}
+
+.carousel.fade .active.carousel-item-start,
+.carousel.fade .active.carousel-item-end {
+  opacity: 0;
+  z-index: 0;
+}
+
+/* Imagens do Carrossel */
+.carrossel-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: brightness(0.7);
+  animation: subtleZoom 8s infinite alternate;
+}
+
+/* Efeito de zoom sutil */
+@keyframes subtleZoom {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.03);
+  }
+}
+/* Controles de Navegação */
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  opacity: 1;
+}
+
+.container.my-5 {
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 2rem;
+  border-radius: 10px;
+  margin-top: 2rem;
+}
+
+.card {
+  background-color: #fff;
+  border: none;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-title {
+  color: #2c3e50;
+  font-weight: bold;
+}
+
+.card-subtitle {
+  color: #7f8c8d;
+}
+
+/* Estilo para o select */
+.form-control {
+  background-color: rgba(255, 255, 255, 0.9);
+  border: 1px solid #ced4da;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .carrossel-container {
+    width: 95%;
+  }
+  
+  .container.my-5 {
+    padding: 1rem;
+  }
+}

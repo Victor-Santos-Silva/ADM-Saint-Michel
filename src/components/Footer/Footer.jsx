@@ -9,7 +9,7 @@ export default function Footer() {
                 <div className='footerAdm'>
 
                      <div className='footerAdmLogo'>
-                        <img src="../src/Img/footerLogoAdm.png" className='icn'/>
+                        <img src="../../src/assets/Img/footerLogoAdm.png" className='icn'/>
                     </div>
                     <p>© 2025 Direitos reservados Hospital Saint-Michel by PNTEC-LTD</p>
 
