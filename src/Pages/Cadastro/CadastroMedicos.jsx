@@ -22,13 +22,12 @@ export default function CadastroMedicos() {
 
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewImagem, setPreviewImagem] = useState(null);
-    const [errors, setErrors] = useState({});
+    const [isSubmitting, setIsSubmitting] = useState(false);
     const fileInputRef = useRef(null);
 
     const handleChange = (event) => {
         const { id, value } = event.target;
         setFormData({ ...formData, [id]: value });
-        setErrors((prevErrors) => ({ ...prevErrors, [id]: '' }));
     };
 
     const handleImagemChange = (event) => {
@@ -36,7 +35,6 @@ export default function CadastroMedicos() {
         if (file) {
             setSelectedFile(file);
             setPreviewImagem(URL.createObjectURL(file));
-            setErrors((prevErrors) => ({ ...prevErrors, foto: '' }));
         } else {
             setSelectedFile(null);
             setPreviewImagem(null);
@@ -44,68 +42,89 @@ export default function CadastroMedicos() {
     };
 
     const validateForm = () => {
-        const newErrors = {};
+        let isValid = true;
+        const errors = [];
 
+        // Validação dos campos
         if (!formData.nome_completo.trim()) {
-            newErrors.nome_completo = 'O nome completo não pode estar vazio.';
+            errors.push('✖ Nome completo é obrigatório');
+            isValid = false;
         }
+
 
         if (!formData.data_nascimento) {
             newErrors.data_nascimento = 'A data de nascimento é obrigatória.';
         } else if (formData.data_nascimento < 18 || formData.idade > 80) {
             newErrors.data_nascimento = 'A idade deve estar entre 18 e 80 anos.';
+        if (!formData.idade || formData.idade < 18 || formData.idade > 80) {
+            errors.push('✖ Idade deve ser entre 18 e 80 anos');
+            isValid = false;
+
         }
 
-        if (!formData.cpf.trim()) {
-            newErrors.cpf = 'O CPF é obrigatório.';
-        } else if (!/^\d{11}$/.test(formData.cpf)) {
-            newErrors.cpf = 'O CPF deve ter 11 dígitos.';
+        if (!/^\d{11}$/.test(formData.cpf)) {
+            errors.push('✖ CPF deve ter 11 dígitos');
+            isValid = false;
         }
 
-        if (!formData.crm.trim()) {
-            newErrors.crm = 'O CRM é obrigatório.';
-        } else if (!/^[0-9]{6}\/[A-Z]{2}$/.test(formData.crm)) {
-            newErrors.crm = 'CRM inválido! Formato correto: 123456/SP.';
+        if (!/^[0-9]{6}\/[A-Z]{2}$/.test(formData.crm)) {
+            errors.push('✖ Formato CRM inválido (ex: 123456/SP)');
+            isValid = false;
         }
 
-        if (!formData.telefone.trim()) {
-            newErrors.telefone = 'O telefone é obrigatório.';
-        } else if (!/^\d{10,11}$/.test(formData.telefone)) {
-            newErrors.telefone = 'O telefone deve ter 10 ou 11 dígitos.';
+        if (!/^\d{10,11}$/.test(formData.telefone)) {
+            errors.push('✖ Telefone deve ter 10 ou 11 dígitos');
+            isValid = false;
         }
 
-        if (!formData.email_corporativo.trim()) {
-            newErrors.email_corporativo = 'O email corporativo é obrigatório.';
-        } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email_corporativo)) {
-            newErrors.email_corporativo = 'Informe um email válido.';
+        if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email_corporativo)) {
+            errors.push('✖ Email corporativo inválido');
+            isValid = false;
         }
 
         if (!formData.senha_corporativa.trim()) {
-            newErrors.senha_corporativa = 'A senha corporativa é obrigatória.';
+            errors.push('✖ Senha corporativa é obrigatória');
+            isValid = false;
         }
 
         // Validação da imagem
         if (!selectedFile) {
-            newErrors.foto = 'A imagem do médico é obrigatória.';
+            errors.push('✖ Foto do médico é obrigatória');
+            isValid = false;
         } else {
             const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
             if (!allowedTypes.includes(selectedFile.type)) {
-                newErrors.foto = 'Tipo de arquivo inválido. Use JPEG, PNG ou GIF.';
+                errors.push('✖ Formato de imagem inválido (use JPEG, PNG ou GIF)');
+                isValid = false;
             }
             
             if (selectedFile.size > 2 * 1024 * 1024) {
-                newErrors.foto = 'A imagem deve ter no máximo 2MB.';
+                errors.push('✖ A imagem deve ter no máximo 2MB');
+                isValid = false;
             }
         }
 
-        setErrors(newErrors);
-        return Object.keys(newErrors).length === 0;
+        // Mostrar erros
+        if (errors.length > 0) {
+            errors.forEach(error => toast.error(error, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            }));
+        }
+
+        return isValid;
     };
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        setIsSubmitting(true);
 
         if (!validateForm()) {
+            setIsSubmitting(false);
             return;
         }
 
@@ -120,9 +139,16 @@ export default function CadastroMedicos() {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
 
-            toast.success('Cadastro de Médico realizado com sucesso!');
+            toast.success('✅ Médico cadastrado com sucesso!', {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
 
-            // Resetar o formulário
+            // Resetar formulário
             setFormData({
                 nome_completo: '',
                 data_nascimento: '',
@@ -135,39 +161,33 @@ export default function CadastroMedicos() {
                 email_corporativo: '',
                 senha_corporativa: '',
             });
-
-            if (fileInputRef.current) {
-                fileInputRef.current.value = '';
-            }
-
             setSelectedFile(null);
             setPreviewImagem(null);
-            setErrors({});
+            if (fileInputRef.current) fileInputRef.current.value = '';
 
         } catch (error) {
-            if (error.response && error.response.data.errors) {
-                setErrors(error.response.data.errors);
-            } else {
-                toast.error('Erro ao cadastrar. Tente novamente mais tarde.');
-                console.error('Erro ao cadastrar:', error);
+            let errorMessage = 'Erro no cadastro. Tente novamente.';
+            if (error.response?.data?.message) {
+                errorMessage = error.response.data.message;
             }
+            toast.error(`✖ ${errorMessage}`, {
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
     return (
         <>
             <Header />
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
+            <ToastContainer />
+            
             <div className="background">
                 <form onSubmit={handleSubmit} className="formularioAdm">
                     <h2 className="tituloAdm">Cadastro de novos médicos:</h2>
@@ -181,10 +201,9 @@ export default function CadastroMedicos() {
                                     id="nome_completo"
                                     value={formData.nome_completo}
                                     onChange={handleChange}
-                                    className={errors.nome_completo ? 'input-error' : ''}
                                 />
-                                {errors.nome_completo && <span className="error-message">{errors.nome_completo}</span>}
                             </div>
+                            
                             <div className="form-groupAdm">
                                 <label htmlFor="data_nascimento">Data de Nascimento:</label>
                                 <input
@@ -192,10 +211,15 @@ export default function CadastroMedicos() {
                                     id="data_nascimento"
                                     value={formData.data_nascimento}
                                     onChange={handleChange}
+
                                     className={errors.data_nascimento ? 'input-error' : ''}
                                 />
                                 {errors.data_nascimento && <span className="error-message">{errors.data_nascimento}</span>}
+
+                           
+
                             </div>
+                            
                             <div className="form-groupAdm">
                                 <label htmlFor="cpf">CPF:</label>
                                 <input
@@ -204,10 +228,9 @@ export default function CadastroMedicos() {
                                     value={formData.cpf}
                                     onChange={handleChange}
                                     placeholder='00000000000'
-                                    className={errors.cpf ? 'input-error' : ''}
                                 />
-                                {errors.cpf && <span className="error-message">{errors.cpf}</span>}
                             </div>
+                            
                             <div className="form-groupAdm">
                                 <label htmlFor="crm">CRM:</label>
                                 <input
@@ -216,10 +239,9 @@ export default function CadastroMedicos() {
                                     value={formData.crm}
                                     onChange={handleChange}
                                     placeholder='123456/SP'
-                                    className={errors.crm ? 'input-error' : ''}
                                 />
-                                {errors.crm && <span className="error-message">{errors.crm}</span>}
                             </div>
+                            
                             <div className="form-groupAdm">
                                 <label htmlFor="telefone">Telefone:</label>
                                 <input
@@ -228,9 +250,7 @@ export default function CadastroMedicos() {
                                     value={formData.telefone}
                                     onChange={handleChange}
                                     placeholder='(DDD)000000000'
-                                    className={errors.telefone ? 'input-error' : ''}
                                 />
-                                {errors.telefone && <span className="error-message">{errors.telefone}</span>}
                             </div>
                         </div>
 
@@ -242,17 +262,15 @@ export default function CadastroMedicos() {
                                     id="endereco"
                                     value={formData.endereco}
                                     onChange={handleChange}
-                                    className={errors.endereco ? 'input-error' : ''}
                                 />
-                                {errors.endereco && <span className="error-message">{errors.endereco}</span>}
                             </div>
+                            
                             <div className="form-groupSegundo">
                                 <label htmlFor="especialidade">Especialidade:</label>
                                 <select
                                     id="especialidade"
                                     value={formData.especialidade}
                                     onChange={handleChange}
-                                    className={errors.especialidade ? 'input-error' : ''}
                                 >
                                     <option value="">Selecione uma especialidade</option>
                                     <option value="Ortopedista">Ortopedista</option>
@@ -268,8 +286,8 @@ export default function CadastroMedicos() {
                                     <option value="Dermatologista">Dermatologista</option>
                                     <option value="Ginecologista">Ginecologista</option>
                                 </select>
-                                {errors.especialidade && <span className="error-message">{errors.especialidade}</span>}
                             </div>
+                            
                             <div className="form-groupSegundo">
                                 <label htmlFor="nacionalidade">Nacionalidade:</label>
                                 <input
@@ -277,10 +295,9 @@ export default function CadastroMedicos() {
                                     id="nacionalidade"
                                     value={formData.nacionalidade}
                                     onChange={handleChange}
-                                    className={errors.nacionalidade ? 'input-error' : ''}
                                 />
-                                {errors.nacionalidade && <span className="error-message">{errors.nacionalidade}</span>}
                             </div>
+                            
                             <div className="form-groupSegundo">
                                 <label htmlFor="email_corporativo">Email Corporativo:</label>
                                 <input
@@ -289,10 +306,9 @@ export default function CadastroMedicos() {
                                     value={formData.email_corporativo}
                                     onChange={handleChange}
                                     placeholder='exemplo@gmail.com'
-                                    className={errors.email_corporativo ? 'input-error' : ''}
                                 />
-                                {errors.email_corporativo && <span className="error-message">{errors.email_corporativo}</span>}
                             </div>
+                            
                             <div className="form-groupSegundo">
                                 <label htmlFor="senha_corporativa">Senha Corporativa:</label>
                                 <input
@@ -300,24 +316,21 @@ export default function CadastroMedicos() {
                                     id="senha_corporativa"
                                     value={formData.senha_corporativa}
                                     onChange={handleChange}
-                                    className={errors.senha_corporativa ? 'input-error' : ''}
                                 />
-                                {errors.senha_corporativa && <span className="error-message">{errors.senha_corporativa}</span>}
                             </div>
                         </div>
                     </div>
 
                     <div className="form-group">
-                        <label htmlFor="imagem">Foto do Médico <span className="required">*</span></label>
+                        <label htmlFor="imagem">Foto do Médico</label>
                         <input
-                            className={`img ${errors.foto ? 'input-error' : ''}`}
+                            className="img"
                             type="file"
                             id="imagem"
                             accept="image/*"
                             onChange={handleImagemChange}
                             ref={fileInputRef}
                         />
-                        {errors.foto && <span className="error-message">{errors.foto}</span>}
                     </div>
 
                     {previewImagem && (
@@ -326,8 +339,12 @@ export default function CadastroMedicos() {
                         </div>
                     )}
 
-                    <button type="submit" className="botaoCadastrar">
-                        Cadastrar
+                    <button 
+                        type="submit" 
+                        className="botaoCadastrar"
+                        disabled={isSubmitting}
+                    >
+                        {isSubmitting ? 'Cadastrando...' : 'Cadastrar'}
                     </button>
                 </form>
             </div>

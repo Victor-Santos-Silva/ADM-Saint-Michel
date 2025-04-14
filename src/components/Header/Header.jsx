@@ -58,7 +58,11 @@ export default function Header() {
           <Link to='/cadastro' className='links'>Cadastrar médicos</Link>
         </div>
         <div>
+<<<<<<< HEAD
           <Link to='/duvidas' className='links'>Dúvidas</Link>
+=======
+          <Link to='/duvidas' className='links'>Ver Dúvidas</Link>
+>>>>>>> 2cf061cfc29ba2e980ec0a59a6720c534db49600
         </div>
       </nav>
 
