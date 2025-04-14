@@ -35,7 +35,7 @@ export default function Header() {
   const markAsRead = async (id) => {
     try {
       await axios.patch(`http://localhost:5000/notificacoes/${id}/marcar-como-lida`);
-      setNotifications(notifications.map(n => 
+      setNotifications(notifications.map(n =>
         n.id === id ? { ...n, lida: true } : n
       ));
       setUnreadCount(prev => prev - 1);
@@ -58,11 +58,8 @@ export default function Header() {
           <Link to='/cadastro' className='links'>Cadastrar médicos</Link>
         </div>
         <div>
-<<<<<<< HEAD
-          <Link to='/duvidas' className='links'>Dúvidas</Link>
-=======
+
           <Link to='/duvidas' className='links'>Ver Dúvidas</Link>
->>>>>>> 2cf061cfc29ba2e980ec0a59a6720c534db49600
         </div>
       </nav>
 
@@ -76,7 +73,7 @@ export default function Header() {
               </span>
             )}
           </button>
-          
+
           {showNotifications && (
             <div className="notification-dropdown">
               {loading ? (
@@ -87,7 +84,7 @@ export default function Header() {
                 <>
                   <div className="notification-header">
                     <h4>Notificações</h4>
-                    <button 
+                    <button
                       className="mark-all-read"
                       onClick={() => {
                         notifications.forEach(n => !n.lida && markAsRead(n.id));
@@ -98,8 +95,8 @@ export default function Header() {
                   </div>
                   <div className="notification-list">
                     {notifications.map(notification => (
-                      <div 
-                        key={notification.id} 
+                      <div
+                        key={notification.id}
                         className={`notification-item ${!notification.lida ? 'unread' : ''}`}
                         onClick={() => !notification.lida && markAsRead(notification.id)}
                       >
