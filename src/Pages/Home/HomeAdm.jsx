@@ -6,9 +6,9 @@ import Footer from '../../components/Footer/Footer';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './HomeAdm.css';
 import imagemPadrao from '../../assets/Img/administracao.png';
-import imagem1 from '../../assets/Img/auxiliar.png'
-import imagem2 from '../../assets/Img/grafico.jpg'
-import imagem3 from '../../assets/Img/administracao.png'
+import imagem1 from '../../assets/Img/auxiliar.png';
+import imagem2 from '../../assets/Img/grafico.jpg';
+import imagem3 from '../../assets/Img/administracao.png';
 
 export default function HomeAdm() {
   const [medicos, setMedicos] = useState([]);
@@ -16,6 +16,29 @@ export default function HomeAdm() {
   const [especialidadeSelecionada, setEspecialidadeSelecionada] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [avisos, setAvisos] = useState([
+    {
+      id: 1,
+      titulo: "Manutenção programada",
+      mensagem: "O sistema ficará indisponível no próximo sábado das 00h às 06h para manutenção.",
+      data: "15/06/2023",
+      importante: true
+    },
+    {
+      id: 2,
+      titulo: "Novos médicos",
+      mensagem: "Damos as boas-vindas aos novos médicos que se juntaram à nossa equipe este mês.",
+      data: "10/06/2023",
+      importante: false
+    },
+    {
+      id: 3,
+      titulo: "Atualização do sistema",
+      mensagem: "Todos os médicos devem atualizar seus dados até o final do mês.",
+      data: "05/06/2023",
+      importante: true
+    }
+  ]);
 
   useEffect(() => {
     const fetchMedicos = async () => {
@@ -46,18 +69,18 @@ export default function HomeAdm() {
       <Header />
       
       <div className="carrossel-container">
-  <Carousel>
-    {[imagem1, imagem2, imagem3].map((image, index) => (
-      <Carousel.Item key={index} interval={3000}>
-        <img 
-          className="d-block w-100 carrossel-image" 
-          src={image} 
-          alt={`Banner ${index + 1}`} 
-        />
-      </Carousel.Item>
-    ))}
-  </Carousel>
-</div>
+        <Carousel>
+          {[imagem1, imagem2, imagem3].map((image, index) => (
+            <Carousel.Item key={index} interval={3000}>
+              <img 
+                className="d-block w-100 carrossel-image" 
+                src={image} 
+                alt={`Banner ${index + 1}`} 
+              />
+            </Carousel.Item>
+          ))}
+        </Carousel>
+      </div>
 
       <main className="content-wrapper">
         <div className="doctors-container">
@@ -108,7 +131,27 @@ export default function HomeAdm() {
               </div>
             )}
           </div>
+
+          {/* Quadro de Avisos agora está depois da lista de médicos */}
+        
         </div>
+        <div className="avisos-container">
+            <h3 className="avisos-titulo">Quadro de Avisos</h3>
+            <div className="avisos-lista">
+              {avisos.map(aviso => (
+                <div 
+                  key={aviso.id} 
+                  className={`aviso-item ${aviso.importante ? 'importante' : ''}`}
+                >
+                  <div className="aviso-cabecalho">
+                    <h4 className="aviso-titulo">{aviso.titulo}</h4>
+                    <span className="aviso-data">{aviso.data}</span>
+                  </div>
+                  <p className="aviso-mensagem">{aviso.mensagem}</p>
+                </div>
+              ))}
+            </div>
+          </div>
       </main>
 
       <Footer />

@@ -18,7 +18,7 @@
 
 /* Fundo com imagem */
 .background {
-    background: url(../../Img/administracao.png) no-repeat center center;
+    background-color: #4b4b4b;
     background-size: cover;
     min-height: 100vh;
     display: flex;
@@ -29,7 +29,7 @@
 
 /* Container do formulário */
 .formularioAdm {
-    background-color: var(--color-white);
+    background-color: rgb(160, 160, 160);
     padding: 30px;
     border-radius: 12px;
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
@@ -141,8 +141,8 @@
 .botaoCadastrar {
     width: 100%;
     padding: 14px;
-    background: var(--color-success);
-    color: var(--color-white);
+   background-color: #333;
+    color: white;
     border: none;
     border-radius: 8px;
     font-size: 18px;
@@ -152,7 +152,7 @@
 }
 
 .botaoCadastrar:hover {
-    background: var(--color-success-hover);
+    background: rgb(156, 56, 56) ;
     transform: translateY(-2px);
 }
 

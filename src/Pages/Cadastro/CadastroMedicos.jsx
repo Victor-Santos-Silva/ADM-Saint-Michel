@@ -9,7 +9,7 @@ import Footer from '../../components/Footer/Footer';
 export default function CadastroMedicos() {
     const [formData, setFormData] = useState({
         nome_completo: '',
-        idade: '',
+        data_nascimento: '',
         cpf: '',
         crm: '',
         telefone: '',
@@ -50,10 +50,10 @@ export default function CadastroMedicos() {
             newErrors.nome_completo = 'O nome completo não pode estar vazio.';
         }
 
-        if (!formData.idade) {
-            newErrors.idade = 'A idade é obrigatória.';
-        } else if (formData.idade < 18 || formData.idade > 80) {
-            newErrors.idade = 'A idade deve estar entre 18 e 80 anos.';
+        if (!formData.data_nascimento) {
+            newErrors.data_nascimento = 'A data de nascimento é obrigatória.';
+        } else if (formData.data_nascimento < 18 || formData.idade > 80) {
+            newErrors.data_nascimento = 'A idade deve estar entre 18 e 80 anos.';
         }
 
         if (!formData.cpf.trim()) {
@@ -125,7 +125,7 @@ export default function CadastroMedicos() {
             // Resetar o formulário
             setFormData({
                 nome_completo: '',
-                idade: '',
+                data_nascimento: '',
                 cpf: '',
                 crm: '',
                 telefone: '',
@@ -186,15 +186,15 @@ export default function CadastroMedicos() {
                                 {errors.nome_completo && <span className="error-message">{errors.nome_completo}</span>}
                             </div>
                             <div className="form-groupAdm">
-                                <label htmlFor="idade">Idade:</label>
+                                <label htmlFor="data_nascimento">Data de Nascimento:</label>
                                 <input
-                                    type="number"
-                                    id="idade"
-                                    value={formData.idade}
+                                    type="date"
+                                    id="data_nascimento"
+                                    value={formData.data_nascimento}
                                     onChange={handleChange}
-                                    className={errors.idade ? 'input-error' : ''}
+                                    className={errors.data_nascimento ? 'input-error' : ''}
                                 />
-                                {errors.idade && <span className="error-message">{errors.idade}</span>}
+                                {errors.data_nascimento && <span className="error-message">{errors.data_nascimento}</span>}
                             </div>
                             <div className="form-groupAdm">
                                 <label htmlFor="cpf">CPF:</label>

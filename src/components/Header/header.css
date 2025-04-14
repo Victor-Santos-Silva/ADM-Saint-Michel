@@ -1,47 +1,208 @@
-@import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Ysabeau+Infant:ital,wght@0,1..1000;1,1..1000&display=swap');
-
+/* Estilos base mantidos */
 .headerAdm {
     display: flex;
     align-items: center;
-    justify-content: space-between; /* Adicione esta linha */
+    justify-content: space-between;
     background-color: #252121;
     color: white;
     padding: 20px;
     font-size: 20px;
     height: 80px;
     width: 100%;
-}
-
-.imgHeader {
+  }
+  
+  .logoHeader {
+    flex-shrink: 0;
+  }
+  
+  .imgHeader {
     width: 250px;
     margin-top: 20px;
-}
-
-
-.links {
+  }
+  
+  /* Navbar ajustado para itens juntos */
+  .navbar {
+    display: flex;
+    gap: 0; /* Remove o espaçamento entre itens */
+    margin: 0 20px; /* Espaço apenas nas laterais */
+  }
+  
+  .navbar > div {
+    margin-right: -4px; /* Remove espaçamento entre itens */
+  }
+  
+  .links {
     text-decoration: none;
     font-family: var(--second-font);
     cursor: pointer;
     color: white;
     padding: 20px;
-}
-.links:hover {
-  color: white;
-  font-weight: bold;
+    position: relative;
+    transition: all 0.3s ease;
   }
-
-.footerLogoHeader{
-    width: 250px;
-}
-.submit-btn{
- width: 10%;
- height: 80%;
- background:rgb(153, 17, 17);
- color: rgb(255, 255, 255);
- font-size: 20px;
- border: none;
- border-radius: 4px;
- cursor: pointer;
- justify-content: end;
-}
+  
+  .links:hover {
+    color: white;
+    font-weight: bold;
+  }
+  
+  .links::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: 15px;
+    left: 20px;
+    background-color: white;
+    transition: width 0.3s ease;
+  }
+  
+  .links:hover::after {
+    width: calc(100% - 40px);
+  }
+  
+  /* Seção direita com sino e botão */
+  .right-section {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+  }
+  
+  .notification-container {
+    position: relative;
+  }
+  
+  .notification-icon {
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    position: relative;
+    padding: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+  }
+  
+  .notification-icon:hover {
+    transform: scale(1.1);
+  }
+  
+  .notification-badge {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+  
+  /* Dropdown de notificações */
+  .notification-dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    width: 350px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: white;
+    border-radius: 5px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    color: #333;
+  }
+  
+  .notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .mark-all-read {
+    background: none;
+    border: none;
+    color: #3498db;
+    cursor: pointer;
+    font-size: 12px;
+  }
+  
+  .notification-list {
+    padding: 0;
+  }
+  
+  .notification-item {
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  
+  .notification-item:hover {
+    background: #f9f9f9;
+  }
+  
+  .notification-item.unread {
+    background: #f0f7ff;
+  }
+  
+  .notification-item p {
+    margin: 0 0 5px 0;
+  }
+  
+  .notification-item small {
+    color: #777;
+    font-size: 12px;
+  }
+  
+  .notification-loading,
+  .notification-empty {
+    padding: 15px;
+    text-align: center;
+    color: #777;
+  }
+  
+  /* Botão Sair */
+  .submit-btn {
+    width: 100px;
+    height: 40px;
+    background: rgb(153, 17, 17);
+    color: rgb(255, 255, 255);
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.3s;
+  }
+  
+  .submit-btn:hover {
+    background: rgb(180, 30, 30);
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
+    .headerAdm {
+      flex-direction: column;
+      height: auto;
+      padding: 15px;
+    }
+    
+    .navbar {
+      flex-direction: column;
+      gap: 10px;
+      margin: 15px 0;
+      align-items: center;
+    }
+    
+    .right-section {
+      width: 100%;
+      justify-content: center;
+      margin-top: 15px;
+    }
+    
+    .notification-dropdown {
+      width: 280px;
+      right: auto;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+  }
