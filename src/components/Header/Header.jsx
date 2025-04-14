@@ -21,7 +21,7 @@ export default function Header() {
           <Link to='/cadastro' className='links'>Cadastrar médicos</Link>
         </div>
         <div>
-          <Link to='/duvidas' className='links'>Cadastrar médicos</Link>
+          <Link to='/duvidas' className='links'>Ver Dúvidas</Link>
         </div>
       </nav>
 
