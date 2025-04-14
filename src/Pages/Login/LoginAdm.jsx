@@ -19,6 +19,12 @@ export default function LoginAdm() {
     });
 
     const [loginError, setLoginError] = useState('');
+    const [showForgotPassword, setShowForgotPassword] = useState(false);
+    const [forgotPasswordData, setForgotPasswordData] = useState({
+        email: '',
+        novaSenha: ''
+    });
+    
     const { login } = useAuth();
 
     const handleChange = (e) => {
@@ -26,6 +32,14 @@ export default function LoginAdm() {
         setFormData({ ...formData, [name]: value });
         setError(prev => ({ ...prev, [name]: false }));
         setLoginError('');
+    };
+
+    const handleForgotPasswordChange = (e) => {
+        const { name, value } = e.target;
+        setForgotPasswordData(prev => ({
+            ...prev,
+            [name]: value
+        }));
     };
 
     const handleSubmit = async (e) => {
@@ -36,16 +50,17 @@ export default function LoginAdm() {
             email: !formData.email,
             senha: !formData.senha
         };
+        
         if (newError.email || newError.senha) {
             setError(newError);
+            toast.error('Preencha todos os campos obrigatórios');
             return;
         }
+
         try {
             const response = await axios.post(`http://localhost:5000/admin/login`, formData);
-
             login(response.data.nome, response.data.token, response.data.id);
             setFormData({ email: '', senha: '' });
-            navigate('/homeAdm');
             toast.success('Login realizado com sucesso!');
             navigate('/homeAdm');
 
@@ -63,6 +78,35 @@ export default function LoginAdm() {
         }
     };
 
+    const handlePasswordRecovery = async (e) => {
+        e.preventDefault();
+        
+        if (!forgotPasswordData.email || !forgotPasswordData.novaSenha) {
+            toast.error('Preencha todos os campos');
+            return;
+        }
+
+        if (forgotPasswordData.novaSenha.length < 6) {
+            toast.error('A senha deve ter no mínimo 6 caracteres');
+            return;
+        }
+
+        try {
+            const response = await axios.post('http://localhost:5000/admin/recuperar-senha', {
+                email: forgotPasswordData.email,
+                novaSenha: forgotPasswordData.novaSenha
+            });
+
+            toast.success(response.data.message);
+            setShowForgotPassword(false);
+            setForgotPasswordData({ email: '', novaSenha: '' });
+
+        } catch (error) {
+            const errorMsg = error.response?.data?.error || 'Erro ao redefinir senha';
+            toast.error(errorMsg);
+        }
+    };
+
     return (
         <div className="backgroundImage">
             <ToastContainer
@@ -76,7 +120,7 @@ export default function LoginAdm() {
                 draggable
                 pauseOnHover
             />
-            <br />
+            
             <form className='formularioLogin' onSubmit={handleSubmit}>
                 <h2>Login Administrativo</h2>
                 {loginError && (
@@ -84,6 +128,7 @@ export default function LoginAdm() {
                         {loginError}
                     </div>
                 )}
+                
                 <div className="form-group">
                     <label htmlFor="email" className='campos'>EMAIL:</label>
                     <input
@@ -99,6 +144,7 @@ export default function LoginAdm() {
                     {error.email &&
                         <div className="invalid-feedback">Campo obrigatório</div>}
                 </div>
+                
                 <div className="form-group">
                     <label htmlFor="password" className='campos'>SENHA:</label>
                     <input
@@ -114,10 +160,68 @@ export default function LoginAdm() {
                     {error.senha &&
                         <div className="invalid-feedback">Campo obrigatório</div>}
                 </div>
+                
                 <button type="submit" className="botaoEntrar">
                     Entrar
                 </button>
+                
+                <button 
+                    type="button" 
+                    className="botaoEsqueciSenha"
+                    onClick={() => setShowForgotPassword(true)}
+                >
+                    Esqueci a senha
+                </button>
             </form>
+
+            {showForgotPassword && (
+                <div className="forgot-password-overlay">
+                    <div className="forgot-password-modal">
+                        <h3>Redefinir Senha</h3>
+                        
+                        <form onSubmit={handlePasswordRecovery}>
+                            <div className="form-group">
+                                <label>Email Corporativo:</label>
+                                <input
+                                    type="email"
+                                    name="email"
+                                    value={forgotPasswordData.email}
+                                    onChange={handleForgotPasswordChange}
+                                    required
+                                />
+                            </div>
+                            
+                            <div className="form-group">
+                                <label>Nova Senha:</label>
+                                <input
+                                    type="password"
+                                    name="novaSenha"
+                                    value={forgotPasswordData.novaSenha}
+                                    onChange={handleForgotPasswordChange}
+                                    required
+                                    minLength="6"
+                                />
+                            </div>
+                            
+                            <div className="button-group">
+                                <button type="submit" className="botaoConfirmar">
+                                    Redefinir Senha
+                                </button>
+                                <button 
+                                    type="button" 
+                                    className="botaoCancelar"
+                                    onClick={() => {
+                                        setShowForgotPassword(false);
+                                        setForgotPasswordData({ email: '', novaSenha: '' });
+                                    }}
+                                >
+                                    Cancelar
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }
