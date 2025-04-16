@@ -3,6 +3,8 @@ import { Carousel, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import { useTheme } from '../../context/ThemeContext';
+import { FaSun, FaMoon } from 'react-icons/fa';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './HomeAdm.css';
 import imagemPadrao from '../../assets/Img/administracao.png';
@@ -11,6 +13,7 @@ import imagem2 from '../../assets/Img/grafico.jpg';
 import imagem3 from '../../assets/Img/administracao.png';
 
 export default function HomeAdm() {
+  const { isDarkMode, toggleTheme } = useTheme();
   const [medicos, setMedicos] = useState([]);
   const [especialidades, setEspecialidades] = useState([]);
   const [especialidadeSelecionada, setEspecialidadeSelecionada] = useState('');
@@ -65,9 +68,19 @@ export default function HomeAdm() {
   if (error) return <div className="alert alert-danger mt-5 mx-auto text-center">{error}</div>;
 
   return (
-    <div className="homePrincipal">
+    <div className={`homePrincipal ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
       <Header />
       
+      <button 
+        onClick={toggleTheme} 
+        className={`theme-toggle-btn ${isDarkMode ? 'dark' : 'light'}`}
+      >
+        {isDarkMode ? <FaSun className="theme-icon" /> : <FaMoon className="theme-icon" />}
+        <span className="theme-text">
+          {isDarkMode ? ' Modo Claro' : ' Modo Escuro'}
+        </span>
+      </button>
+
       <div className="carrossel-container">
         <Carousel>
           {[imagem1, imagem2, imagem3].map((image, index) => (
@@ -84,7 +97,7 @@ export default function HomeAdm() {
 
       <main className="content-wrapper">
         <div className="doctors-container">
-          <h2 className="text-center text-white mb-4">Nossos Médicos</h2>
+          <h2 className="section-title">Nossos Médicos</h2>
           
           <div className="filter-container">
             <label className="filter-label">Filtrar por Especialidade:</label>
@@ -131,27 +144,25 @@ export default function HomeAdm() {
               </div>
             )}
           </div>
-
-          {/* Quadro de Avisos agora está depois da lista de médicos */}
-        
         </div>
+        
         <div className="avisos-container">
-            <h3 className="avisos-titulo">Quadro de Avisos</h3>
-            <div className="avisos-lista">
-              {avisos.map(aviso => (
-                <div 
-                  key={aviso.id} 
-                  className={`aviso-item ${aviso.importante ? 'importante' : ''}`}
-                >
-                  <div className="aviso-cabecalho">
-                    <h4 className="aviso-titulo">{aviso.titulo}</h4>
-                    <span className="aviso-data">{aviso.data}</span>
-                  </div>
-                  <p className="aviso-mensagem">{aviso.mensagem}</p>
+          <h3 className="avisos-titulo">Quadro de Avisos</h3>
+          <div className="avisos-lista">
+            {avisos.map(aviso => (
+              <div 
+                key={aviso.id} 
+                className={`aviso-item ${aviso.importante ? 'importante' : ''}`}
+              >
+                <div className="aviso-cabecalho">
+                  <h4 className="aviso-titulo">{aviso.titulo}</h4>
+                  <span className="aviso-data">{aviso.data}</span>
                 </div>
-              ))}
-            </div>
+                <p className="aviso-mensagem">{aviso.mensagem}</p>
+              </div>
+            ))}
           </div>
+        </div>
       </main>
 
       <Footer />

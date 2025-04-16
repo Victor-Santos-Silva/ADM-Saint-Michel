@@ -1,12 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
+import { useTheme } from '../../context/ThemeContext';
 import { FaBell, FaCircle } from 'react-icons/fa';
 import axios from 'axios';
 import './header.css';
 
+// Importe as imagens corretamente (ajuste os caminhos conforme sua estrutura)
+import logoLight from '../../assets/Img/LogoLight.png';
+import logoDark from '../../assets/Img/Logo.png';
+
 export default function Header() {
   const { logout, user } = useAuth();
+  const { isDarkMode } = useTheme();
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -45,9 +51,15 @@ export default function Header() {
   };
 
   return (
-    <header className="headerAdm">
+    <header className={`headerAdm ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
       <div className="logoHeader">
-        <Link to='/homeAdm'><img className="imgHeader" src="../../src/assets/Img/Logo.png" alt="Logo" /></Link>
+        <Link to='/homeAdm'>
+          <img 
+            className="imgHeader" 
+            src={isDarkMode ? logoDark : logoLight} 
+            alt="Logo" 
+          />
+        </Link>
       </div>
 
       <nav className="navbar">
@@ -58,7 +70,6 @@ export default function Header() {
           <Link to='/cadastro' className='links'>Cadastrar médicos</Link>
         </div>
         <div>
-
           <Link to='/duvidas' className='links'>Ver Dúvidas</Link>
         </div>
       </nav>
@@ -66,7 +77,7 @@ export default function Header() {
       <div className="right-section">
         <div className="notification-container">
           <button className="notification-icon" onClick={toggleNotifications}>
-            <FaBell size={20} />
+            <FaBell size={20} color={isDarkMode ? '#ffffff' : '#333333'} />
             {unreadCount > 0 && (
               <span className="notification-badge">
                 <FaCircle size={10} color="#ff4d4d" />
@@ -75,7 +86,7 @@ export default function Header() {
           </button>
 
           {showNotifications && (
-            <div className="notification-dropdown">
+            <div className={`notification-dropdown ${isDarkMode ? 'dark' : 'light'}`}>
               {loading ? (
                 <div className="notification-loading">Carregando...</div>
               ) : notifications.length === 0 ? (
@@ -111,7 +122,9 @@ export default function Header() {
           )}
         </div>
 
-        <button className="submit-btn" onClick={logout}>Sair</button>
+        <button className={`submit-btn ${isDarkMode ? 'dark' : 'light'}`} onClick={logout}>
+          Sair
+        </button>
       </div>
     </header>
   );

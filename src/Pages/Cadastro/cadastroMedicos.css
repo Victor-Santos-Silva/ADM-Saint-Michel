@@ -1,178 +1,246 @@
-/* Importando fontes modernas */
-@import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Ysabeau+Infant:wght@300;600&display=swap');
-
-/* Variáveis globais */
+/* Variáveis para temas */
 :root {
-    --primary-font: "Yeseva One", serif;
-    --second-font: "Ysabeau Infant", sans-serif;
-}
-
-/* Resetando estilos padrão */
-* {
+    /* Tema claro */
+    --light-bg: #f5f5f5;
+    --light-form-bg: #ffffff;
+    --light-text: #333333;
+    --light-input-bg: #f9f9f9;
+    --light-border: #dddddd;
+    --light-shadow: rgba(0, 0, 0, 0.1);
+    --light-primary: #1976d2;
+    --light-error: #ff4d4d;
+    
+    /* Tema escuro */
+    --dark-bg: #121212;
+    --dark-form-bg: #1e1e1e;
+    --dark-text: #f5f5f5;
+    --dark-input-bg: #2d2d2d;
+    --dark-border: #444444;
+    --dark-shadow: rgba(0, 0, 0, 0.3);
+    --dark-primary: #bb86fc;
+    --dark-error: #ff6b6b;
+  }
+  
+  /* Fontes */
+  @import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Ysabeau+Infant:wght@300;600&display=swap');
+  
+  /* Reset */
+  * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: var(--second-font);
-}
-
-/* Fundo com imagem */
-.background {
-    background-color: #4b4b4b;
-    background-size: cover;
+    font-family: "Ysabeau Infant", sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  /* Background */
+  .background {
     min-height: 100vh;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 30px;
-}
-
-/* Container do formulário */
-.formularioAdm {
-    background-color: rgb(160, 160, 160);
+  }
+  
+  .background.light-mode {
+    background-color: var(--light-bg);
+  }
+  
+  .background.dark-mode {
+    background-color: var(--dark-bg);
+  }
+  
+  /* Formulário */
+  .formularioAdm {
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 6px 15px var(--light-shadow);
     max-width: 800px;
     width: 100%;
-    transition: transform 0.3s ease;
     margin-bottom: 5%;
-}
-
-
-/* Título do formulário */
-.tituloAdm {
+  }
+  
+  .formularioAdm.light-mode {
+    background-color: var(--light-form-bg);
+    color: var(--light-text);
+  }
+  
+  .formularioAdm.dark-mode {
+    background-color: var(--dark-form-bg);
+    color: var(--dark-text);
+    box-shadow: 0 6px 15px var(--dark-shadow);
+  }
+  
+  /* Título */
+  .tituloAdm {
     text-align: center;
     font-size: 26px;
     font-weight: bold;
-    font-family: var(--primary-font);
+    font-family: "Yeseva One", serif;
     margin-bottom: 20px;
-}
-
-/* Layout das colunas */
-.linha-colunas {
+  }
+  
+  /* Layout */
+  .linha-colunas {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-}
-
-/* Ajuste das colunas */
-.coluna-vertical {
+  }
+  
+  .coluna-vertical {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 15px;
-}
-
-/* Estilização dos grupos de inputs */
-.form-groupAdm, .form-groupSegundo {
+  }
+  
+  /* Campos do formulário */
+  .form-groupAdm, .form-groupSegundo {
     display: flex;
     flex-direction: column;
     gap: 8px;
-}
-
-/* Labels */
-.form-groupAdm label, .form-groupSegundo label {
-    font-weight: bold;
-    color: var(--color-gray);
-}
-
-/* Inputs e Selects */
-.form-groupAdm input, 
-.form-groupSegundo input, 
-.form-groupSegundo select {
+  }
+  
+  .form-groupAdm label, 
+  .form-groupSegundo label {
+    font-weight: 600;
+  }
+  
+  .form-groupAdm input,
+  .form-groupSegundo input,
+  .form-groupSegundo select {
     padding: 12px;
-    border: 1px solid var(--color-border);
     border-radius: 8px;
-    background-color: #f9f9f9;
-    transition: all 0.3s ease;
     font-size: 16px;
-}
-
-/* Foco nos campos */
-.form-groupAdm input:focus, 
-.form-groupSegundo input:focus, 
-.form-groupSegundo select:focus {
-    border-color: var(--color-dark-blue);
-    box-shadow: 0 0 5px rgba(31, 43, 108, 0.3);
-    outline: none;
-}
-
-/* Select estilizado */
-.form-groupSegundo select {
+    transition: all 0.3s ease;
+  }
+  
+  .formularioAdm.light-mode input,
+  .formularioAdm.light-mode select {
+    background-color: var(--light-input-bg);
+    border: 1px solid var(--light-border);
+    color: var(--light-text);
+  }
+  
+  .formularioAdm.dark-mode input,
+  .formularioAdm.dark-mode select {
+    background-color: var(--dark-input-bg);
+    border: 1px solid var(--dark-border);
+    color: var(--dark-text);
+  }
+  
+  .form-groupSegundo select {
     appearance: none;
-    background-color: #f9f9f9;
     cursor: pointer;
-}
-
-/* Input de arquivo */
-.form-group input[type="file"] {
+  }
+  
+  /* Input de arquivo */
+  .form-group {
+    margin: 20px 0;
+    text-align: center;
+  }
+  
+  .form-group input[type="file"] {
     padding: 12px;
-    border: 1px solid var(--color-border);
     border-radius: 6px;
-    background-color: #f9f9f9;
     font-size: 14px;
     margin-top: 10px;
     cursor: pointer;
-    text-align: center;
     width: 50%;
     margin-left: 25%;
-}
-
-/* Prévia da imagem */
-.imgPreview {
+  }
+  
+  .formularioAdm.light-mode .form-group input[type="file"] {
+    background-color: var(--light-input-bg);
+    border: 1px solid var(--light-border);
+  }
+  
+  .formularioAdm.dark-mode .form-group input[type="file"] {
+    background-color: var(--dark-input-bg);
+    border: 1px solid var(--dark-border);
+  }
+  
+  /* Pré-visualização da imagem */
+  .imgPreview {
     margin-top: 20px;
     text-align: center;
-}
-
-.imgPreviewImage {
+  }
+  
+  .imgPreviewImage {
     width: 120px;
     height: auto;
     border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.imgPreviewImage:hover {
-    transform: scale(1.05);
-}
-
-/* Botão de cadastro */
-.botaoCadastrar {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  /* Botão */
+  .botaoCadastrar {
     width: 100%;
     padding: 14px;
-   background-color: #333;
-    color: white;
     border: none;
     border-radius: 8px;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.botaoCadastrar:hover {
-    background: rgb(156, 56, 56) ;
+    transition: all 0.3s ease;
+  }
+  
+  .botaoCadastrar.light-mode {
+    background-color: #333;
+    color: white;
+  }
+  
+  .botaoCadastrar.dark-mode {
+    background-color: #bb86fc;
+    color: #121212;
+  }
+  
+  .botaoCadastrar:hover {
     transform: translateY(-2px);
-}
-
-/* Estilo para inputs inválidos */
-.input-error {
-    border-color: #ff4d4d !important;
+    opacity: 0.9;
+  }
+  
+  .botaoCadastrar:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+  }
+  
+  /* Erros */
+  .input-error {
+    border-color: var(--light-error) !important;
     box-shadow: 0 0 5px rgba(255, 77, 77, 0.3);
-}
-
-/* Responsividade */
-@media (max-width: 768px) {
+  }
+  
+  .formularioAdm.dark-mode .input-error {
+    border-color: var(--dark-error) !important;
+  }
+  
+  .error-message {
+    color: var(--light-error);
+    font-size: 14px;
+  }
+  
+  .formularioAdm.dark-mode .error-message {
+    color: var(--dark-error);
+  }
+  
+  /* Responsividade */
+  @media (max-width: 768px) {
     .formularioAdm {
-        padding: 20px;
+      padding: 20px;
     }
-
+  
     .linha-colunas {
-        flex-direction: column;
+      flex-direction: column;
     }
-
+  
+    .form-group input[type="file"] {
+      width: 80%;
+      margin-left: 10%;
+    }
+  
     .botaoCadastrar {
-        font-size: 16px;
+      font-size: 16px;
     }
-}
+  }

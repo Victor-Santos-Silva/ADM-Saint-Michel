@@ -1,208 +1,361 @@
-/* Estilos base mantidos */
+/* Variáveis para temas */
+:root {
+  /* Tema claro */
+  --header-bg-light: #f8f9fa;
+  --text-light: #212529;
+  --links-light: #495057;
+  --links-hover-light: #000000;
+  --dropdown-bg-light: #ffffff;
+  --dropdown-text-light: #212529;
+  --hover-light: #f1f1f1;
+  --border-light: #dee2e6;
+  --button-bg-light: #dc3545;
+  
+  /* Tema escuro */
+  --header-bg-dark: #212529;
+  --text-dark: #f8f9fa;
+  --links-dark: #adb5bd;
+  --links-hover-dark: #ffffff;
+  --dropdown-bg-dark: #343a40;
+  --dropdown-text-dark: #f8f9fa;
+  --hover-dark: #495057;
+  --border-dark: #495057;
+  --button-bg-dark: #bb2d3b;
+}
+
+/* Estilos base */
 .headerAdm {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #252121;
-    color: white;
-    padding: 20px;
-    font-size: 20px;
-    height: 80px;
-    width: 100%;
-  }
-  
-  .logoHeader {
-    flex-shrink: 0;
-  }
-  
-  .imgHeader {
-    width: 250px;
-    margin-top: 20px;
-  }
-  
-  /* Navbar ajustado para itens juntos */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px;
+  font-size: 20px;
+  height: 80px;
+  width: 100%;
+  transition: all 0.3s ease;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Tema claro */
+.headerAdm.light-mode {
+  background-color: var(--header-bg-light);
+  color: var(--text-light);
+  border-bottom: 1px solid var(--border-light);
+}
+
+/* Tema escuro */
+.headerAdm.dark-mode {
+  background-color: var(--header-bg-dark);
+  color: var(--text-dark);
+  border-bottom: 1px solid var(--border-dark);
+}
+
+.logoHeader {
+  flex-shrink: 0;
+}
+
+.imgHeader {
+  width: 250px;
+  margin-top: 20px;
+  transition: all 0.3s ease;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  gap: 0;
+  margin: 0 20px;
+}
+
+.navbar > div {
+  margin-right: -4px;
+}
+
+.links {
+  text-decoration: none;
+  font-family: var(--second-font);
+  cursor: pointer;
+  padding: 20px;
+  position: relative;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.headerAdm.light-mode .links {
+  color: var(--links-light);
+}
+
+.headerAdm.dark-mode .links {
+  color: var(--links-dark);
+}
+
+.links:hover {
+  font-weight: 600;
+}
+
+.links::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 15px;
+  left: 20px;
+  transition: width 0.3s ease;
+}
+
+.headerAdm.light-mode .links::after {
+  background-color: var(--links-hover-light);
+}
+
+.headerAdm.dark-mode .links::after {
+  background-color: var(--links-hover-dark);
+}
+
+.links:hover::after {
+  width: calc(100% - 40px);
+}
+
+/* Seção direita */
+.right-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.notification-container {
+  position: relative;
+}
+
+.notification-icon {
+  background: none;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s;
+}
+
+.notification-icon:hover {
+  transform: scale(1.1);
+}
+
+.notification-badge {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+/* Dropdown de notificações */
+.notification-dropdown {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  width: 350px;
+  max-height: 400px;
+  overflow-y: auto;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.notification-dropdown.light {
+  background: var(--dropdown-bg-light);
+  color: var(--dropdown-text-light);
+  border: 1px solid var(--border-light);
+}
+
+.notification-dropdown.dark {
+  background: var(--dropdown-bg-dark);
+  color: var(--dropdown-text-dark);
+  border: 1px solid var(--border-dark);
+}
+
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  border-bottom: 1px solid;
+}
+
+.notification-dropdown.light .notification-header {
+  border-bottom-color: var(--border-light);
+}
+
+.notification-dropdown.dark .notification-header {
+  border-bottom-color: var(--border-dark);
+}
+
+.mark-all-read {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 5px;
+  border-radius: 3px;
+}
+
+.notification-dropdown.light .mark-all-read {
+  color: #0d6efd;
+}
+
+.notification-dropdown.dark .mark-all-read {
+  color: #3399ff;
+}
+
+.notification-dropdown.light .mark-all-read:hover {
+  background-color: #f0f7ff;
+}
+
+.notification-dropdown.dark .mark-all-read:hover {
+  background-color: #1a3a5a;
+}
+
+.notification-list {
+  padding: 0;
+}
+
+.notification-item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background 0.2s;
+  border-bottom: 1px solid;
+}
+
+.notification-dropdown.light .notification-item {
+  border-bottom-color: var(--border-light);
+}
+
+.notification-dropdown.dark .notification-item {
+  border-bottom-color: var(--border-dark);
+}
+
+.notification-item:hover {
+  background: var(--hover-light);
+}
+
+.notification-dropdown.dark .notification-item:hover {
+  background: var(--hover-dark);
+}
+
+.notification-item.unread {
+  background: #f0f7ff;
+}
+
+.notification-dropdown.dark .notification-item.unread {
+  background: #1a3a5a;
+}
+
+.notification-item p {
+  margin: 0 0 5px 0;
+}
+
+.notification-item small {
+  font-size: 12px;
+}
+
+.notification-dropdown.light .notification-item small {
+  color: #6c757d;
+}
+
+.notification-dropdown.dark .notification-item small {
+  color: #adb5bd;
+}
+
+.notification-loading,
+.notification-empty {
+  padding: 15px;
+  text-align: center;
+}
+
+.notification-dropdown.light .notification-loading,
+.notification-dropdown.light .notification-empty {
+  color: #6c757d;
+}
+
+.notification-dropdown.dark .notification-loading,
+.notification-dropdown.dark .notification-empty {
+  color: #adb5bd;
+}
+
+/* Botão Sair */
+.submit-btn {
+  width: 100px;
+  height: 40px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.3s;
+  font-weight: 500;
+}
+
+.submit-btn.light {
+  background: var(--button-bg-light);
+  color: white;
+}
+
+.submit-btn.dark {
+  background: var(--button-bg-dark);
+  color: white;
+}
+
+.submit-btn:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
+}
+
+/* Responsividade */
+@media (max-width: 992px) {
   .navbar {
-    display: flex;
-    gap: 0; /* Remove o espaçamento entre itens */
-    margin: 0 20px; /* Espaço apenas nas laterais */
-  }
-  
-  .navbar > div {
-    margin-right: -4px; /* Remove espaçamento entre itens */
+    gap: 10px;
   }
   
   .links {
-    text-decoration: none;
-    font-family: var(--second-font);
-    cursor: pointer;
-    color: white;
-    padding: 20px;
-    position: relative;
-    transition: all 0.3s ease;
-  }
-  
-  .links:hover {
-    color: white;
-    font-weight: bold;
-  }
-  
-  .links::after {
-    content: '';
-    position: absolute;
-    width: 0;
-    height: 2px;
-    bottom: 15px;
-    left: 20px;
-    background-color: white;
-    transition: width 0.3s ease;
-  }
-  
-  .links:hover::after {
-    width: calc(100% - 40px);
-  }
-  
-  /* Seção direita com sino e botão */
-  .right-section {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-  }
-  
-  .notification-container {
-    position: relative;
-  }
-  
-  .notification-icon {
-    background: none;
-    border: none;
-    color: white;
-    cursor: pointer;
-    position: relative;
-    padding: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s;
-  }
-  
-  .notification-icon:hover {
-    transform: scale(1.1);
-  }
-  
-  .notification-badge {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-  }
-  
-  /* Dropdown de notificações */
-  .notification-dropdown {
-    position: absolute;
-    right: 0;
-    top: 100%;
-    width: 350px;
-    max-height: 400px;
-    overflow-y: auto;
-    background: white;
-    border-radius: 5px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-    color: #333;
-  }
-  
-  .notification-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     padding: 10px;
-    border-bottom: 1px solid #eee;
   }
-  
-  .mark-all-read {
-    background: none;
-    border: none;
-    color: #3498db;
-    cursor: pointer;
-    font-size: 12px;
-  }
-  
-  .notification-list {
-    padding: 0;
-  }
-  
-  .notification-item {
-    padding: 10px;
-    border-bottom: 1px solid #eee;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-  
-  .notification-item:hover {
-    background: #f9f9f9;
-  }
-  
-  .notification-item.unread {
-    background: #f0f7ff;
-  }
-  
-  .notification-item p {
-    margin: 0 0 5px 0;
-  }
-  
-  .notification-item small {
-    color: #777;
-    font-size: 12px;
-  }
-  
-  .notification-loading,
-  .notification-empty {
+}
+
+@media (max-width: 768px) {
+  .headerAdm {
+    flex-direction: column;
+    height: auto;
     padding: 15px;
-    text-align: center;
-    color: #777;
+    position: relative;
   }
   
-  /* Botão Sair */
-  .submit-btn {
-    width: 100px;
-    height: 40px;
-    background: rgb(153, 17, 17);
-    color: rgb(255, 255, 255);
-    font-size: 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background 0.3s;
+  .logoHeader {
+    margin-bottom: 15px;
   }
   
-  .submit-btn:hover {
-    background: rgb(180, 30, 30);
+  .navbar {
+    flex-direction: column;
+    gap: 10px;
+    margin: 15px 0;
+    align-items: center;
   }
   
-  /* Responsividade */
-  @media (max-width: 768px) {
-    .headerAdm {
-      flex-direction: column;
-      height: auto;
-      padding: 15px;
-    }
-    
-    .navbar {
-      flex-direction: column;
-      gap: 10px;
-      margin: 15px 0;
-      align-items: center;
-    }
-    
-    .right-section {
-      width: 100%;
-      justify-content: center;
-      margin-top: 15px;
-    }
-    
-    .notification-dropdown {
-      width: 280px;
-      right: auto;
-      left: 50%;
-      transform: translateX(-50%);
-    }
+  .right-section {
+    width: 100%;
+    justify-content: center;
+    margin-top: 15px;
   }
+  
+  .notification-dropdown {
+    width: 280px;
+    right: auto;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  
+  .imgHeader {
+    width: 200px;
+    margin-top: 0;
+  }
+}

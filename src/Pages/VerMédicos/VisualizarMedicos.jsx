@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './visualizarMedicos.css';
+import { useTheme } from '../../context/ThemeContext'; // Importe o hook do tema
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import './visualizarMedicos.css';
 
 export default function VisualizarMedicos() {
   const navigate = useNavigate();
+  const { isDarkMode } = useTheme(); // Obtenha o estado do tema
   const [medicos, setMedicos] = useState([]);
 
   useEffect(() => {
@@ -27,14 +29,14 @@ export default function VisualizarMedicos() {
   };
 
   return (
-    <>
+    <div className={`app-container ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
       <Header />
       <h1 className='title-medicos'>Médicos</h1>
       <div className='Container-visualizarMedicos'>
         <div className="corpo">
           {medicos.map((medico) => (
             <div
-              className="quadroMedico"
+              className={`quadroMedico ${isDarkMode ? 'dark' : 'light'}`}
               key={medico.id}
               onClick={() => handleCardClick(medico.id)}
             >
@@ -45,7 +47,6 @@ export default function VisualizarMedicos() {
                   className="fotoMedico"
                   onError={(e) => e.target.src = '/fallback-image.jpg'}
                 />
-
               </div>
               <div className="componentes">
                 <p className="componente-a">Nome: {medico.nome_completo}</p>
@@ -58,6 +59,6 @@ export default function VisualizarMedicos() {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }

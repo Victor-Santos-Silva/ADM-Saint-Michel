@@ -1,77 +1,87 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import { FaReply, FaUserMd, FaUser } from 'react-icons/fa';
+import { FaReply, FaUserMd, FaUser, FaEnvelope } from 'react-icons/fa';
 import './duvidaPaciente.css';
+import axios from 'axios';
 
 const DuvidaPaciente = () => {
-  // Dados mockados (não funcionais)
-  const duvidas = [
-    {
-      id: 1,
-      mensagem: 'Bom dia, gostaria de saber sobre os horários de atendimento.',
-      remetente: 'paciente',
-      data: '2023-06-15T09:30:00',
-      respondida: false
-    },
-    {
-      id: 2,
-      mensagem: 'Nosso horário é das 8h às 18h, de segunda a sexta.',
-      remetente: 'medico',
-      data: '2023-06-15T10:15:00',
-      respondida: true
-    },
-    {
-      id: 3,
-      mensagem: 'Preciso remarcar minha consulta, como posso fazer?',
-      remetente: 'paciente',
-      data: '2023-06-16T14:20:00',
-      respondida: false
-    }
-  ];
+  const [duvidas, setDuvidas] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Função mockada para o botão de responder
-  const handleReply = () => {
-    alert('Esta funcionalidade será implementada posteriormente!');
+  // Buscar dúvidas do backend
+  useEffect(() => {
+    const fetchDuvidas = async () => {
+      try {
+        const response = await axios.get('http://localhost:5000/api/duvidas');
+        setDuvidas(response.data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+        console.error('Erro ao buscar dúvidas:', err);
+      }
+    };
+
+    fetchDuvidas();
+  }, []);
+
+  // Função para responder por e-mail
+  const handleReply = (emailPaciente, assunto = 'Resposta à sua dúvida') => {
+    const corpoEmail = `Prezado paciente,\n\nEm resposta à sua dúvida:\n\n`;
+    
+    // Cria o link mailto com todos os parâmetros necessários
+    window.location.href = `mailto:${emailPaciente}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpoEmail)}`;
   };
+
+  if (loading) return <div className="loading">Carregando dúvidas...</div>;
+  if (error) return <div className="error">Erro ao carregar dúvidas: {error}</div>;
 
   return (
     <>
       <Header />
       <div className="duvidas-container">
-        <h1 className="title-duvidas">Dúvidas</h1>
+        <h1 className="title-duvidas">Dúvidas dos Pacientes</h1>
         
         <div className="messages-container">
-          {duvidas.map((duvida) => (
-            <div 
-              key={duvida.id} 
-              className={`message ${duvida.remetente}`}
-            >
-              <div className="message-header">
-                {duvida.remetente === 'medico' ? (
-                  <FaUserMd className="icon" />
-                ) : (
-                  <FaUser className="icon" />
+          {duvidas.length === 0 ? (
+            <div className="no-messages">Nenhuma dúvida encontrada</div>
+          ) : (
+            duvidas.map((duvida) => (
+              <div 
+                key={duvida._id} 
+                className={`message ${duvida.remetente}`}
+              >
+                <div className="message-header">
+                  {duvida.remetente === 'medico' ? (
+                    <FaUserMd className="icon" />
+                  ) : (
+                    <FaUser className="icon" />
+                  )}
+                  <span className="message-sender">
+                    {duvida.nome || (duvida.remetente === 'medico' ? 'Médico' : 'Paciente')}
+                  </span>
+                  <span className="message-date">
+                    {new Date(duvida.data).toLocaleString()}
+                  </span>
+                </div>
+                
+                <div className="message-content">
+                  <p>{duvida.mensagem}</p>
+                </div>
+                
+                {duvida.remetente === 'paciente' && !duvida.respondida && (
+                  <button 
+                    className="reply-button"
+                    onClick={() => handleReply(duvida.email, `Resposta: ${duvida.assunto || 'Sua dúvida'}`)}
+                  >
+                    <FaEnvelope /> Responder por E-mail
+                  </button>
                 )}
-                <span className="message-date">
-                  {new Date(duvida.data).toLocaleString()}
-                </span>
               </div>
-              
-              <div className="message-content">
-                <p>{duvida.mensagem}</p>
-              </div>
-              
-              {duvida.remetente === 'paciente' && !duvida.respondida && (
-                <button 
-                  className="reply-button"
-                  onClick={handleReply}
-                >
-                  <FaReply /> Responder
-                </button>
-              )}
-            </div>
-          ))}
+            ))
+          )}
         </div>
       </div>
       <Footer />

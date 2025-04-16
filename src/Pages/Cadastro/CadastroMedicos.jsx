@@ -2,11 +2,13 @@ import React, { useState, useRef } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useTheme } from '../../context/ThemeContext';
 import './cadastroMedicos.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 
 export default function CadastroMedicos() {
+    const { isDarkMode } = useTheme();
     const [formData, setFormData] = useState({
         nome_completo: '',
         dataNascimento: '',
@@ -23,6 +25,7 @@ export default function CadastroMedicos() {
     const [selectedFile, setSelectedFile] = useState(null);
     const [previewImagem, setPreviewImagem] = useState(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [errors, setErrors] = useState({ dataNascimento: '' });
     const fileInputRef = useRef(null);
 
     const handleChange = (event) => {
@@ -41,18 +44,11 @@ export default function CadastroMedicos() {
         }
     };
 
-    // Adicione isso ao seu estado inicial
-    const [errors, setErrors] = useState({
-        dataNascimento: ''
-    });
-
-    // Corrigindo a função validateForm
     const validateForm = () => {
         let isValid = true;
         const newErrors = { dataNascimento: '' };
         const validationErrors = [];
 
-        // Validação dos campos
         if (!formData.nome_completo.trim()) {
             validationErrors.push('✖ Nome completo é obrigatório');
             isValid = false;
@@ -62,7 +58,6 @@ export default function CadastroMedicos() {
             newErrors.dataNascimento = 'A data de nascimento é obrigatória.';
             isValid = false;
         } else {
-            // Calcula idade a partir da data de nascimento
             const birthDate = new Date(formData.dataNascimento);
             const today = new Date();
             let age = today.getFullYear() - birthDate.getFullYear();
@@ -104,7 +99,6 @@ export default function CadastroMedicos() {
             isValid = false;
         }
 
-        // Validação da imagem
         if (!selectedFile) {
             validationErrors.push('✖ Foto do médico é obrigatória');
             isValid = false;
@@ -121,10 +115,8 @@ export default function CadastroMedicos() {
             }
         }
 
-        // Atualiza os erros
         setErrors(newErrors);
 
-        // Mostrar erros
         if (validationErrors.length > 0) {
             validationErrors.forEach(error => toast.error(error, {
                 position: "top-right",
@@ -168,7 +160,6 @@ export default function CadastroMedicos() {
                 draggable: true,
             });
 
-            // Resetar formulário
             setFormData({
                 nome_completo: '',
                 dataNascimento: '',
@@ -208,8 +199,8 @@ export default function CadastroMedicos() {
             <Header />
             <ToastContainer />
 
-            <div className="background">
-                <form onSubmit={handleSubmit} className="formularioAdm">
+            <div className={`background ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+                <form onSubmit={handleSubmit} className={`formularioAdm ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
                     <h2 className="tituloAdm">Cadastro de novos médicos:</h2>
 
                     <div className="linha-colunas">
@@ -231,13 +222,9 @@ export default function CadastroMedicos() {
                                     id="dataNascimento"
                                     value={formData.dataNascimento}
                                     onChange={handleChange}
-
                                     className={errors.dataNascimento ? 'input-error' : ''}
                                 />
                                 {errors.dataNascimento && <span className="error-message">{errors.dataNascimento}</span>}
-
-
-
                             </div>
 
                             <div className="form-groupAdm">
@@ -361,7 +348,7 @@ export default function CadastroMedicos() {
 
                     <button
                         type="submit"
-                        className="botaoCadastrar"
+                        className={`botaoCadastrar ${isDarkMode ? 'dark-mode' : 'light-mode'}`}
                         disabled={isSubmitting}
                     >
                         {isSubmitting ? 'Cadastrando...' : 'Cadastrar'}
