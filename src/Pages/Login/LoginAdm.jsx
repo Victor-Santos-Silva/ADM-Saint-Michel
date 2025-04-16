@@ -27,6 +27,8 @@ export default function LoginAdm() {
     
     const { login } = useAuth();
 
+    const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -86,24 +88,35 @@ export default function LoginAdm() {
             return;
         }
 
+        if (!validateEmail(forgotPasswordData.email)) {
+            toast.error('Formato de email inválido');
+            return;
+        }
+
         if (forgotPasswordData.novaSenha.length < 6) {
             toast.error('A senha deve ter no mínimo 6 caracteres');
             return;
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/admin/recuperar-senha', {
-                email: forgotPasswordData.email,
-                novaSenha: forgotPasswordData.novaSenha
-            });
+            const response = await axios.put(
+                `http://localhost:5000/admin/esqueciSenha/${id}`,
+                { novaSenha: forgotPasswordData.novaSenha }
+            );
 
-            toast.success(response.data.message);
+            toast.success('Senha alterada com sucesso!');
             setShowForgotPassword(false);
             setForgotPasswordData({ email: '', novaSenha: '' });
 
         } catch (error) {
+            console.error('Erro na recuperação de senha:', error);
             const errorMsg = error.response?.data?.error || 'Erro ao redefinir senha';
-            toast.error(errorMsg);
+            
+            if (error.response?.status === 404) {
+                toast.error('Email não cadastrado no sistema');
+            } else {
+                toast.error(errorMsg);
+            }
         }
     };
 
@@ -177,7 +190,7 @@ export default function LoginAdm() {
             {showForgotPassword && (
                 <div className="forgot-password-overlay">
                     <div className="forgot-password-modal">
-                        <h3>Redefinir Senha</h3>
+                        <h3>Redefinição de Senha</h3>
                         
                         <form onSubmit={handlePasswordRecovery}>
                             <div className="form-group">
@@ -188,6 +201,7 @@ export default function LoginAdm() {
                                     value={forgotPasswordData.email}
                                     onChange={handleForgotPasswordChange}
                                     required
+                                    placeholder="exemplo@hospital.com"
                                 />
                             </div>
                             
@@ -200,12 +214,13 @@ export default function LoginAdm() {
                                     onChange={handleForgotPasswordChange}
                                     required
                                     minLength="6"
+                                    placeholder="Mínimo 6 caracteres"
                                 />
                             </div>
                             
                             <div className="button-group">
                                 <button type="submit" className="botaoConfirmar">
-                                    Redefinir Senha
+                                    Alterar Senha
                                 </button>
                                 <button 
                                     type="button" 
