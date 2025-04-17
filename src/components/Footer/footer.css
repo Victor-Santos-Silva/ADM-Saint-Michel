@@ -1,25 +1,148 @@
-.footerAdm {
+/* Container principal - altura fixa */
+.footer-container {
+    width: 100%;
+    min-height: 120px; /* Altura fixa para ambos os temas */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 0;
+    box-sizing: border-box;
+    position: relative;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+}
+
+/* Conteúdo do footer */
+.footer-content {
     display: flex;
     justify-content: space-around;
     align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* Container da logo - tamanho fixo */
+.logo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60px; /* Altura fixa */
+    min-width: 200px; /* Largura mínima para a logo grande */
+}
+
+/* Controle preciso das imagens */
+.dark-logo {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.light-logo {
+    width: 200px !important;
+    height: 100px; /* Altura proporcional */
+    object-fit: contain;
+}
+
+/* Elementos textuais */
+.footer-text {
+    font-size: 16px;
+    margin: 0 15px;
+    min-width: 250px;
+    text-align: center;
+}
+
+.partnership {
+    font-size: 16px;
+    margin: 0 15px;
+    min-width: 150px;
+    text-align: center;
+}
+
+/* Ícones sociais */
+.social-icons {
+    display: flex;
+    gap: 20px;
+    min-width: 120px;
+    justify-content: center;
+}
+
+.social-icon {
+    font-size: 24px;
+    transition: transform 0.3s ease;
+    cursor: pointer;
+}
+
+.social-icon:hover {
+    transform: scale(1.1);
+}
+
+/* Temas - cores e estilos */
+.dark-theme {
     background-color: #252121;
     color: white;
-    padding: 35px;
-    font-size: 20px;
-    margin-top: -100px;
 }
 
-.icn {
-    width: 50px;
+.dark-theme .social-icon {
+    color: white;
 }
 
-.linha-footer {
-    width: 80%;
+.dark-theme .social-icon:hover {
+    color: #4a90e2;
 }
 
-.footer-social {
-    width: 80px;
-    display: flex;
-    justify-content: space-around;
+.light-theme {
+    background-color: #f5f5f5;
+    color: #333;
+    border-top: 1px solid #e0e0e0;
 }
 
+.light-theme .social-icon {
+    color: #555;
+}
+
+.light-theme .social-icon:hover {
+    color: #2a6496;
+}
+
+.light-theme strong {
+    color: #2a6496;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .footer-container {
+        min-height: 180px; /* Mais alto em mobile */
+        padding: 15px 0;
+    }
+    
+    .footer-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+    
+    .logo-container {
+        height: 50px;
+        min-width: unset;
+    }
+    
+    .light-logo {
+        width: 180px;
+        height: 50px;
+    }
+    
+    .dark-logo {
+        width: 40px;
+        height: 40px;
+    }
+    
+    .footer-text, .partnership {
+        min-width: unset;
+        margin: 5px 0;
+    }
+}

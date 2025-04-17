@@ -1,30 +1,30 @@
-import React from 'react'
+import React from 'react';
 import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
-import './footer.css'
+import './footer.css';
+import logoDark from '../../assets/Img/footerLogoAdm.png';
+import logoLight from '../../assets/Img/footerLogoAdmLight.png';
 
-export default function Footer() {
+export default function Footer({ darkMode }) {
     return (
-        <>
-            <footer>
-                <div className='footerAdm'>
-
-                     <div className='footerAdmLogo'>
-                        <img src="../../src/assets/Img/footerLogoAdm.png" className='icn'/>
-                    </div>
-                    <p>© 2025 Direitos reservados Hospital Saint-Michel by PNTEC-LTD</p>
-
-                    <div>
-                        <span>Parcerias:</span> <strong>Libbs</strong>
-                    </div>
-
-                    <div className="footer-social">
-                        <FaLinkedin />
-                        <FaFacebook />
-                        <FaInstagram />
-                    </div>
-
+        <footer className={`footer-container ${darkMode ? 'dark-theme' : 'light-theme'}`}>
+            <div className='footer-content'>
+                <div className='logo-wrapper'>
+                    <img 
+                        src={darkMode ? logoDark : logoLight} 
+                        className={`footer-logo ${darkMode ? 'dark-logo' : 'light-logo'}`}
+                        alt="Hospital Logo"
+                    />
                 </div>
-            </footer>
-        </>
-    )
+                <p className='footer-text'>© 2025 Direitos reservados Hospital Saint-Michel by PNTEC-LTD</p>
+                <div className="partnership">
+                    <span>Parcerias:</span> <strong>Libbs</strong>
+                </div>
+                <div className="social-icons">
+                    <FaLinkedin className="social-icon" />
+                    <FaFacebook className="social-icon" />
+                    <FaInstagram className="social-icon" />
+                </div>
+            </div>
+        </footer>
+    );
 }

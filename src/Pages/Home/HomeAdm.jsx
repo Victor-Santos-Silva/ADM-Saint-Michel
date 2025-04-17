@@ -165,7 +165,7 @@ export default function HomeAdm() {
         </div>
       </main>
 
-      <Footer />
+      <Footer darkMode={isDarkMode} />
     </div>
   );
 }
