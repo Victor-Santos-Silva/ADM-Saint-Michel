@@ -33,3 +33,11 @@
 .reply-button:hover {
   background-color: #1565c0;
 }
+.duvidas-section, .contato-section {
+  margin-bottom: 2rem;
+}
+
+.title-contato {
+  color: #2c7be5; /* Cor diferente para diferenciar */
+}
+
