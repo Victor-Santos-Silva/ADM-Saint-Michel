@@ -83,39 +83,48 @@ export default function LoginAdm() {
     const handlePasswordRecovery = async (e) => {
         e.preventDefault();
         
-        if (!forgotPasswordData.email || !forgotPasswordData.novaSenha) {
-            toast.error('Preencha todos os campos');
-            return;
-        }
-
-        if (!validateEmail(forgotPasswordData.email)) {
-            toast.error('Formato de email inválido');
-            return;
-        }
-
-        if (forgotPasswordData.novaSenha.length < 6) {
-            toast.error('A senha deve ter no mínimo 6 caracteres');
-            return;
-        }
-
         try {
+            // Validações
+            if (!forgotPasswordData.email || !forgotPasswordData.novaSenha) {
+                throw new Error('Preencha todos os campos');
+            }
+
+            if (!validateEmail(forgotPasswordData.email)) {
+                throw new Error('Formato de email inválido');
+            }
+
+            if (forgotPasswordData.novaSenha.length < 6) {
+                throw new Error('A senha deve ter no mínimo 6 caracteres');
+            }
+
+            // Debug: Verificar dados enviados
+            console.log('Enviando para API:', {
+                email: forgotPasswordData.email,
+                novaSenha: forgotPasswordData.novaSenha
+            });
+
             const response = await axios.put(
-                `http://localhost:5000/admin/esqueciSenha/${id}`,
+                `http://localhost:5000/admin/esqueciSenha/${encodeURIComponent(forgotPasswordData.email)}`,
                 { novaSenha: forgotPasswordData.novaSenha }
             );
+
+            // Debug: Verificar resposta
+            console.log('Resposta da API:', response.data);
 
             toast.success('Senha alterada com sucesso!');
             setShowForgotPassword(false);
             setForgotPasswordData({ email: '', novaSenha: '' });
 
         } catch (error) {
-            console.error('Erro na recuperação de senha:', error);
-            const errorMsg = error.response?.data?.error || 'Erro ao redefinir senha';
+            console.error('Erro completo:', error);
+            const errorMsg = error.response?.data?.error || error.message;
             
             if (error.response?.status === 404) {
                 toast.error('Email não cadastrado no sistema');
+            } else if (error.response?.status === 400) {
+                toast.error('Dados inválidos no formulário');
             } else {
-                toast.error(errorMsg);
+                toast.error(`Erro: ${errorMsg}`);
             }
         }
     };
