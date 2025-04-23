@@ -1,43 +1,197 @@
-.loading, .error, .no-messages {
-  text-align: center;
-  padding: 20px;
-  font-size: 1.2em;
-  color: #555;
+/* Estilos Gerais */
+.duvidas-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-.error {
-  color: #d32f2f;
+.section-title {
+  color: #2c3e50;
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid #3498db;
+}
+
+/* Mensagens */
+.message {
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: transform 0.2s;
+}
+
+.message:hover {
+  transform: translateY(-3px);
+}
+
+.message-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+  color: #34495e;
+}
+
+.icon {
+  margin-right: 10px;
+  font-size: 1.2rem;
+  color: #3498db;
+}
+
+.paciente-icon {
+  color: #e74c3c;
 }
 
 .message-sender {
-  font-weight: bold;
-  margin-right: 10px;
+  font-weight: 600;
+  margin-right: auto;
+}
+
+.message-date {
+  color: #7f8c8d;
+  font-size: 0.9rem;
+}
+
+.message-meta {
+  background-color: #f8f9fa;
+  padding: 0.8rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.message-meta p {
+  margin: 0.3rem 0;
+  color: #555;
+}
+
+.message-content {
+  line-height: 1.6;
   color: #333;
 }
 
+/* Formulário de Resposta */
+.resposta-form {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px dashed #ddd;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.resposta-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 0.8rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-family: inherit;
+  resize: vertical;
+  transition: border 0.3s;
+}
+
+.resposta-textarea:focus {
+  outline: none;
+  border-color: #3498db;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.2);
+}
+
+/* Botões */
 .reply-button {
-  background-color: #1976d2;
+  background-color: #3498db;
   color: white;
   border: none;
-  padding: 8px 15px;
-  border-radius: 4px;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 5px;
-  margin-top: 10px;
-  font-size: 0.9em;
-  transition: background-color 0.3s;
+  gap: 8px;
+  font-size: 1rem;
+  transition: all 0.3s;
+  text-decoration: none;
 }
 
 .reply-button:hover {
-  background-color: #1565c0;
-}
-.duvidas-section, .contato-section {
-  margin-bottom: 2rem;
-}
-
-.title-contato {
-  color: #2c7be5; /* Cor diferente para diferenciar */
+  background-color: #2980b9;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+/* Estados */
+.loading {
+  text-align: center;
+  padding: 3rem;
+}
+
+.loading-message {
+  font-size: 1.2rem;
+  color: #7f8c8d;
+  margin: 2rem 0;
+}
+
+.error-message {
+  background-color: #fdecea;
+  color: #d32f2f;
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin: 2rem auto;
+  max-width: 600px;
+  text-align: center;
+}
+
+.reload-button {
+  display: block;
+  margin: 1rem auto 0;
+  padding: 0.8rem 1.5rem;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.reload-button:hover {
+  background-color: #c0392b;
+}
+
+.no-messages {
+  text-align: center;
+  padding: 2rem;
+  color: #7f8c8d;
+  font-style: italic;
+  background-color: #f8f9fa;
+  border-radius: 8px;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .duvidas-container {
+    padding: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .message-header {
+    flex-wrap: wrap;
+  }
+  
+  .message-date {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}

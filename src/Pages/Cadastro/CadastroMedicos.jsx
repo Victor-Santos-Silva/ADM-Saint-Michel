@@ -355,7 +355,7 @@ export default function CadastroMedicos() {
                     </button>
                 </form>
             </div>
-            <Footer />
+            <Footer darkMode={isDarkMode} />
         </>
     );
 }
