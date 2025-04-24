@@ -78,15 +78,12 @@ const DuvidaPaciente = () => {
   const handleReply = (email, assunto) => {
     const corpoEmail = `Prezado(a),\n\nEm resposta ao seu contato sobre "${assunto}":\n\n${resposta}\n\nAtenciosamente,\nEquipe Médica`;
     
-    // URL do Gmail com parâmetros pré-preenchidos
     const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpoEmail)}`;
     
-    // Abre em nova aba
     window.open(gmailUrl, '_blank');
     
     setResposta('');
     
-    // Marcar como respondido
     setContatos(prev => prev.map(c => 
       c.email === email ? { ...c, respondida: true } : c
     ));
@@ -96,10 +93,10 @@ const DuvidaPaciente = () => {
 
   if (isLoading) {
     return (
-      <div className="loading">
+      <div className={`loading ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
         <Header />
         <div className="loading-message">Carregando mensagens...</div>
-        <Footer />
+        <Footer darkMode={isDarkMode} />
       </div>
     );
   }
@@ -108,13 +105,13 @@ const DuvidaPaciente = () => {
     return (
       <>
         <Header />
-        <div className="error-message">
+        <div className={`error-message ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
           Erro: {error}
           <button onClick={() => window.location.reload()} className="reload-button">
             Tentar novamente
           </button>
         </div>
-        <Footer />
+        <Footer darkMode={isDarkMode} />
       </>
     );
   }
@@ -123,15 +120,14 @@ const DuvidaPaciente = () => {
     <>
       <Header />
       
-      <div className="duvidas-container">
+      <div className={`duvidas-container ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
         {/* Seção de Dúvidas */}
         <section aria-labelledby="duvidas-title" className="duvidas-section">
           <h1 id="duvidas-title" className="section-title">Dúvidas dos Médicos</h1>
           
-          
           {duvidas.length > 0 ? (
             duvidas.map(duvida => (
-              <div key={duvida.id} className="message">
+              <div key={duvida.id} className={`message ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
                 <div className="message-header">
                   <FaUser className="icon" />
                   <span className="message-sender">Médico</span>
@@ -143,7 +139,7 @@ const DuvidaPaciente = () => {
                   <p>{duvida.mensagem}</p>
                 </div>
                 <button
-                  className="reply-button"
+                  className={`reply-button ${isDarkMode ? 'dark-mode' : 'light-mode'}`}
                   onClick={() => handleReply('suporte@clinica.com', `Dúvida ${duvida.id}`)}
                 >
                   <FaReply /> Responder
@@ -161,7 +157,7 @@ const DuvidaPaciente = () => {
           
           {contatos.length > 0 ? (
             contatos.map(contato => (
-              <article key={contato._id} className={`message paciente ${contato.respondida ? 'respondida' : ''}`}>
+              <article key={contato._id} className={`message paciente ${contato.respondida ? 'respondida' : ''} ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
                 <div className="message-header">
                   <FaUser className="icon paciente-icon" />
                   <span className="message-sender">
@@ -199,10 +195,10 @@ const DuvidaPaciente = () => {
                         onChange={(e) => setResposta(e.target.value)}
                         placeholder="Escreva aqui a resposta para o paciente..."
                         required
-                        className="resposta-textarea"
+                        className={`resposta-textarea ${isDarkMode ? 'dark-mode' : 'light-mode'}`}
                       />
                     </div>
-                    <button type="submit" className="reply-button">
+                    <button type="submit" className={`reply-button ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
                       <FaEnvelope /> Responder via Gmail
                     </button>
                   </form>
@@ -214,7 +210,7 @@ const DuvidaPaciente = () => {
           )}
         </section>
       </div>
-      <Footer />
+      <Footer darkMode={isDarkMode} />
     </>
   );
 };
