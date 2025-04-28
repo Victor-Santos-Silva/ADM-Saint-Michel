@@ -24,7 +24,7 @@ export default function LoginAdm() {
         email: '',
         novaSenha: ''
     });
-    
+
     const { login } = useAuth();
 
     const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
@@ -47,12 +47,12 @@ export default function LoginAdm() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setLoginError('');
-        
+
         const newError = {
             email: !formData.email,
             senha: !formData.senha
         };
-        
+
         if (newError.email || newError.senha) {
             setError(newError);
             toast.error('Preencha todos os campos obrigatórios');
@@ -82,9 +82,8 @@ export default function LoginAdm() {
 
     const handlePasswordRecovery = async (e) => {
         e.preventDefault();
-        
+
         try {
-            // Validações do frontend
             if (!forgotPasswordData.email || !forgotPasswordData.novaSenha) {
                 throw new Error('Preencha todos os campos');
             }
@@ -97,14 +96,12 @@ export default function LoginAdm() {
                 throw new Error('A senha deve ter no mínimo 6 caracteres');
             }
 
-            // Codificar email para URL
             const encodedEmail = encodeURIComponent(forgotPasswordData.email);
             
+            // Obter ID do usuário
             const idResponse = await axios.get(
                 `http://localhost:5000/admin/getByEmail/${encodedEmail}`
             );
-
-            console.log('Resposta do ID:', idResponse.data);
 
             if (!idResponse.data?.id) {
                 throw new Error('Usuário não encontrado');
@@ -112,34 +109,28 @@ export default function LoginAdm() {
 
             const userId = idResponse.data.id;
 
-            // 2. Alterar a senha usando o ID obtido
-            const response = await axios.put(
+            // Alterar senha
+            await axios.put(
                 `http://localhost:5000/admin/esqueciSenha/${userId}`,
                 { novaSenha: forgotPasswordData.novaSenha }
             );
 
-            console.log('Resposta da alteração:', response.data);
-            
             toast.success('Senha alterada com sucesso!');
             setShowForgotPassword(false);
             setForgotPasswordData({ email: '', novaSenha: '' });
 
         } catch (error) {
-            console.error('Erro detalhado:', {
+            console.error('Erro na recuperação de senha:', {
                 message: error.message,
                 response: error.response?.data
             });
             
             const errorMsg = error.response?.data?.error || error.message;
             
-            if (error.response?.status === 404) {
-                toast.error('Email não cadastrado no sistema');
-            } else if (error.response?.status === 400) {
-                toast.error('Dados inválidos no formulário');
-            } else if (error.message.includes('Usuário não encontrado')) {
+            if (error.response?.status === 404 || error.message.includes('Usuário não encontrado')) {
                 toast.error('Email não cadastrado no sistema');
             } else {
-                toast.error(`Erro: ${errorMsg}`);
+                toast.error(errorMsg);
             }
         }
     };
@@ -157,7 +148,7 @@ export default function LoginAdm() {
                 draggable
                 pauseOnHover
             />
-            
+
             <form className='formularioLogin' onSubmit={handleSubmit}>
                 <h2>Login Administrativo</h2>
                 {loginError && (
@@ -165,7 +156,7 @@ export default function LoginAdm() {
                         {loginError}
                     </div>
                 )}
-                
+
                 <div className="form-group">
                     <label htmlFor="email" className='campos'>EMAIL:</label>
                     <input
@@ -181,7 +172,7 @@ export default function LoginAdm() {
                     {error.email &&
                         <div className="invalid-feedback">Campo obrigatório</div>}
                 </div>
-                
+
                 <div className="form-group">
                     <label htmlFor="password" className='campos'>SENHA:</label>
                     <input
@@ -197,13 +188,13 @@ export default function LoginAdm() {
                     {error.senha &&
                         <div className="invalid-feedback">Campo obrigatório</div>}
                 </div>
-                
+
                 <button type="submit" className="botaoEntrar">
                     Entrar
                 </button>
-                
-                <button 
-                    type="button" 
+
+                <button
+                    type="button"
                     className="botaoEsqueciSenha"
                     onClick={() => setShowForgotPassword(true)}
                 >
@@ -215,7 +206,7 @@ export default function LoginAdm() {
                 <div className="forgot-password-overlay">
                     <div className="forgot-password-modal">
                         <h3>Redefinição de Senha</h3>
-                        
+
                         <form onSubmit={handlePasswordRecovery}>
                             <div className="form-group">
                                 <label>Email Corporativo:</label>
@@ -228,7 +219,7 @@ export default function LoginAdm() {
                                     placeholder="exemplo@hospital.com"
                                 />
                             </div>
-                            
+
                             <div className="form-group">
                                 <label>Nova Senha:</label>
                                 <input
@@ -241,13 +232,13 @@ export default function LoginAdm() {
                                     placeholder="Mínimo 6 caracteres"
                                 />
                             </div>
-                            
+
                             <div className="button-group">
                                 <button type="submit" className="botaoConfirmar">
                                     Alterar Senha
                                 </button>
-                                <button 
-                                    type="button" 
+                                <button
+                                    type="button"
                                     className="botaoCancelar"
                                     onClick={() => {
                                         setShowForgotPassword(false);

@@ -58,7 +58,7 @@ export default function VisualizarMedicos() {
           ))}
         </div>
       </div>
-      <Footer />
+      <Footer darkMode={isDarkMode} />
     </div>
   );
 }

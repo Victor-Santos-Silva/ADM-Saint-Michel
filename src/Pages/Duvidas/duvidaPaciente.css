@@ -1,35 +1,343 @@
-.loading, .error, .no-messages {
-  text-align: center;
-  padding: 20px;
-  font-size: 1.2em;
-  color: #555;
+/* Variáveis para temas */
+:root {
+  /* Tema claro */
+  --light-bg: #f5f5f5;
+  --light-text: #333333;
+  --light-card-bg: #ffffff;
+  --light-border: #dddddd;
+  --light-primary: #1976d2;
+  --light-secondary: #e74c3c;
+  --light-meta-bg: #f8f9fa;
+  --light-meta-text: #555555;
+  --light-error-bg: #fdecea;
+  --light-error-text: #d32f2f;
+  
+  /* Tema escuro - Alto contraste */
+  --dark-bg: #000000;               /* Preto puro para o fundo */
+  --dark-container-bg: #2a2a2a;     /* Cinza escuro para o container */
+  --dark-text: #ffffff;             /* Texto branco */
+  --dark-card-bg: #1e1e1e;          /* Cards um pouco mais escuros */
+  --dark-border: #444444;           /* Bordas visíveis */
+  --dark-primary: #4fc3f7;          /* Azul claro vibrante */
+  --dark-secondary: #ff8a65;        /* Laranja vibrante */
+  --dark-meta-bg: #252525;          /* Fundo para metadados */
+  --dark-meta-text: #b3b3b3;        /* Texto de metadados */
+  --dark-error-bg: #330000;         /* Fundo de erro */
+  --dark-error-text: #ff6b6b;       /* Texto de erro */
 }
 
-.error {
-  color: #d32f2f;
+/* Estilos Base */
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+body.light-mode {
+  background-color: var(--light-bg);
+}
+
+body.dark-mode {
+  background-color: var(--dark-bg); /* Fundo preto puro */
+}
+
+/* Container Principal */
+.duvidas-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  min-height: 100vh;
+  margin-top: 50px;
+}
+
+.light-mode .duvidas-container {
+  background-color: var(--light-bg);
+  color: var(--light-text);
+}
+
+.dark-mode .duvidas-container {
+  background-color: var(--dark-container-bg); /* Cinza escuro que contrasta com o preto */
+  color: var(--dark-text);
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5); /* Sombra para dar profundidade */
+}
+
+/* Títulos */
+.section-title {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  padding-bottom: 0.5rem;
+}
+
+.light-mode .section-title {
+  color: #2c3e50;
+  border-bottom: 2px solid var(--light-primary);
+}
+
+.dark-mode .section-title {
+  color: var(--dark-primary);
+  border-bottom: 2px solid var(--dark-primary);
+}
+
+/* Cards de Mensagem */
+.message {
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.light-mode .message {
+  background-color: var(--light-card-bg);
+  border: 1px solid var(--light-border);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dark-mode .message {
+  background-color: var(--dark-card-bg);
+  border: 1px solid var(--dark-border);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.message:hover {
+  transform: translateY(-3px);
+}
+
+/* Cabeçalho da Mensagem */
+.message-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.icon {
+  margin-right: 10px;
+  font-size: 1.2rem;
+}
+
+.light-mode .icon {
+  color: var(--light-primary);
+}
+
+.dark-mode .icon {
+  color: var(--dark-primary);
+}
+
+.paciente-icon {
+  color: var(--light-secondary);
+}
+
+.dark-mode .paciente-icon {
+  color: var(--dark-secondary);
 }
 
 .message-sender {
-  font-weight: bold;
-  margin-right: 10px;
-  color: #333;
+  font-weight: 600;
+  margin-right: auto;
 }
 
+.message-date {
+  font-size: 0.9rem;
+}
+
+.light-mode .message-date {
+  color: #7f8c8d;
+}
+
+.dark-mode .message-date {
+  color: #b3b3b3;
+}
+
+/* Área de Metadados */
+.message-meta {
+  padding: 0.8rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+.light-mode .message-meta {
+  background-color: var(--light-meta-bg);
+  color: var(--light-meta-text);
+}
+
+.dark-mode .message-meta {
+  background-color: var(--dark-meta-bg);
+  color: var(--dark-meta-text);
+}
+
+/* Conteúdo da Mensagem */
+.message-content {
+  line-height: 1.6;
+}
+
+/* Formulário de Resposta */
+.resposta-form {
+  margin-top: 1.5rem;
+  padding-top: 1.5rem;
+}
+
+.light-mode .resposta-form {
+  border-top: 1px dashed var(--light-border);
+}
+
+.dark-mode .resposta-form {
+  border-top: 1px dashed var(--dark-border);
+}
+
+.form-label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+
+.resposta-textarea {
+  width: 100%;
+  min-height: 120px;
+  padding: 0.8rem;
+  border-radius: 6px;
+  font-family: inherit;
+  resize: vertical;
+  transition: all 0.3s;
+}
+
+.light-mode .resposta-textarea {
+  background-color: var(--light-card-bg);
+  border: 1px solid var(--light-border);
+  color: var(--light-text);
+}
+
+.dark-mode .resposta-textarea {
+  background-color: #252525;
+  border: 1px solid var(--dark-border);
+  color: var(--dark-text);
+}
+
+.resposta-textarea:focus {
+  outline: none;
+}
+
+.light-mode .resposta-textarea:focus {
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.2);
+}
+
+.dark-mode .resposta-textarea:focus {
+  box-shadow: 0 0 0 3px rgba(79, 195, 247, 0.3);
+}
+
+/* Botões */
 .reply-button {
-  background-color: #1976d2;
-  color: white;
   border: none;
-  padding: 8px 15px;
-  border-radius: 4px;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
   cursor: pointer;
-  display: flex;
+  display: inline-flex;
   align-items: center;
-  gap: 5px;
-  margin-top: 10px;
-  font-size: 0.9em;
-  transition: background-color 0.3s;
+  gap: 8px;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.light-mode .reply-button {
+  background-color: var(--light-primary);
+  color: white;
+}
+
+.dark-mode .reply-button {
+  background-color: var(--dark-primary);
+  color: #000000;
 }
 
 .reply-button:hover {
-  background-color: #1565c0;
+  transform: translateY(-2px);
+  opacity: 0.9;
+}
+
+/* Estados */
+.loading, .error-message {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.error-message {
+  padding: 2rem;
+  border-radius: 8px;
+  max-width: 600px;
+  text-align: center;
+}
+
+.light-mode .error-message {
+  background-color: var(--light-error-bg);
+  color: var(--light-error-text);
+}
+
+.dark-mode .error-message {
+  background-color: var(--dark-error-bg);
+  color: var(--dark-error-text);
+}
+
+.reload-button {
+  margin-top: 1rem;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.light-mode .reload-button {
+  background-color: var(--light-secondary);
+  color: white;
+}
+
+.dark-mode .reload-button {
+  background-color: var(--dark-secondary);
+  color: white;
+}
+
+.reload-button:hover {
+  opacity: 0.9;
+}
+
+/* Mensagem de lista vazia */
+.no-messages {
+  text-align: center;
+  padding: 2rem;
+  font-style: italic;
+  border-radius: 8px;
+}
+
+.light-mode .no-messages {
+  background-color: var(--light-meta-bg);
+  color: #7f8c8d;
+}
+
+.dark-mode .no-messages {
+  background-color: var(--dark-meta-bg);
+  color: #b3b3b3;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .duvidas-container {
+    padding: 1rem;
+  }
+  
+  .section-title {
+    font-size: 1.5rem;
+  }
+  
+  .message-header {
+    flex-wrap: wrap;
+  }
+  
+  .message-date {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+}
+.dark-mode .form-label{
+  color: white;
 }
