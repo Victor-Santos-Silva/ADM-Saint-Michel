@@ -27,8 +27,6 @@ export default function LoginAdm() {
 
     const { login } = useAuth();
 
-    const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -80,58 +78,36 @@ export default function LoginAdm() {
         }
     };
 
-    const handlePasswordRecovery = async (e) => {
+    const handlePasswordReset = async (e) => {
         e.preventDefault();
 
+        // Validações antes da requisição
+        if (!forgotPasswordData.email) {
+            toast.error('Email é obrigatório!');
+            return;
+        }
+
+        if (!/\S+@\S+\.\S+/.test(forgotPasswordData.email)) {
+            toast.error('Email inválido');
+            return;
+        }
+
+        if (!forgotPasswordData.novaSenha || forgotPasswordData.novaSenha.length < 6) {
+            toast.error('A senha deve ter no mínimo 6 caracteres');
+            return;
+        }
+
         try {
-            if (!forgotPasswordData.email || !forgotPasswordData.novaSenha) {
-                throw new Error('Preencha todos os campos');
-            }
-
-            if (!validateEmail(forgotPasswordData.email)) {
-                throw new Error('Formato de email inválido');
-            }
-
-            if (forgotPasswordData.novaSenha.length < 6) {
-                throw new Error('A senha deve ter no mínimo 6 caracteres');
-            }
-
-            const encodedEmail = encodeURIComponent(forgotPasswordData.email);
-            
-            // Obter ID do usuário
-            const idResponse = await axios.get(
-                `http://localhost:5000/admin/getByEmail/${encodedEmail}`
-            );
-
-            if (!idResponse.data?.id) {
-                throw new Error('Usuário não encontrado');
-            }
-
-            const userId = idResponse.data.id;
-
-            // Alterar senha
-            await axios.put(
-                `http://localhost:5000/admin/esqueciSenha/${userId}`,
-                { novaSenha: forgotPasswordData.novaSenha }
-            );
+            const response = await axios.patch('http://localhost:5000/admin/esqueciSenha', {
+                email: forgotPasswordData.email,
+                novaSenha: forgotPasswordData.novaSenha
+            });
 
             toast.success('Senha alterada com sucesso!');
-            setShowForgotPassword(false);
             setForgotPasswordData({ email: '', novaSenha: '' });
-
         } catch (error) {
-            console.error('Erro na recuperação de senha:', {
-                message: error.message,
-                response: error.response?.data
-            });
-            
-            const errorMsg = error.response?.data?.error || error.message;
-            
-            if (error.response?.status === 404 || error.message.includes('Usuário não encontrado')) {
-                toast.error('Email não cadastrado no sistema');
-            } else {
-                toast.error(errorMsg);
-            }
+            const errorMsg = error.response?.data?.error || 'Email inválido';
+            toast.error(errorMsg);
         }
     };
 
@@ -207,7 +183,7 @@ export default function LoginAdm() {
                     <div className="forgot-password-modal">
                         <h3>Redefinição de Senha</h3>
 
-                        <form onSubmit={handlePasswordRecovery}>
+                        <form onSubmit={handlePasswordReset}>
                             <div className="form-group">
                                 <label>Email Corporativo:</label>
                                 <input
