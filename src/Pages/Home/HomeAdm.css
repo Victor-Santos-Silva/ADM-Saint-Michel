@@ -8,6 +8,9 @@
   --border-color: #e0e0e0;
   --important-bg: #fff3cd;
   --important-text: #856404;
+  --carrossel-bg: #e9ecef;
+  --carrossel-text: #333333;
+  --carrossel-control-bg: rgba(0, 0, 0, 0.2);
 }
 
 /* Variáveis para o tema escuro */
@@ -20,14 +23,17 @@
   --border-color: #444444;
   --important-bg: #332d00;
   --important-text: #ffd700;
+  --carrossel-bg: #2a2a2a;
+  --carrossel-text: #f5f5f5;
+  --carrossel-control-bg: rgba(255, 255, 255, 0.2);
 }
 
-/* Estilos base */
+/* Estilos base com transição */
 .homePrincipal {
   background-color: var(--primary-bg);
   color: var(--text-color);
   min-height: 100vh;
-  transition: all 0.3s ease;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 /* Botão de alternância de tema */
@@ -56,6 +62,7 @@
 
 .theme-icon {
   font-size: 1.2rem;
+  transition: color 0.3s ease;
 }
 
 /* Estilos dos containers */
@@ -63,6 +70,7 @@
   padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
+  transition: background-color 0.3s ease;
 }
 
 .doctors-container, .avisos-container {
@@ -71,12 +79,14 @@
   padding: 20px;
   margin-bottom: 30px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
 }
 
 .section-title, .avisos-titulo {
   color: var(--accent-color);
   margin-bottom: 20px;
   text-align: center;
+  transition: color 0.3s ease;
 }
 
 /* Estilos dos cards de médicos */
@@ -92,7 +102,7 @@
   border-radius: 8px;
   overflow: hidden;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s ease;
+  transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .doctor-card:hover {
@@ -103,6 +113,7 @@
   width: 100%;
   height: 200px;
   object-fit: cover;
+  transition: opacity 0.3s ease;
 }
 
 .doctor-info {
@@ -112,11 +123,13 @@
 .doctor-name {
   color: var(--accent-color);
   margin-bottom: 5px;
+  transition: color 0.3s ease;
 }
 
 .doctor-specialty {
   font-weight: bold;
   margin-bottom: 5px;
+  transition: color 0.3s ease;
 }
 
 /* Estilos do quadro de avisos */
@@ -126,6 +139,7 @@
   padding: 15px;
   margin-bottom: 15px;
   border-radius: 4px;
+  transition: all 0.3s ease;
 }
 
 .aviso-item.importante {
@@ -136,6 +150,7 @@
 .aviso-titulo {
   color: var(--accent-color);
   margin-bottom: 5px;
+  transition: color 0.3s ease;
 }
 
 .aviso-item.importante .aviso-titulo {
@@ -151,16 +166,48 @@
 .aviso-data {
   font-size: 0.8rem;
   opacity: 0.8;
+  transition: color 0.3s ease;
 }
 
 /* Estilos do carrossel */
 .carrossel-container {
   margin-bottom: 30px;
+  background-color: var(--carrossel-bg);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: background-color 0.3s ease;
 }
 
 .carrossel-image {
-  height: 400px;
+  height: 700px;
   object-fit: cover;
+  transition: opacity 0.5s ease;
+}
+
+/* Controles do carrossel (caso esteja usando algum plugin) */
+.carrossel-controle {
+  background-color: var(--carrossel-control-bg);
+  color: var(--carrossel-text);
+  border: none;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.carrossel-controle:hover {
+  background-color: var(--accent-color);
+  color: white;
+}
+
+/* Indicadores do carrossel */
+.carrossel-indicador {
+  background-color: var(--carrossel-control-bg);
+  transition: all 0.3s ease;
+}
+
+.carrossel-indicador.ativo {
+  background-color: var(--accent-color);
 }
 
 /* Estilos do filtro */
@@ -173,7 +220,7 @@
 
 .filter-label {
   font-weight: bold;
- 
+  transition: color 0.3s ease;
 }
 
 .filter-select {
@@ -181,9 +228,10 @@
   border-radius: 4px;
   border: 1px solid var(--border-color);
   background-color: var(--card-bg);
-  color: var(--text-color); 
+  color: var(--text-color);
   width: 50%;
   margin: auto;
+  transition: all 0.3s ease;
 }
 
 /* Mensagem quando não há resultados */
@@ -192,8 +240,13 @@
   grid-column: 1 / -1;
   padding: 30px;
   color: var(--text-color);
+  transition: color 0.3s ease;
 }
 
-footer{
+footer {
   margin-top: 100px;
+  background-color: var(--secondary-bg);
+  padding: 20px;
+  text-align: center;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
