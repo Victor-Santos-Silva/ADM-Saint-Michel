@@ -1,5 +1,9 @@
-/* Variáveis para temas */
+@import url('https://fonts.googleapis.com/css2?family=Ysabeau+Infant:ital,wght@0,1..1000;1,1..1000&display=swap');
+
 :root {
+  /* Fontes */
+  --second-font: "Ysabeau Infant", sans-serif;
+  
   /* Tema claro */
   --header-bg-light: #f8f9fa;
   --text-light: #212529;
@@ -21,6 +25,9 @@
   --hover-dark: #495057;
   --border-dark: #495057;
   --button-bg-dark: #bb2d3b;
+  
+  /* Cores adicionais */
+  --color-notification: #ff4d4d;
 }
 
 /* Estilos base */
@@ -36,6 +43,7 @@
   top: 0;
   z-index: 1000;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: var(--second-font);
 }
 
 /* Tema claro */
@@ -54,6 +62,11 @@
 
 .logoHeader {
   flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+
+.logoHeader:hover {
+  transform: scale(1.05);
 }
 
 .imgHeader {
@@ -124,6 +137,43 @@
   gap: 15px;
 }
 
+/* Container para tema e notificações */
+.theme-container {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Botão de alternar tema */
+.theme-toggle {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+  border-radius: 50%;
+  position: relative;
+}
+
+.theme-icon {
+  font-size: 20px;
+  transition: all 0.3s ease;
+}
+
+/* Cores dos ícones */
+.light-mode .theme-icon {
+  color: var(--text-light);
+}
+
+.dark-mode .theme-icon {
+  color: var(--text-dark);
+}
+
+/* Container de notificações */
 .notification-container {
   position: relative;
 }
@@ -209,14 +259,6 @@
   color: #3399ff;
 }
 
-.notification-dropdown.light .mark-all-read:hover {
-  background-color: #f0f7ff;
-}
-
-.notification-dropdown.dark .mark-all-read:hover {
-  background-color: #1a3a5a;
-}
-
 .notification-list {
   padding: 0;
 }
@@ -274,16 +316,6 @@
   text-align: center;
 }
 
-.notification-dropdown.light .notification-loading,
-.notification-dropdown.light .notification-empty {
-  color: #6c757d;
-}
-
-.notification-dropdown.dark .notification-loading,
-.notification-dropdown.dark .notification-empty {
-  color: #adb5bd;
-}
-
 /* Botão Sair */
 .submit-btn {
   width: 100px;
@@ -312,16 +344,6 @@
 }
 
 /* Responsividade */
-@media (max-width: 992px) {
-  .navbar {
-    gap: 10px;
-  }
-  
-  .links {
-    padding: 10px;
-  }
-}
-
 @media (max-width: 768px) {
   .headerAdm {
     flex-direction: column;
@@ -345,6 +367,11 @@
     width: 100%;
     justify-content: center;
     margin-top: 15px;
+    flex-direction: column;
+  }
+  
+  .theme-container {
+    margin-bottom: 15px;
   }
   
   .notification-dropdown {

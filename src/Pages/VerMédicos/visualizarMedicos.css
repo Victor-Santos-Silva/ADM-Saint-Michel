@@ -1,175 +1,270 @@
-/* Variáveis para temas */
+/* Variáveis de tema */
 :root {
-    /* Tema claro */
-    --bg-color-light: #f5f5f5;
-    --text-color-light: #333333;
-    --card-bg-light: #ffffff;
-    --title-bg-light: #3a3a3a;
-    --title-text-light: #ffffff;
-    --card-text-light: #555555;
-    --card-title-light: #2c3e50;
-    --card-border-light: #dddddd;
-    
-    /* Tema escuro */
-    --bg-color-dark: #121212;
-    --text-color-dark: #f5f5f5;
-    --card-bg-dark: #1e1e1e;
-    --title-bg-dark: #252525;
-    --title-text-dark: #ffffff;
-    --card-text-dark: #bbbbbb;
-    --card-title-dark: #ffffff;
-    --card-border-dark: #333333;
-  }
+  /* Tema claro */
+  --light-bg: #f8f9fa;
+  --light-text: #212529;
+  --light-card-bg: #ffffff;
+  --light-card-border: #e0e0e0;
+  --light-card-text: #495057;
+  --light-card-title: #2c3e50;
+  --light-accent: #1976d2;
+  --light-error: #dc3545;
   
-  /* Estilos base */
-  .app-container {
-    min-height: 100vh;
-    transition: all 0.3s ease;
-  }
-  
-  .app-container.light-mode {
-    background-color: var(--bg-color-light);
-    color: var(--text-color-light);
-  }
-  
-  .app-container.dark-mode {
-    background-color: var(--bg-color-dark);
-    color: var(--text-color-dark);
-  }
-  
-  .title-medicos {
-    text-align: center;
-    font-size: 50px;
-    padding: 20px 0;
-    margin: 0;
-    transition: all 0.3s ease;
-  }
-  
+  /* Tema escuro */
+  --dark-bg: #121212;
+  --dark-text: #f8f9fa;
+  --dark-card-bg: #1e1e1e;
+  --dark-card-border: #333333;
+  --dark-card-text: #e0e0e0;
+  --dark-card-title: #ffffff;
+  --dark-accent: #bb86fc;
+  --dark-error: #ff6b6b;
+}
 
-  
-  .dark-mode .title-medicos {
-    background-color: var(--title-bg-dark);
-    color: var(--title-text-dark);
-  }
-  
-  .Container-visualizarMedicos {
-    display: flex;
-    justify-content: center;
-    padding: 20px;
-    min-height: calc(100vh - 200px);
-    transition: all 0.3s ease;
-  }
-  
-  .light-mode .Container-visualizarMedicos {
-    background-color: var(--bg-color-light);
-  }
-  
-  .dark-mode .Container-visualizarMedicos {
-    background-color: var(--bg-color-dark);
-  }
-  
-  .corpo {
-    text-align: center;
-    display: grid;
+/* Estilos base */
+.page-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.page-container.light-mode {
+  background-color: var(--light-bg);
+  color: var(--light-text);
+}
+
+.page-container.dark-mode {
+  background-color: var(--dark-bg);
+  color: var(--dark-text);
+}
+
+.main-content {
+  flex: 1;
+  padding: 2rem 1rem;
+}
+
+.page-title {
+  text-align: center;
+  font-size: 2.5rem;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  position: relative;
+}
+
+.page-title::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  border-radius: 2px;
+}
+
+.page-container.light-mode .page-title::after {
+  background-color: var(--light-accent);
+}
+
+.page-container.dark-mode .page-title::after {
+  background-color: var(--dark-accent);
+}
+
+/* Container principal */
+.medicos-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  width: 100%;
+  padding: 0 1rem;
+}
+
+/* Grid de médicos */
+.medicos-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+  padding: 1rem 0;
+}
+
+/* Card de médico */
+.medico-card {
+  background: var(--light-card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: 1px solid var(--light-card-border);
+}
+
+.page-container.dark-mode .medico-card {
+  background: var(--dark-card-bg);
+  border-color: var(--dark-card-border);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.medico-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* Imagem do médico */
+.card-image-container {
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+}
+
+.medico-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.default-image {
+  object-fit: contain;
+  padding: 1rem;
+  background-color: #f1f1f1;
+}
+
+.page-container.dark-mode .default-image {
+  background-color: #2d2d2d;
+}
+
+.medico-card:hover .medico-image {
+  transform: scale(1.05);
+}
+
+/* Conteúdo do card */
+.card-content {
+  padding: 1.5rem;
+}
+
+.medico-name {
+  margin: 0 0 1rem;
+  font-size: 1.25rem;
+  color: var(--light-card-title);
+}
+
+.page-container.dark-mode .medico-name {
+  color: var(--dark-card-title);
+}
+
+.medico-details {
+  color: var(--light-card-text);
+}
+
+.page-container.dark-mode .medico-details {
+  color: var(--dark-card-text);
+}
+
+.medico-details p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+}
+
+.medico-details span {
+  font-weight: 600;
+  margin-right: 0.5rem;
+}
+
+/* Estados de loading e erro */
+.loading-state,
+.error-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  text-align: center;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 5px solid;
+  border-radius: 50%;
+  border-top-color: transparent;
+  animation: spin 1s linear infinite;
+  margin-bottom: 1rem;
+}
+
+.page-container.light-mode .spinner {
+  border-color: var(--light-accent);
+  border-top-color: transparent;
+}
+
+.page-container.dark-mode .spinner {
+  border-color: var(--dark-accent);
+  border-top-color: transparent;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.error-message {
+  color: var(--light-error);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.page-container.dark-mode .error-message {
+  color: var(--dark-error);
+}
+
+.retry-button {
+  padding: 0.5rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  background-color: var(--light-accent);
+  color: white;
+  cursor: pointer;
+  transition: opacity 0.3s;
+}
+
+.page-container.dark-mode .retry-button {
+  background-color: var(--dark-accent);
+}
+
+.retry-button:hover {
+  opacity: 0.9;
+}
+
+/* Responsividade */
+@media (max-width: 1024px) {
+  .medicos-grid {
     grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 20px;
-    width: 90%;
-    max-width: 1700px;
-    margin: 0 auto;
-    padding: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 2rem;
   }
   
-  .quadroMedico {
-    height: 250px;
-    border-radius: 10px;
-    padding: 15px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  .medicos-grid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.25rem;
   }
   
-  .quadroMedico.light {
-    background: var(--card-bg-light);
-    border: 1px solid var(--card-border-light);
+  .card-image-container {
+    height: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 1.5rem 1rem;
   }
   
-  .quadroMedico.dark {
-    background: var(--card-bg-dark);
-    border: 1px solid var(--card-border-dark);
+  .page-title {
+    font-size: 1.8rem;
   }
   
-  .quadroMedico:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+  .medicos-grid {
+    grid-template-columns: 1fr;
   }
-  
-  .imgMedico {
-    width: 100px;
-    height: 100px;
-    overflow: hidden;
-    border-radius: 50%;
-    margin-bottom: 10px;
-  }
-  
-  .fotoMedico {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 50%;
-    transition: all 0.3s ease;
-  }
-  
-  .light-mode .fotoMedico {
-    border: 2px solid var(--card-border-light);
-  }
-  
-  .dark-mode .fotoMedico {
-    border: 2px solid var(--card-border-dark);
-  }
-  
-  .componentes {
-    text-align: center;
-    font-family: 'Inter', sans-serif;
-  }
-  
-  .componente-a {
-    font-weight: 600;
-    font-size: 16px;
-    margin-bottom: 5px;
-  }
-  
-  .light-mode .componente-a {
-    color: var(--card-title-light);
-  }
-  
-  .dark-mode .componente-a {
-    color: var(--card-title-dark);
-  }
-  
-  .componentes p {
-    margin: 5px 0;
-    font-size: 14px;
-  }
-  
-  .light-mode .componentes p {
-    color: var(--card-text-light);
-  }
-  
-  .dark-mode .componentes p {
-    color: var(--card-text-dark);
-  }
-  
-  /* Responsividade para telas menores */
-  @media (max-width: 768px) {
-    .corpo {
-      grid-template-columns: 1fr;
-    }
-    
-    .title-medicos {
-      font-size: 36px;
-      padding: 15px 0;
-    }
-  }
+}

@@ -172,7 +172,6 @@ export default function PerfilMedico() {
         <div className="profile-header">
           <h1 className="profile-title">Perfil Médico</h1>
           <div className="profile-breadcrumb">
-            <span>Home</span> &gt; <span>Médicos</span> &gt; <span>{medico.nome_completo}</span>
           </div>
         </div>
 

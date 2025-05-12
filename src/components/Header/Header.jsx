@@ -2,17 +2,17 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
-import { FaBell, FaCircle } from 'react-icons/fa';
+import { FaBell, FaCircle, FaSun, FaMoon } from 'react-icons/fa';
 import axios from 'axios';
 import './header.css';
 
-// Importe as imagens corretamente (ajuste os caminhos conforme sua estrutura)
+// Importe as imagens corretamente
 import logoLight from '../../assets/Img/LogoLight.png';
 import logoDark from '../../assets/Img/Logo.png';
 
 export default function Header() {
   const { logout, user } = useAuth();
-  const { isDarkMode } = useTheme();
+  const { darkMode: isDarkMode, toggleTheme } = useTheme();
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
   const [showNotifications, setShowNotifications] = useState(false);
@@ -31,7 +31,7 @@ export default function Header() {
     }
   };
 
-  const toggleNotifications = async () => {
+  const handleToggleNotifications = async () => {
     if (!showNotifications) {
       await fetchNotifications();
     }
@@ -75,54 +75,78 @@ export default function Header() {
       </nav>
 
       <div className="right-section">
-        <div className="notification-container">
-          <button className="notification-icon" onClick={toggleNotifications}>
-            <FaBell size={20} color={isDarkMode ? '#ffffff' : '#333333'} />
-            {unreadCount > 0 && (
-              <span className="notification-badge">
-                <FaCircle size={10} color="#ff4d4d" />
-              </span>
+        <div className="theme-container">
+          <button 
+            onClick={toggleTheme} 
+            className="theme-toggle"
+            aria-label="Alternar tema"
+          >
+            {isDarkMode ? (
+              <FaSun className="theme-icon" />
+            ) : (
+              <FaMoon className="theme-icon" />
             )}
+            <span className="theme-text">
+              {isDarkMode ? '' : ''}
+            </span>
           </button>
-
-          {showNotifications && (
-            <div className={`notification-dropdown ${isDarkMode ? 'dark' : 'light'}`}>
-              {loading ? (
-                <div className="notification-loading">Carregando...</div>
-              ) : notifications.length === 0 ? (
-                <div className="notification-empty">Nenhuma notificação</div>
-              ) : (
-                <>
-                  <div className="notification-header">
-                    <h4>Notificações</h4>
-                    <button
-                      className="mark-all-read"
-                      onClick={() => {
-                        notifications.forEach(n => !n.lida && markAsRead(n.id));
-                      }}
-                    >
-                      Marcar todas como lidas
-                    </button>
-                  </div>
-                  <div className="notification-list">
-                    {notifications.map(notification => (
-                      <div
-                        key={notification.id}
-                        className={`notification-item ${!notification.lida ? 'unread' : ''}`}
-                        onClick={() => !notification.lida && markAsRead(notification.id)}
-                      >
-                        <p>{notification.mensagem}</p>
-                        <small>{new Date(notification.data).toLocaleString()}</small>
-                      </div>
-                    ))}
-                  </div>
-                </>
+          
+          <div className="notification-container">
+            <button 
+              className="notification-icon" 
+              onClick={handleToggleNotifications}
+              aria-label="Notificações"
+            >
+              <FaBell size={20} color={isDarkMode ? '#ffffff' : '#333333'} />
+              {unreadCount > 0 && (
+                <span className="notification-badge">
+                  <FaCircle size={10} color="#ff4d4d" />
+                </span>
               )}
-            </div>
-          )}
+            </button>
+
+            {showNotifications && (
+              <div className={`notification-dropdown ${isDarkMode ? 'dark' : 'light'}`}>
+                {loading ? (
+                  <div className="notification-loading">Carregando...</div>
+                ) : notifications.length === 0 ? (
+                  <div className="notification-empty">Nenhuma notificação</div>
+                ) : (
+                  <>
+                    <div className="notification-header">
+                      <h4>Notificações</h4>
+                      <button
+                        className="mark-all-read"
+                        onClick={() => {
+                          notifications.forEach(n => !n.lida && markAsRead(n.id));
+                        }}
+                      >
+                        Marcar todas como lidas
+                      </button>
+                    </div>
+                    <div className="notification-list">
+                      {notifications.map(notification => (
+                        <div
+                          key={notification.id}
+                          className={`notification-item ${!notification.lida ? 'unread' : ''}`}
+                          onClick={() => !notification.lida && markAsRead(notification.id)}
+                        >
+                          <p>{notification.mensagem}</p>
+                          <small>{new Date(notification.data).toLocaleString()}</small>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </div>
+            )}
+          </div>
         </div>
 
-        <button className={`submit-btn ${isDarkMode ? 'dark' : 'light'}`} onClick={logout}>
+        <button 
+          className={`submit-btn ${isDarkMode ? 'dark' : 'light'}`} 
+          onClick={logout}
+        >
           Sair
         </button>
       </div>

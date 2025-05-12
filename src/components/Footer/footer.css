@@ -1,7 +1,21 @@
-/* Container principal - altura fixa */
+/* Variáveis de tema */
+:root {
+    --footer-bg-dark: #121212;
+    --footer-text-dark: #ffffff;
+    --footer-icon-dark: #ffffff;
+    --footer-icon-hover-dark: #bb86fc;
+    --footer-bg-light: #f5f5f5;
+    --footer-text-light: #333333;
+    --footer-icon-light: #555555;
+    --footer-icon-hover-light: #2a6496;
+    --footer-border-light: #e0e0e0;
+    --footer-accent-light: #2a6496;
+}
+
+/* Container principal */
 .footer-container {
     width: 100%;
-    min-height: 120px; /* Altura fixa para ambos os temas */
+    min-height: 120px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -12,6 +26,7 @@
     left: 0;
     right: 0;
     z-index: 100;
+    transition: all 0.3s ease;
 }
 
 /* Conteúdo do footer */
@@ -27,16 +42,15 @@
     gap: 15px;
 }
 
-/* Container da logo - tamanho fixo */
-.logo-container {
+/* Logo */
+.logo-wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 60px; /* Altura fixa */
-    min-width: 200px; /* Largura mínima para a logo grande */
+    height: 60px;
+    min-width: 200px;
 }
 
-/* Controle preciso das imagens */
 .dark-logo {
     width: 50px;
     height: 50px;
@@ -44,17 +58,18 @@
 }
 
 .light-logo {
-    width: 200px !important;
-    height: 100px; /* Altura proporcional */
+    width: 200px;
+    height: 50px;
     object-fit: contain;
 }
 
-/* Elementos textuais */
+/* Textos */
 .footer-text {
     font-size: 16px;
     margin: 0 15px;
     min-width: 250px;
     text-align: center;
+    transition: color 0.3s ease;
 }
 
 .partnership {
@@ -62,6 +77,11 @@
     margin: 0 15px;
     min-width: 150px;
     text-align: center;
+    transition: color 0.3s ease;
+}
+
+.partnership strong {
+    transition: color 0.3s ease;
 }
 
 /* Ícones sociais */
@@ -74,7 +94,7 @@
 
 .social-icon {
     font-size: 24px;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
     cursor: pointer;
 }
 
@@ -82,42 +102,47 @@
     transform: scale(1.1);
 }
 
-/* Temas - cores e estilos */
+/* Temas */
 .dark-theme {
-    background-color: #252121;
-    color: white;
+    background-color: var(--footer-bg-dark);
+    color: var(--footer-text-dark);
+    border-top: 1px solid #333;
 }
 
 .dark-theme .social-icon {
-    color: white;
+    color: var(--footer-icon-dark);
 }
 
 .dark-theme .social-icon:hover {
-    color: #4a90e2;
+    color: var(--footer-icon-hover-dark);
+}
+
+.dark-theme .partnership strong {
+    color: var(--footer-icon-hover-dark);
 }
 
 .light-theme {
-    background-color: #f5f5f5;
-    color: #333;
-    border-top: 1px solid #e0e0e0;
+    background-color: var(--footer-bg-light);
+    color: var(--footer-text-light);
+    border-top: 1px solid var(--footer-border-light);
 }
 
 .light-theme .social-icon {
-    color: #555;
+    color: var(--footer-icon-light);
 }
 
 .light-theme .social-icon:hover {
-    color: #2a6496;
+    color: var(--footer-icon-hover-light);
 }
 
-.light-theme strong {
-    color: #2a6496;
+.light-theme .partnership strong {
+    color: var(--footer-accent-light);
 }
 
 /* Responsividade */
 @media (max-width: 768px) {
     .footer-container {
-        min-height: 180px; /* Mais alto em mobile */
+        min-height: 180px;
         padding: 15px 0;
     }
     
@@ -126,7 +151,7 @@
         gap: 20px;
     }
     
-    .logo-container {
+    .logo-wrapper {
         height: 50px;
         min-width: unset;
     }
@@ -144,5 +169,30 @@
     .footer-text, .partnership {
         min-width: unset;
         margin: 5px 0;
+        font-size: 14px;
+    }
+    
+    .social-icons {
+        gap: 15px;
+    }
+}
+
+@media (max-width: 480px) {
+    .light-logo {
+        width: 150px;
+        height: 40px;
+    }
+    
+    .dark-logo {
+        width: 30px;
+        height: 30px;
+    }
+    
+    .footer-text, .partnership {
+        font-size: 12px;
+    }
+    
+    .social-icon {
+        font-size: 20px;
     }
 }
