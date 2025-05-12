@@ -15,6 +15,7 @@ import imagem3 from '../../assets/Img/administracao.png';
 export default function HomeAdm() {
   const { isDarkMode, toggleTheme } = useTheme();
   const [medicos, setMedicos] = useState([]);
+  const [notification, setNotification] = useState([]);
   const [especialidades, setEspecialidades] = useState([]);
   const [especialidadeSelecionada, setEspecialidadeSelecionada] = useState('');
   const [loading, setLoading] = useState(true);

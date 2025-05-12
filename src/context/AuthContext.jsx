@@ -5,11 +5,11 @@ const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
     const [nome, setNome] = useState(localStorage.getItem('nome') || ''); // Adiciona o estado do nome
     const [token, setToken] = useState(localStorage.getItem('token') || '');
-    const [id, setId] = useState(localStorage.getItem('id') || ''); // Adiciona o estado do id
+    const [id, setId] = useState(Number(localStorage.getItem('id')) || 0);
 
     useEffect(() => {
+        const storedId = Number(localStorage.getItem('id'));
         const storedToken = localStorage.getItem('token');
-        const storedId = localStorage.getItem('id'); // Recupera o id do localStorage
         const storeNome = localStorage.getItem('nome'); // Recupera o nome do localStorage
 
         if (storedToken && storedId && storeNome) {

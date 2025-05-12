@@ -61,6 +61,8 @@ export default function LoginAdm() {
 
         try {
             const response = await axios.post(`http://localhost:5000/admin/login`, formData);
+            console.log(response);
+            
             login(response.data.nome, response.data.token, response.data.id);
             setFormData({ email: '', senha: '' });
             toast.success('Login realizado com sucesso!');
@@ -83,12 +85,14 @@ export default function LoginAdm() {
     const handlePasswordRecovery = async (e) => {
         e.preventDefault();
 
-        if (!forgotPasswordData.email || !forgotPasswordData.novaSenha) {
+        const { email, novaSenha } = forgotPasswordData;
+
+        if (!email || !novaSenha) {
             toast.error('Preencha todos os campos');
             return;
         }
 
-        if (!validateEmail(forgotPasswordData.email)) {
+        if (!validateEmail(email)) {
             toast.error('Formato de email inválido');
             return;
         }
@@ -97,11 +101,19 @@ export default function LoginAdm() {
             toast.error('A senha deve ter no mínimo 6 caracteres');
             return;
         }
+        console.log('Enviando para o backend:', forgotPasswordData);
 
         try {
             const response = await axios.put(
-                `http://localhost:5000/admin/esqueciSenha/${id}`,
-                { novaSenha: forgotPasswordData.novaSenha }
+                "http://localhost:5000/admin/esqueciSenha",
+                {   email: email,
+                    newPassword: novaSenha 
+                },
+                {
+                    headers: {
+                       'Content-Type': 'application/json'
+                    }
+                }
             );
 
             toast.success('Senha alterada com sucesso!');

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import { useTheme } from '../../context/ThemeContext';
@@ -6,12 +6,12 @@ import { FaBell, FaCircle } from 'react-icons/fa';
 import axios from 'axios';
 import './header.css';
 
-// Importe as imagens corretamente (ajuste os caminhos conforme sua estrutura)
 import logoLight from '../../assets/Img/LogoLight.png';
 import logoDark from '../../assets/Img/Logo.png';
 
-export default function Header() {
-  const { logout, user } = useAuth();
+export default function Header() {  
+  const { logout, id } = useAuth();
+  console.log("ID vindo do AuthContext:", id, typeof id);
   const { isDarkMode } = useTheme();
   const [notifications, setNotifications] = useState([]);
   const [unreadCount, setUnreadCount] = useState(0);
@@ -19,11 +19,14 @@ export default function Header() {
   const [loading, setLoading] = useState(false);
 
   const fetchNotifications = async () => {
+    const user_id = id;
+    console.log("user_id:", user_id);
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:5000/notificacoes/${user.id}`);
-      setNotifications(response.data);
-      setUnreadCount(response.data.filter(n => !n.lida).length);
+      const response = await axios.get(`http://localhost:5000/notificacoes/notificacoes/${id}`);
+      const data = Array.isArray(response.data) ? response.data : response.data.notificacoes || [];
+      setNotifications(data);
+      setUnreadCount(data.filter(n => !n.lida).length);
     } catch (error) {
       console.error("Erro ao buscar notificações:", error);
     } finally {
@@ -38,13 +41,14 @@ export default function Header() {
     setShowNotifications(!showNotifications);
   };
 
-  const markAsRead = async (id) => {
+  const markAsRead = async (notificationId) => {
     try {
-      await axios.patch(`http://localhost:5000/notificacoes/${id}/marcar-como-lida`);
-      setNotifications(notifications.map(n =>
-        n.id === id ? { ...n, lida: true } : n
-      ));
-      setUnreadCount(prev => prev - 1);
+      await axios.patch(`http://localhost:5000/notificacoes/notificacoes/${notificationId}/marcar-como-lida`, { lida: true });
+      const updated = notifications.map(n =>
+        n.id === notificationId ? { ...n, lida: true } : n
+      );
+      setNotifications(updated);
+      setUnreadCount(updated.filter(n => !n.lida).length);
     } catch (error) {
       console.error("Erro ao marcar como lida:", error);
     }
@@ -54,24 +58,18 @@ export default function Header() {
     <header className={`headerAdm ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
       <div className="logoHeader">
         <Link to='/homeAdm'>
-          <img 
-            className="imgHeader" 
-            src={isDarkMode ? logoDark : logoLight} 
-            alt="Logo" 
+          <img
+            className="imgHeader"
+            src={isDarkMode ? logoDark : logoLight}
+            alt="Logo"
           />
         </Link>
       </div>
 
       <nav className="navbar">
-        <div>
-          <Link to='/verMedicos' className='links'>Visualizar médicos</Link>
-        </div>
-        <div>
-          <Link to='/cadastro' className='links'>Cadastrar médicos</Link>
-        </div>
-        <div>
-          <Link to='/duvidas' className='links'>Ver Dúvidas</Link>
-        </div>
+        <Link to='/verMedicos' className='links'>Visualizar médicos</Link>
+        <Link to='/cadastro' className='links'>Cadastrar médicos</Link>
+        <Link to='/duvidas' className='links'>Ver Dúvidas</Link>
       </nav>
 
       <div className="right-section">
@@ -98,7 +96,9 @@ export default function Header() {
                     <button
                       className="mark-all-read"
                       onClick={() => {
-                        notifications.forEach(n => !n.lida && markAsRead(n.id));
+                        notifications.forEach(n => {
+                          if (!n.lida) markAsRead(n.id);
+                        });
                       }}
                     >
                       Marcar todas como lidas
@@ -111,8 +111,8 @@ export default function Header() {
                         className={`notification-item ${!notification.lida ? 'unread' : ''}`}
                         onClick={() => !notification.lida && markAsRead(notification.id)}
                       >
-                        <p>{notification.mensagem}</p>
-                        <small>{new Date(notification.data).toLocaleString()}</small>
+                        <p>{notification.message}</p>
+                        <small>{new Date(notification.createdAt).toLocaleString()}</small>
                       </div>
                     ))}
                   </div>
