@@ -170,7 +170,7 @@ export default function PerfilMedico() {
       <Header />
       <main className="profile-main">
         <div className="profile-header">
-          <h1 className="profile-title">Perfil Médico</h1>
+          <h1 className="profile-title">Perfil do Médico</h1>
           <div className="profile-breadcrumb">
           </div>
         </div>
