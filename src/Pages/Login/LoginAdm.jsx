@@ -27,8 +27,6 @@ export default function LoginAdm() {
 
     const { login } = useAuth();
 
-    const validateEmail = (email) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -82,9 +80,10 @@ export default function LoginAdm() {
         }
     };
 
-    const handlePasswordRecovery = async (e) => {
+    const handlePasswordReset = async (e) => {
         e.preventDefault();
 
+<<<<<<< HEAD
         const { email, novaSenha } = forgotPasswordData;
 
         if (!email || !novaSenha) {
@@ -94,16 +93,27 @@ export default function LoginAdm() {
 
         if (!validateEmail(email)) {
             toast.error('Formato de email inválido');
+=======
+        // Validações antes da requisição
+        if (!forgotPasswordData.email) {
+            toast.error('Email é obrigatório!');
             return;
         }
 
-        if (forgotPasswordData.novaSenha.length < 6) {
+        if (!/\S+@\S+\.\S+/.test(forgotPasswordData.email)) {
+            toast.error('Email inválido');
+>>>>>>> 566d1908d3aa1a3d50626b97e47bd7c805a1206b
+            return;
+        }
+
+        if (!forgotPasswordData.novaSenha || forgotPasswordData.novaSenha.length < 6) {
             toast.error('A senha deve ter no mínimo 6 caracteres');
             return;
         }
         console.log('Enviando para o backend:', forgotPasswordData);
 
         try {
+<<<<<<< HEAD
             const response = await axios.put(
                 "http://localhost:5000/admin/esqueciSenha",
                 {   email: email,
@@ -115,20 +125,18 @@ export default function LoginAdm() {
                     }
                 }
             );
+=======
+            const response = await axios.patch('http://localhost:5000/admin/esqueciSenha', {
+                email: forgotPasswordData.email,
+                novaSenha: forgotPasswordData.novaSenha
+            });
+>>>>>>> 566d1908d3aa1a3d50626b97e47bd7c805a1206b
 
             toast.success('Senha alterada com sucesso!');
-            setShowForgotPassword(false);
             setForgotPasswordData({ email: '', novaSenha: '' });
-
         } catch (error) {
-            console.error('Erro na recuperação de senha:', error);
-            const errorMsg = error.response?.data?.error || 'Erro ao redefinir senha';
-
-            if (error.response?.status === 404) {
-                toast.error('Email não cadastrado no sistema');
-            } else {
-                toast.error(errorMsg);
-            }
+            const errorMsg = error.response?.data?.error || 'Email inválido';
+            toast.error(errorMsg);
         }
     };
 
@@ -204,7 +212,7 @@ export default function LoginAdm() {
                     <div className="forgot-password-modal">
                         <h3>Redefinição de Senha</h3>
 
-                        <form onSubmit={handlePasswordRecovery}>
+                        <form onSubmit={handlePasswordReset}>
                             <div className="form-group">
                                 <label>Email Corporativo:</label>
                                 <input

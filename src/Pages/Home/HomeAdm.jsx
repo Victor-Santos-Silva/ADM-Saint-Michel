@@ -72,15 +72,7 @@ export default function HomeAdm() {
     <div className={`homePrincipal ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
       <Header />
       
-      <button 
-        onClick={toggleTheme} 
-        className={`theme-toggle-btn ${isDarkMode ? 'dark' : 'light'}`}
-      >
-        {isDarkMode ? <FaSun className="theme-icon" /> : <FaMoon className="theme-icon" />}
-        <span className="theme-text">
-          {isDarkMode ? ' Modo Claro' : ' Modo Escuro'}
-        </span>
-      </button>
+      
 
       <div className="carrossel-container">
         <Carousel>

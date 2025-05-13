@@ -8,7 +8,7 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 
 export default function CadastroMedicos() {
-    const { isDarkMode } = useTheme();
+    const { darkMode } = useTheme();
     const [formData, setFormData] = useState({
         nome_completo: '',
         dataNascimento: '',
@@ -125,6 +125,7 @@ export default function CadastroMedicos() {
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
+                theme: darkMode ? 'dark' : 'light'
             }));
         }
 
@@ -158,6 +159,7 @@ export default function CadastroMedicos() {
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
+                theme: darkMode ? 'dark' : 'light'
             });
 
             setFormData({
@@ -188,6 +190,7 @@ export default function CadastroMedicos() {
                 closeOnClick: true,
                 pauseOnHover: true,
                 draggable: true,
+                theme: darkMode ? 'dark' : 'light'
             });
         } finally {
             setIsSubmitting(false);
@@ -195,12 +198,12 @@ export default function CadastroMedicos() {
     };
 
     return (
-        <>
+        <div className={`page-container ${darkMode ? 'dark-mode' : 'light-mode'}`}>
             <Header />
             <ToastContainer />
 
-            <div className={`background ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
-                <form onSubmit={handleSubmit} className={`formularioAdm ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+            <div className="background">
+                <form onSubmit={handleSubmit} className="formularioAdm">
                     <h2 className="tituloAdm">Cadastro de novos médicos:</h2>
 
                     <div className="linha-colunas">
@@ -348,7 +351,7 @@ export default function CadastroMedicos() {
 
                     <button
                         type="submit"
-                        className={`botaoCadastrar ${isDarkMode ? 'dark-mode' : 'light-mode'}`}
+                        className="botaoCadastrar"
                         disabled={isSubmitting}
                     >
                         {isSubmitting ? 'Cadastrando...' : 'Cadastrar'}
@@ -356,6 +359,6 @@ export default function CadastroMedicos() {
                 </form>
             </div>
             <Footer />
-        </>
+        </div>
     );
 }

@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import { FaUser, FaEnvelope } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaReply } from 'react-icons/fa';
 import './duvidaPaciente.css';
+import { useTheme } from '../../context/ThemeContext';
 import axios from 'axios';
 
 const DuvidaPaciente = () => {
-  // 1. Todos os Hooks no topo (regra fundamental do React)
   const [duvidas, setDuvidas] = useState([]);
+  const { isDarkMode } = useTheme();
   const [contatos, setContatos] = useState([]);
   const [loading, setLoading] = useState({
     duvidas: true,
@@ -16,7 +17,6 @@ const DuvidaPaciente = () => {
   const [error, setError] = useState(null);
   const [resposta, setResposta] = useState('');
 
-  // 2. Efeitos para carregar dados
   useEffect(() => {
     const fetchDuvidas = async () => {
       try {
@@ -75,27 +75,28 @@ const DuvidaPaciente = () => {
     fetchContatos();
   }, []);
 
-  // 3. Funções auxiliares
   const handleReply = (email, assunto) => {
-    const corpoEmail = `Prezado(a),\n\nEm resposta ao seu contato:\n\n${resposta}`;
-    window.location.href = `mailto:${email}?subject=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpoEmail)}`;
+    const corpoEmail = `Prezado(a),\n\nEm resposta ao seu contato sobre "${assunto}":\n\n${resposta}\n\nAtenciosamente,\nEquipe Médica`;
+    
+    const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpoEmail)}`;
+    
+    window.open(gmailUrl, '_blank');
+    
     setResposta('');
     
-    // Marcar como respondido
     setContatos(prev => prev.map(c => 
       c.email === email ? { ...c, respondida: true } : c
     ));
   };
 
-  // 4. Verificação de carregamento e erros (após todos os Hooks)
   const isLoading = loading.duvidas || loading.contatos;
 
   if (isLoading) {
     return (
-      <div className="loading">
+      <div className={`loading ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
         <Header />
         <div className="loading-message">Carregando mensagens...</div>
-        <Footer />
+        <Footer darkMode={isDarkMode} />
       </div>
     );
   }
@@ -104,44 +105,44 @@ const DuvidaPaciente = () => {
     return (
       <>
         <Header />
-        <div className="error-message">
+        <div className={`error-message ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
           Erro: {error}
           <button onClick={() => window.location.reload()} className="reload-button">
             Tentar novamente
           </button>
         </div>
-        <Footer />
+        <Footer darkMode={isDarkMode} />
       </>
     );
   }
 
-  // 5. Renderização principal
   return (
     <>
       <Header />
-      <div className="duvidas-container">
+      
+      <div className={`duvidas-container ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
         {/* Seção de Dúvidas */}
         <section aria-labelledby="duvidas-title" className="duvidas-section">
           <h1 id="duvidas-title" className="section-title">Dúvidas dos Médicos</h1>
           
           {duvidas.length > 0 ? (
             duvidas.map(duvida => (
-              <div key={duvida.id} className="message">
+              <div key={duvida.id} className={`message ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
                 <div className="message-header">
                   <FaUser className="icon" />
-                  <span className="message-sender">Usuário</span>
+                  <span className="message-sender">Médico</span>
                   <time dateTime={duvida.data} className="message-date">
-                    {new Date(duvida.data).toLocaleString()}
+                    {new Date(duvida.data).toLocaleString('pt-BR')}
                   </time>
                 </div>
                 <div className="message-content">
                   <p>{duvida.mensagem}</p>
                 </div>
                 <button
-                  className="reply-button"
+                  className={`reply-button ${isDarkMode ? 'dark-mode' : 'light-mode'}`}
                   onClick={() => handleReply('suporte@clinica.com', `Dúvida ${duvida.id}`)}
                 >
-                  <FaEnvelope /> Responder
+                  <FaReply /> Responder
                 </button>
               </div>
             ))
@@ -156,14 +157,14 @@ const DuvidaPaciente = () => {
           
           {contatos.length > 0 ? (
             contatos.map(contato => (
-              <article key={contato._id} className="message paciente">
+              <article key={contato._id} className={`message paciente ${contato.respondida ? 'respondida' : ''} ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
                 <div className="message-header">
                   <FaUser className="icon paciente-icon" />
                   <span className="message-sender">
                     {contato.nome || 'Paciente'}
                   </span>
                   <time dateTime={contato.data} className="message-date">
-                    {new Date(contato.data).toLocaleString()}
+                    {new Date(contato.data).toLocaleString('pt-BR')}
                   </time>
                 </div>
                 
@@ -186,20 +187,19 @@ const DuvidaPaciente = () => {
                   >
                     <div className="form-group">
                       <label htmlFor={`resposta-${contato._id}`} className="form-label">
-                        Resposta:
+                        Digite sua resposta:
                       </label>
                       <textarea
                         id={`resposta-${contato._id}`}
-                        name={`resposta-${contato._id}`}
                         value={resposta}
                         onChange={(e) => setResposta(e.target.value)}
-                        placeholder="Digite sua resposta aqui..."
+                        placeholder="Escreva aqui a resposta para o paciente..."
                         required
-                        className="resposta-textarea"
+                        className={`resposta-textarea ${isDarkMode ? 'dark-mode' : 'light-mode'}`}
                       />
                     </div>
-                    <button type="submit" className="reply-button">
-                      <FaEnvelope /> Responder por E-mail
+                    <button type="submit" className={`reply-button ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+                      <FaEnvelope /> Responder via Gmail
                     </button>
                   </form>
                 )}
@@ -210,7 +210,7 @@ const DuvidaPaciente = () => {
           )}
         </section>
       </div>
-      <Footer />
+      <Footer darkMode={isDarkMode} />
     </>
   );
 };

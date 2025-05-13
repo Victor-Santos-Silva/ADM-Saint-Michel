@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 const ThemeContext = createContext()
 
 export const ThemeProvider = ({ children }) => {
-  const [isDarkMode, setIsDarkMode] = useState(() => {
+  const [darkMode, setDarkMode] = useState(() => {
     try {
       const savedMode = localStorage.getItem('darkMode')
       return savedMode ? JSON.parse(savedMode) : false
@@ -15,17 +15,23 @@ export const ThemeProvider = ({ children }) => {
 
   useEffect(() => {
     try {
-      document.body.className = isDarkMode ? 'dark-mode' : 'light-mode'
-      localStorage.setItem('darkMode', JSON.stringify(isDarkMode))
+      if (darkMode) {
+        document.body.classList.add('dark-mode')
+        document.body.classList.remove('light-mode')
+      } else {
+        document.body.classList.add('light-mode')
+        document.body.classList.remove('dark-mode')
+      }
+      localStorage.setItem('darkMode', JSON.stringify(darkMode))
     } catch (error) {
       console.error('Erro ao persistir tema:', error)
     }
-  }, [isDarkMode])
+  }, [darkMode])
 
-  const toggleTheme = () => setIsDarkMode(!isDarkMode)
+  const toggleTheme = () => setDarkMode(!darkMode)
 
   return (
-    <ThemeContext.Provider value={{ isDarkMode, toggleTheme }}>
+    <ThemeContext.Provider value={{ darkMode, toggleTheme }}>
       {children}
     </ThemeContext.Provider>
   )

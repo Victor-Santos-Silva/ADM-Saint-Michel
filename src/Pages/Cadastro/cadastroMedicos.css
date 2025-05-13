@@ -2,245 +2,343 @@
 :root {
     /* Tema claro */
     --light-bg: #f5f5f5;
-    --light-form-bg: #ffffff;
+    --light-page-bg: #ffffff;
     --light-text: #333333;
-    --light-input-bg: #f9f9f9;
+    --light-input-bg: #ffffff;
     --light-border: #dddddd;
     --light-shadow: rgba(0, 0, 0, 0.1);
     --light-primary: #1976d2;
     --light-error: #ff4d4d;
+    --light-button-bg: #333333;
+    --light-button-text: #ffffff;
+    --light-placeholder: #999999;
     
     /* Tema escuro */
     --dark-bg: #121212;
-    --dark-form-bg: #1e1e1e;
+    --dark-page-bg: #1a1a1a;
     --dark-text: #f5f5f5;
     --dark-input-bg: #2d2d2d;
     --dark-border: #444444;
     --dark-shadow: rgba(0, 0, 0, 0.3);
     --dark-primary: #bb86fc;
     --dark-error: #ff6b6b;
-  }
-  
-  /* Fontes */
-  @import url('https://fonts.googleapis.com/css2?family=Yeseva+One&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Ysabeau+Infant:wght@300;600&display=swap');
-  
-  /* Reset */
-  * {
+    --dark-button-bg: #bb86fc;
+    --dark-button-text: #121212;
+    --dark-placeholder: #aaaaaa;
+}
+
+/* Reset e estilos base */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
     font-family: "Ysabeau Infant", sans-serif;
-    transition: background-color 0.3s ease, color 0.3s ease;
-  }
-  
-  /* Background */
-  .background {
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+/* Container principal da página */
+.page-container {
     min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.page-container.light-mode {
+    background-color: var(--light-page-bg);
+    color: var(--light-text);
+}
+
+.page-container.dark-mode {
+    background-color: var(--dark-page-bg);
+    color: var(--dark-text);
+}
+
+/* Background do formulário */
+.background {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 30px;
-  }
-  
-  .background.light-mode {
+}
+
+.page-container.light-mode .background {
     background-color: var(--light-bg);
-  }
-  
-  .background.dark-mode {
+}
+
+.page-container.dark-mode .background {
     background-color: var(--dark-bg);
-  }
-  
-  /* Formulário */
-  .formularioAdm {
+}
+
+/* Formulário */
+.formularioAdm {
     padding: 30px;
     border-radius: 12px;
-    box-shadow: 0 6px 15px var(--light-shadow);
-    max-width: 800px;
+    max-width: 900px;
     width: 100%;
-    margin-bottom: 5%;
-  }
-  
-  .formularioAdm.light-mode {
-    background-color: var(--light-form-bg);
+    margin: 20px 0;
+    box-shadow: 0 6px 15px var(--light-shadow);
+    border: 1px solid var(--light-border);
+}
+
+.page-container.light-mode .formularioAdm {
+    background-color: var(--light-input-bg);
     color: var(--light-text);
-  }
-  
-  .formularioAdm.dark-mode {
-    background-color: var(--dark-form-bg);
+    box-shadow: 0 6px 15px var(--light-shadow);
+    border: 1px solid var(--light-border);
+}
+
+.page-container.dark-mode .formularioAdm {
+    background-color: var(--dark-input-bg);
     color: var(--dark-text);
     box-shadow: 0 6px 15px var(--dark-shadow);
-  }
-  
-  /* Título */
-  .tituloAdm {
+    border: 1px solid var(--dark-border);
+}
+
+/* Título do formulário */
+.tituloAdm {
     text-align: center;
     font-size: 26px;
     font-weight: bold;
-    font-family: "Yeseva One", serif;
-    margin-bottom: 20px;
-  }
-  
-  /* Layout */
-  .linha-colunas {
+    margin-bottom: 25px;
+    color: inherit;
+}
+
+/* Layout de colunas */
+.linha-colunas {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
-  }
-  
-  .coluna-vertical {
+    gap: 30px;
+    margin-bottom: 20px;
+}
+
+.coluna-vertical {
     flex: 1;
+    min-width: 300px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
-  }
-  
-  /* Campos do formulário */
-  .form-groupAdm, .form-groupSegundo {
+    gap: 20px;
+}
+
+/* Estilos dos campos do formulário */
+.form-groupAdm, 
+.form-groupSegundo {
     display: flex;
     flex-direction: column;
     gap: 8px;
-  }
-  
-  .form-groupAdm label, 
-  .form-groupSegundo label {
+}
+
+.form-groupAdm label, 
+.form-groupSegundo label {
     font-weight: 600;
-  }
-  
-  .form-groupAdm input,
-  .form-groupSegundo input,
-  .form-groupSegundo select {
-    padding: 12px;
+    color: inherit;
+}
+
+.form-groupAdm input,
+.form-groupSegundo input,
+.form-groupSegundo select {
+    padding: 12px 15px;
     border-radius: 8px;
     font-size: 16px;
-    transition: all 0.3s ease;
-  }
-  
-  .formularioAdm.light-mode input,
-  .formularioAdm.light-mode select {
-    background-color: var(--light-input-bg);
+    transition: all 0.2s ease;
     border: 1px solid var(--light-border);
+    background-color: var(--light-input-bg);
     color: var(--light-text);
-  }
-  
-  .formularioAdm.dark-mode input,
-  .formularioAdm.dark-mode select {
-    background-color: var(--dark-input-bg);
+}
+
+.page-container.dark-mode .form-groupAdm input,
+.page-container.dark-mode .form-groupSegundo input,
+.page-container.dark-mode .form-groupSegundo select {
     border: 1px solid var(--dark-border);
+    background-color: var(--dark-input-bg);
     color: var(--dark-text);
-  }
-  
-  .form-groupSegundo select {
+}
+
+.form-groupSegundo select {
     appearance: none;
     cursor: pointer;
-  }
-  
-  /* Input de arquivo */
-  .form-group {
-    margin: 20px 0;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 15px;
+}
+
+.page-container.light-mode .form-groupSegundo select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23333333' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+}
+
+.page-container.dark-mode .form-groupSegundo select {
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23f5f5f5' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+}
+
+/* Grupo de upload de imagem */
+.form-group {
+    margin: 25px 0;
     text-align: center;
-  }
-  
-  .form-group input[type="file"] {
-    padding: 12px;
-    border-radius: 6px;
-    font-size: 14px;
-    margin-top: 10px;
-    cursor: pointer;
-    width: 50%;
-    margin-left: 25%;
-  }
-  
-  .formularioAdm.light-mode .form-group input[type="file"] {
-    background-color: var(--light-input-bg);
-    border: 1px solid var(--light-border);
-  }
-  
-  .formularioAdm.dark-mode .form-group input[type="file"] {
-    background-color: var(--dark-input-bg);
-    border: 1px solid var(--dark-border);
-  }
-  
-  /* Pré-visualização da imagem */
-  .imgPreview {
-    margin-top: 20px;
-    text-align: center;
-  }
-  
-  .imgPreviewImage {
-    width: 120px;
-    height: auto;
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  }
-  
-  /* Botão */
-  .botaoCadastrar {
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 10px;
+    font-weight: 600;
+    color: inherit;
+}
+
+.form-group input[type="file"] {
     width: 100%;
-    padding: 14px;
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    border: 1px solid var(--light-border);
+    background-color: var(--light-input-bg);
+    color: var(--light-text);
+}
+
+.page-container.dark-mode .form-group input[type="file"] {
+    border: 1px solid var(--dark-border);
+    background-color: var(--dark-input-bg);
+    color: var(--dark-text);
+}
+
+/* Pré-visualização da imagem */
+.imgPreview {
+    margin: 20px auto;
+    text-align: center;
+    max-width: 400px;
+}
+
+.imgPreviewImage {
+    max-width: 150px;
+    max-height: 150px;
+    border-radius: 10px;
+    object-fit: cover;
+    border: 2px solid var(--light-border);
+}
+
+.page-container.dark-mode .imgPreviewImage {
+    border: 2px solid var(--dark-border);
+}
+
+/* Botão de submit */
+.botaoCadastrar {
+    width: 100%;
+    padding: 15px;
     border: none;
     border-radius: 8px;
     font-size: 18px;
     font-weight: bold;
     cursor: pointer;
     transition: all 0.3s ease;
-  }
-  
-  .botaoCadastrar.light-mode {
-    background-color: #333;
-    color: white;
-  }
-  
-  .botaoCadastrar.dark-mode {
-    background-color: #bb86fc;
-    color: #121212;
-  }
-  
-  .botaoCadastrar:hover {
+    margin-top: 15px;
+    background-color: var(--light-button-bg);
+    color: var(--light-button-text);
+}
+
+.page-container.dark-mode .botaoCadastrar {
+    background-color: var(--dark-button-bg);
+    color: var(--dark-button-text);
+}
+
+.botaoCadastrar:hover:not(:disabled) {
     transform: translateY(-2px);
     opacity: 0.9;
-  }
-  
-  .botaoCadastrar:disabled {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.botaoCadastrar:disabled {
     opacity: 0.7;
     cursor: not-allowed;
-  }
-  
-  /* Erros */
-  .input-error {
+}
+
+/* Estilos de erro */
+.input-error {
     border-color: var(--light-error) !important;
     box-shadow: 0 0 5px rgba(255, 77, 77, 0.3);
-  }
-  
-  .formularioAdm.dark-mode .input-error {
+}
+
+.page-container.dark-mode .input-error {
     border-color: var(--dark-error) !important;
-  }
-  
-  .error-message {
+}
+
+.error-message {
     color: var(--light-error);
     font-size: 14px;
-  }
-  
-  .formularioAdm.dark-mode .error-message {
+    margin-top: 5px;
+}
+
+.page-container.dark-mode .error-message {
     color: var(--dark-error);
-  }
-  
-  /* Responsividade */
-  @media (max-width: 768px) {
+}
+
+/* Placeholders */
+.page-container.light-mode ::placeholder {
+    color: var(--light-placeholder);
+}
+
+.page-container.dark-mode ::placeholder {
+    color: var(--dark-placeholder);
+}
+
+/* Focus states */
+.page-container.light-mode input:focus,
+.page-container.light-mode select:focus {
+    outline: none;
+    border-color: var(--light-primary);
+    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
+}
+
+.page-container.dark-mode input:focus,
+.page-container.dark-mode select:focus {
+    outline: none;
+    border-color: var(--dark-primary);
+    box-shadow: 0 0 0 2px rgba(187, 134, 252, 0.3);
+}
+
+/* Toast notifications */
+.Toastify__toast-container {
+    color: inherit !important;
+}
+
+.page-container.light-mode .Toastify__toast {
+    background: var(--light-input-bg);
+    color: var(--light-text);
+    border: 1px solid var(--light-border);
+}
+
+.page-container.dark-mode .Toastify__toast {
+    background: var(--dark-input-bg);
+    color: var(--dark-text);
+    border: 1px solid var(--dark-border);
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .background {
+        padding: 15px;
+    }
+    
     .formularioAdm {
-      padding: 20px;
+        padding: 20px;
+        margin: 10px 0;
     }
-  
+    
     .linha-colunas {
-      flex-direction: column;
+        flex-direction: column;
+        gap: 15px;
     }
-  
-    .form-group input[type="file"] {
-      width: 80%;
-      margin-left: 10%;
+    
+    .coluna-vertical {
+        min-width: 100%;
     }
-  
+    
+    .tituloAdm {
+        font-size: 22px;
+    }
+    
     .botaoCadastrar {
-      font-size: 16px;
+        padding: 12px;
+        font-size: 16px;
     }
-  }
+}
