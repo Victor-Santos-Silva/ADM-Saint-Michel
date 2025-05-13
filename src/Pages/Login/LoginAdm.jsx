@@ -60,7 +60,7 @@ export default function LoginAdm() {
         try {
             const response = await axios.post(`http://localhost:5000/admin/login`, formData);
             console.log(response);
-            
+
             login(response.data.nome, response.data.token, response.data.id);
             setFormData({ email: '', senha: '' });
             toast.success('Login realizado com sucesso!');
@@ -83,17 +83,7 @@ export default function LoginAdm() {
     const handlePasswordReset = async (e) => {
         e.preventDefault();
 
-<<<<<<< HEAD
-        const { email, novaSenha } = forgotPasswordData;
 
-        if (!email || !novaSenha) {
-            toast.error('Preencha todos os campos');
-            return;
-        }
-
-        if (!validateEmail(email)) {
-            toast.error('Formato de email inválido');
-=======
         // Validações antes da requisição
         if (!forgotPasswordData.email) {
             toast.error('Email é obrigatório!');
@@ -102,7 +92,6 @@ export default function LoginAdm() {
 
         if (!/\S+@\S+\.\S+/.test(forgotPasswordData.email)) {
             toast.error('Email inválido');
->>>>>>> 566d1908d3aa1a3d50626b97e47bd7c805a1206b
             return;
         }
 
@@ -113,24 +102,11 @@ export default function LoginAdm() {
         console.log('Enviando para o backend:', forgotPasswordData);
 
         try {
-<<<<<<< HEAD
-            const response = await axios.put(
-                "http://localhost:5000/admin/esqueciSenha",
-                {   email: email,
-                    newPassword: novaSenha 
-                },
-                {
-                    headers: {
-                       'Content-Type': 'application/json'
-                    }
-                }
-            );
-=======
+
             const response = await axios.patch('http://localhost:5000/admin/esqueciSenha', {
                 email: forgotPasswordData.email,
                 novaSenha: forgotPasswordData.novaSenha
             });
->>>>>>> 566d1908d3aa1a3d50626b97e47bd7c805a1206b
 
             toast.success('Senha alterada com sucesso!');
             setForgotPasswordData({ email: '', novaSenha: '' });
