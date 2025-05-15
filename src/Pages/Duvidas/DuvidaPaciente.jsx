@@ -8,8 +8,8 @@ import axios from 'axios';
 
 const DuvidaPaciente = () => {
   const [duvidas, setDuvidas] = useState([]);
-  const { isDarkMode } = useTheme();
   const [contatos, setContatos] = useState([]);
+  const { isDarkMode } = useTheme();
   const [loading, setLoading] = useState({
     duvidas: true,
     contatos: true
@@ -21,19 +21,23 @@ const DuvidaPaciente = () => {
     const fetchDuvidas = async () => {
       try {
         const response = await axios.get('http://localhost:5000/duvidas');
-        
-        if (!Array.isArray(response.data)) {
-          throw new Error('A API de dúvidas não retornou um array');
+        console.log("Resposta de dúvidas:", response.data);
+
+        // Acessa o array dentro da propriedade 'data' do response.data
+        const dados = response.data.data;
+
+        if (!Array.isArray(dados)) {
+          throw new Error('A propriedade data não contém um array');
         }
 
-        setDuvidas(response.data.map(item => ({
+        setDuvidas(dados.map(item => ({
           id: item.id,
           mensagem: item.duvidas,
           data: item.createdAt
         })));
-        
+
         setLoading(prev => ({ ...prev, duvidas: false }));
-        
+
       } catch (err) {
         console.error('Erro ao buscar dúvidas:', err);
         setError(err.message || 'Erro ao carregar dúvidas');
@@ -48,7 +52,8 @@ const DuvidaPaciente = () => {
     const fetchContatos = async () => {
       try {
         const response = await axios.get('http://localhost:5000/contato/listar');
-        
+        console.log("teste", response.data);
+
         if (!Array.isArray(response.data)) {
           throw new Error('A API de contatos não retornou um array');
         }
@@ -62,9 +67,9 @@ const DuvidaPaciente = () => {
           data: contato.createdAt,
           respondida: false
         })));
-        
+
         setLoading(prev => ({ ...prev, contatos: false }));
-        
+
       } catch (err) {
         console.error('Erro ao buscar contatos:', err);
         setError(err.message || 'Erro ao carregar contatos');
@@ -77,14 +82,14 @@ const DuvidaPaciente = () => {
 
   const handleReply = (email, assunto) => {
     const corpoEmail = `Prezado(a),\n\nEm resposta ao seu contato sobre "${assunto}":\n\n${resposta}\n\nAtenciosamente,\nEquipe Médica`;
-    
+
     const gmailUrl = `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(email)}&su=${encodeURIComponent(assunto)}&body=${encodeURIComponent(corpoEmail)}`;
-    
+
     window.open(gmailUrl, '_blank');
-    
+
     setResposta('');
-    
-    setContatos(prev => prev.map(c => 
+
+    setContatos(prev => prev.map(c =>
       c.email === email ? { ...c, respondida: true } : c
     ));
   };
@@ -119,12 +124,12 @@ const DuvidaPaciente = () => {
   return (
     <>
       <Header />
-      
+
       <div className={`duvidas-container ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
         {/* Seção de Dúvidas */}
         <section aria-labelledby="duvidas-title" className="duvidas-section">
           <h1 id="duvidas-title" className="section-title">Dúvidas dos Médicos</h1>
-          
+
           {duvidas.length > 0 ? (
             duvidas.map(duvida => (
               <div key={duvida.id} className={`message ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
@@ -154,7 +159,7 @@ const DuvidaPaciente = () => {
         {/* Seção de Contatos */}
         <section aria-labelledby="contatos-title" className="contatos-section">
           <h1 id="contatos-title" className="section-title">Contatos dos Pacientes</h1>
-          
+
           {contatos.length > 0 ? (
             contatos.map(contato => (
               <article key={contato._id} className={`message paciente ${contato.respondida ? 'respondida' : ''} ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
@@ -167,16 +172,16 @@ const DuvidaPaciente = () => {
                     {new Date(contato.data).toLocaleString('pt-BR')}
                   </time>
                 </div>
-                
+
                 <div className="message-meta">
                   <p><strong>Assunto:</strong> {contato.assunto || 'Não especificado'}</p>
                   <p><strong>Email:</strong> {contato.email}</p>
                 </div>
-                
+
                 <div className="message-content">
                   <p>{contato.mensagem || 'Sem conteúdo'}</p>
                 </div>
-                
+
                 {!contato.respondida && (
                   <form
                     onSubmit={(e) => {

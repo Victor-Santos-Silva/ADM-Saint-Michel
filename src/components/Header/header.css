@@ -382,7 +382,9 @@
   }
   
   .imgHeader {
-    width: 200px;
-    margin-top: 0;
+   width: 100%;
+  max-width: 290px;
+  height: auto;
+  transition: transform 0.3s ease;
   }
 }

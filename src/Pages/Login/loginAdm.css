@@ -1,212 +1,231 @@
-.backgroundImage {
-  background-image: url('../../assets/Img/admin.png');
-  background-size: cover;
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+:root {
+  --primary-dark: #0f172a;
+  --primary-blue: #1e40af;
+  --secondary-blue: #3b82f6;
+  --dark-gray: #334155;
+  --medium-gray: #64748b;
+  --light-gray: #e2e8f0;
+  --white: #ffffff;
+  --gradient-blue: linear-gradient(135deg, #1e3a8a, #475569);
+  --gradient-hover: linear-gradient(135deg, #1e40af, #4b5563);
+}
+
+* {
+  font-family: 'Poppins', sans-serif;
+  box-sizing: border-box;
+}
+
+.container-page-login-adm {
+  position: relative;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
+  background: url('../../assets/Img/admin.png') no-repeat center center;
+  background-size: cover;
+  padding: 20px;
 }
 
-.formularioLogin {
-  width: 400px;
-  padding: 35px;
-  background: rgba(255, 255, 255, 0.9);
-  border-radius: 20px;
-  margin-right: 65%;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+.container-formulario-login-adm {
+  width: 100%;
+  max-width: 500px;
+  padding: 40px;
+  background-color: rgba(15, 23, 42, 0.9);
+  color: var(--white);
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
   backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin-left: auto;
+  margin-right: 73%;
 }
 
-
-.formularioLogin h2 {
+.title-login-adm {
   text-align: center;
+  font-weight: 700;
+  margin-bottom: 10px;
+  font-size: 2.2rem;
+  color: var(--white);
+  position: relative;
+  padding-bottom: 15px;
+}
+
+.title-login-adm::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 4px;
+  background: var(--gradient-blue);
+  border-radius: 4px;
+}
+
+.subtitle-login-adm {
+  text-align: center;
+  color: var(--light-gray);
   margin-bottom: 30px;
-  color: #2c3e50;
-  font-size: 28px;
-  font-weight: bold;
+  font-size: 1rem;
 }
 
-
-.login-error-message {
-  background-color: #dc3545;
-  color: white;
-  padding: 12px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  text-align: center;
-  font-weight: 500;
-  animation: slideIn 0.3s ease-out;
+.text-field-adm {
+  margin-bottom: 25px;
 }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.form-group {
-  margin-bottom: 20px;
-}
-
-.form-group label {
+.text-field-adm label {
   display: block;
   margin-bottom: 8px;
-  color: var(--color-dark-gray);
-  font-weight: 700;
+  font-weight: 500;
+  color: var(--light-gray);
 }
 
-.form-control.is-invalid {
-  border: 2px solid #dc3545;
-}
-
-.invalid-feedback {
-  color: #dc3545;
-  font-size: 0.875em;
-  margin-top: 0.25rem;
-  text-align: left;
-}
-
-.form-control {
+.input-login-adm {
   width: 100%;
-  padding: 14px;
-  font-size: 15px;
-  border: 1.5px solid #ccc;
+  padding: 14px 16px;
   border-radius: 10px;
-  transition: 0.3s;
-  background-color: #f9f9f9;
+  border: 2px solid var(--dark-gray);
+  background-color: rgba(30, 41, 59, 0.5);
+  font-size: 1rem;
+  color: var(--white);
+  transition: all 0.3s ease;
 }
 
-.form-control:focus {
-  border-color: #3498db;
-  background-color: #fff;
+.input-login-adm:focus {
+  outline: none;
+  border-color: var(--secondary-blue);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
 }
 
-
-.botaoEntrar {
+.btn-login-adm {
   width: 100%;
-  padding: 14px;
-  background: linear-gradient(90deg, #000000, #000000);
-  color: white;
+  padding: 16px;
   border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  font-weight: bold;
+  border-radius: 10px;
+  font-weight: 600;
+  font-size: 1rem;
   cursor: pointer;
-  transition: 0.4s ease;
+  transition: all 0.3s ease;
+  background: var(--gradient-blue);
+  color: var(--white);
+  margin-top: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
 }
 
+.btn-login-adm:hover {
+  background: var(--gradient-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
 
-/* Estilos para o Esqueci a Senha */
-.botaoEsqueciSenha {
-  margin-top: 15px;
-  color: #000000;
-  font-size: 0.95em;
-  background: none;
+.btn-forgot-password-adm {
+  display: block;
+  width: 100%;
+  margin-top: 20px;
+  background: transparent;
   border: none;
+  color: var(--secondary-blue);
   cursor: pointer;
+  font-size: 0.95rem;
   text-align: center;
-  width: 100%;
+  transition: color 0.3s ease;
 }
 
-.botaoEsqueciSenha:hover {
-  text-decoration: underline;
-  color: #000000;
+.btn-forgot-password-adm:hover {
+  color: var(--light-gray);
 }
 
-
-.forgot-password-overlay {
+/* Modal de Esqueci a Senha */
+.forgot-password-popup-adm {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: rgba(0, 0, 0, 0.7);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
+  backdrop-filter: blur(5px);
 }
 
-.forgot-password-modal {
-  background: #ffffff;
+.forgot-password-content-adm {
+  background: var(--primary-dark);
+  padding: 30px;
   border-radius: 16px;
-  padding: 2rem;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  animation: fadeIn 0.3s ease-out;
+  width: 90%;
+  max-width: 450px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-@keyframes fadeIn {
-  from { opacity: 0; transform: scale(0.95); }
-  to { opacity: 1; transform: scale(1); }
+.forgot-password-content-adm h2 {
+  color: var(--white);
+  text-align: center;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--dark-gray);
 }
 
-.forgot-password-modal h3 {
-  margin-bottom: 1.5rem;
-  color: #333;
-}
-
-.forgot-password-modal .form-group {
-  margin-bottom: 1rem;
-}
-
-.forgot-password-modal input {
-  width: 100%;
-  padding: 0.5rem;
-  margin-top: 0.5rem;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-}
-
-.button-group {
+.button-group-adm {
   display: flex;
-  gap: 1rem;
-  margin-top: 1.5rem;
+  gap: 15px;
+  margin-top: 30px;
 }
 
-.botaoConfirmar {
-  background-color: #000000;
-  color: white;
-  padding: 0.5rem 1rem;
+.btn-confirm-adm {
+  flex: 1;
+  padding: 14px;
+  background: var(--gradient-blue);
+  color: var(--white);
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.botaoCancelar {
-  background-color: #dc3545;
-  color: white;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 4px;
+.btn-confirm-adm:hover {
+  background: var(--gradient-hover);
+  transform: translateY(-2px);
+}
+
+.btn-cancel-adm {
+  flex: 1;
+  padding: 14px;
+  background: transparent;
+  color: var(--light-gray);
+  border: 2px solid var(--dark-gray);
+  border-radius: 8px;
+  font-weight: 600;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-.invalid-feedback {
-  color: #dc3545;
-  font-size: 0.875em;
-  margin-top: 0.25rem;
+.btn-cancel-adm:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--medium-gray);
 }
 
+.error-message-adm {
+  color: #f87171;
+  font-size: 0.85rem;
+  margin-top: 5px;
+}
 
-
-@media (max-width: 880px) {
-  .formularioLogin {
-    width: 90%;
-    padding: 20px;
+@media (max-width: 768px) {
+  .container-formulario-login-adm {
     margin-right: 0;
+    margin-left: 0;
+    padding: 30px 20px;
   }
-
-  .form-control,
-  .botaoEntrar {
-    font-size: 14px;
-    padding: 10px;
+  
+  .title-login-adm {
+    font-size: 1.8rem;
   }
 }

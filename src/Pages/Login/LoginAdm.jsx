@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import './loginAdm.css';
-import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { useAuth } from '../../context/AuthContext.jsx';
+import { useAuth } from '../../context/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { useNavigate } from 'react-router-dom';
+import './loginAdm.css';
+import adminImage from '../../assets/Img/admin.png';
 
 export default function LoginAdm() {
     const navigate = useNavigate();
@@ -18,7 +19,6 @@ export default function LoginAdm() {
         senha: false
     });
 
-    const [loginError, setLoginError] = useState('');
     const [showForgotPassword, setShowForgotPassword] = useState(false);
     const [forgotPasswordData, setForgotPasswordData] = useState({
         email: '',
@@ -30,68 +30,44 @@ export default function LoginAdm() {
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
-        setError(prev => ({ ...prev, [name]: false }));
-        setLoginError('');
+        setError({ ...error, [name]: false });
     };
 
     const handleForgotPasswordChange = (e) => {
         const { name, value } = e.target;
-        setForgotPasswordData(prev => ({
-            ...prev,
-            [name]: value
-        }));
+        setForgotPasswordData({ ...forgotPasswordData, [name]: value });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoginError('');
 
-        const newError = {
-            email: !formData.email,
-            senha: !formData.senha
-        };
-
-        if (newError.email || newError.senha) {
-            setError(newError);
-            toast.error('Preencha todos os campos obrigatórios');
+        if (!formData.email || !formData.senha) {
+            toast.error('Preencha todos os campos!');
+            setError({ email: !formData.email, senha: !formData.senha });
             return;
         }
 
         try {
-            const response = await axios.post(`http://localhost:5000/admin/login`, formData);
-            console.log(response);
-
-            login(response.data.nome, response.data.token, response.data.id);
+            const response = await axios.post('http://localhost:5000/admin/login', formData);
+            login(response.data.usuario, response.data.token, response.data.id);
             setFormData({ email: '', senha: '' });
-            toast.success('Login realizado com sucesso!');
-            navigate('/homeAdm');
+
+            toast.success('Login realizado com sucesso!', {
+                onClose: () => navigate('/homeAdm')
+            });
 
         } catch (error) {
-            const errorMsg = error.response?.data?.error || 'Erro ao fazer login';
-            console.error('Erro no login:', errorMsg);
-            if (error.response?.status === 401) {
-                setLoginError('Credenciais inválidas!');
-                setError({ email: true, senha: true });
-                toast.error('Credenciais inválidas!');
-            } else {
-                setLoginError('Email ou senha incorretos, tente novamente.');
-                toast.error('Email ou senha incorretos, tente novamente.');
-            }
+            console.error('Erro no login:', error.response?.data?.error || error.message);
+            setError({ email: true, senha: true });
+            toast.error(error.response?.data?.error || 'Erro no login. Tente novamente.');
         }
     };
 
     const handlePasswordReset = async (e) => {
         e.preventDefault();
 
-
-        // Validações antes da requisição
         if (!forgotPasswordData.email) {
             toast.error('Email é obrigatório!');
-            return;
-        }
-
-        if (!/\S+@\S+\.\S+/.test(forgotPasswordData.email)) {
-            toast.error('Email inválido');
             return;
         }
 
@@ -99,140 +75,121 @@ export default function LoginAdm() {
             toast.error('A senha deve ter no mínimo 6 caracteres');
             return;
         }
-        console.log('Enviando para o backend:', forgotPasswordData);
 
         try {
-
-            const response = await axios.patch('http://localhost:5000/admin/esqueciSenha', {
+            await axios.patch('http://localhost:5000/admin/esqueciSenha', {
                 email: forgotPasswordData.email,
                 novaSenha: forgotPasswordData.novaSenha
             });
 
             toast.success('Senha alterada com sucesso!');
+            setShowForgotPassword(false);
             setForgotPasswordData({ email: '', novaSenha: '' });
         } catch (error) {
-            const errorMsg = error.response?.data?.error || 'Email inválido';
-            toast.error(errorMsg);
+            toast.error(error.response?.data?.error || 'Erro ao redefinir senha');
         }
     };
 
     return (
-        <div className="backgroundImage">
-            <ToastContainer
-                position="top-right"
-                autoClose={5000}
-                hideProgressBar={false}
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-            />
+        <div className='container-page-login-adm' style={{ backgroundImage: `url(${adminImage})` }}>
+            <div className='container-formulario-login-adm'>
+                <ToastContainer
+                    position="top-right"
+                    autoClose={5000}
+                    hideProgressBar={false}
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="colored"
+                />
 
-            <form className='formularioLogin' onSubmit={handleSubmit}>
-                <h2>Login Administrativo</h2>
-                {loginError && (
-                    <div className="login-error-message">
-                        {loginError}
+                <h1 className='title-login-adm'>Login Administrativo</h1>
+
+                <form onSubmit={handleSubmit} className='form-login-adm'>
+                    <div className='text-field-adm'>
+                        <input
+                            className='input-login-adm'
+                            type="email"
+                            name="email"
+                            placeholder="Email corporativo"
+                            value={formData.email}
+                            onChange={handleChange}
+                            style={{ borderColor: error.email ? 'red' : '' }}
+                        />
+                        {error.email && <p className="error-message-adm">Campo obrigatório</p>}
                     </div>
-                )}
 
-                <div className="form-group">
-                    <label htmlFor="email" className='campos'>EMAIL:</label>
-                    <input
-                        type="email"
-                        className={`form-control ${error.email ? 'is-invalid' : ''}`}
-                        id="email"
-                        placeholder="Informe o seu email corporativo"
-                        value={formData.email}
-                        onChange={handleChange}
-                        name='email'
-                        autoComplete='username'
-                    />
-                    {error.email &&
-                        <div className="invalid-feedback">Campo obrigatório</div>}
-                </div>
+                    <div className='text-field-adm'>
+                        <input
+                            className='input-login-adm'
+                            type="password"
+                            name="senha"
+                            placeholder="Senha"
+                            value={formData.senha}
+                            onChange={handleChange}
+                            style={{ borderColor: error.senha ? 'red' : '' }}
+                        />
+                        {error.senha && <p className="error-message-adm">Campo obrigatório</p>}
+                    </div>
 
-                <div className="form-group">
-                    <label htmlFor="password" className='campos'>SENHA:</label>
-                    <input
-                        type="password"
-                        className={`form-control ${error.senha ? 'is-invalid' : ''}`}
-                        id="password"
-                        placeholder="Informe a sua senha corporativa"
-                        value={formData.senha}
-                        onChange={handleChange}
-                        name='senha'
-                        autoComplete='current-password'
-                    />
-                    {error.senha &&
-                        <div className="invalid-feedback">Campo obrigatório</div>}
-                </div>
-
-                <button type="submit" className="botaoEntrar">
-                    Entrar
-                </button>
+                    <button type="submit" className='btn-login-adm'>Entrar</button>
+                </form>
 
                 <button
-                    type="button"
-                    className="botaoEsqueciSenha"
+                    className='btn-forgot-password-adm'
                     onClick={() => setShowForgotPassword(true)}
                 >
                     Esqueci a senha
                 </button>
-            </form>
 
-            {showForgotPassword && (
-                <div className="forgot-password-overlay">
-                    <div className="forgot-password-modal">
-                        <h3>Redefinição de Senha</h3>
+                {showForgotPassword && (
+                    <div className='forgot-password-popup-adm'>
+                        <div className='forgot-password-content-adm'>
+                            <h2>Redefinir Senha</h2>
+                            <form onSubmit={handlePasswordReset}>
+                                <div className='text-field-adm'>
+                                    <input
+                                        className='input-login-adm'
+                                        type="email"
+                                        name="email"
+                                        placeholder="Email cadastrado"
+                                        value={forgotPasswordData.email}
+                                        onChange={handleForgotPasswordChange}
+                                    />
+                                </div>
 
-                        <form onSubmit={handlePasswordReset}>
-                            <div className="form-group">
-                                <label>Email Corporativo:</label>
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={forgotPasswordData.email}
-                                    onChange={handleForgotPasswordChange}
-                                    required
-                                    placeholder="exemplo@hospital.com"
-                                />
-                            </div>
+                                <div className='text-field-adm'>
+                                    <input
+                                        className='input-login-adm'
+                                        type="password"
+                                        name="novaSenha"
+                                        placeholder="Nova senha (mínimo 6 caracteres)"
+                                        value={forgotPasswordData.novaSenha}
+                                        onChange={handleForgotPasswordChange}
+                                    />
+                                </div>
 
-                            <div className="form-group">
-                                <label>Nova Senha:</label>
-                                <input
-                                    type="password"
-                                    name="novaSenha"
-                                    value={forgotPasswordData.novaSenha}
-                                    onChange={handleForgotPasswordChange}
-                                    required
-                                    minLength="6"
-                                    placeholder="Mínimo 6 caracteres"
-                                />
-                            </div>
-
-                            <div className="button-group">
-                                <button type="submit" className="botaoConfirmar">
-                                    Alterar Senha
-                                </button>
-                                <button
-                                    type="button"
-                                    className="botaoCancelar"
-                                    onClick={() => {
-                                        setShowForgotPassword(false);
-                                        setForgotPasswordData({ email: '', novaSenha: '' });
-                                    }}
-                                >
-                                    Cancelar
-                                </button>
-                            </div>
-                        </form>
+                                <div className='button-group-adm'>
+                                    <button type="submit" className='btn-confirm-adm'>Redefinir Senha</button>
+                                    <button 
+                                        type="button" 
+                                        className='btn-cancel-adm'
+                                        onClick={() => {
+                                            setShowForgotPassword(false);
+                                            setForgotPasswordData({ email: '', novaSenha: '' });
+                                        }}
+                                    >
+                                        Cancelar
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            )}
+                )}
+            </div>
         </div>
     );
 }
