@@ -92,8 +92,7 @@ export default function LoginAdm() {
 
     return (
         <div className='container-page-login-adm' style={{ backgroundImage: `url(${adminImage})` }}>
-            <div className='container-formulario-login-adm'>
-                <ToastContainer
+          <ToastContainer
                     position="top-right"
                     autoClose={5000}
                     hideProgressBar={false}
@@ -106,6 +105,8 @@ export default function LoginAdm() {
                     theme="colored"
                 />
 
+            <div className='container-formulario-login-adm'>
+              
                 <h1 className='title-login-adm'>Login Administrativo</h1>
 
                 <form onSubmit={handleSubmit} className='form-login-adm'>
