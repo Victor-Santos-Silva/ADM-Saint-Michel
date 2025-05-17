@@ -1,11 +1,12 @@
 import React, { useState, useRef } from 'react';
 import axios from 'axios';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { useTheme } from '../../context/ThemeContext';
 import './cadastroMedicos.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
+import { IMaskInput } from 'react-imask';
 
 export default function CadastroMedicos() {
     const { darkMode } = useTheme();
@@ -28,9 +29,14 @@ export default function CadastroMedicos() {
     const [errors, setErrors] = useState({ dataNascimento: '' });
     const fileInputRef = useRef(null);
 
-    const handleChange = (event) => {
-        const { id, value } = event.target;
-        setFormData({ ...formData, [id]: value });
+    const handleChange = (eOrName, value) => {
+        if (eOrName && eOrName.target) {
+            const { id, value } = eOrName.target;
+            setFormData(prev => ({ ...prev, [id]: value }));
+        }
+        else {
+            setFormData(prev => ({ ...prev, [eOrName]: value }));
+        }
     };
 
     const handleImagemChange = (event) => {
@@ -44,73 +50,160 @@ export default function CadastroMedicos() {
         }
     };
 
+    const getCepData = async (cep) => {
+        try {
+            const response = await axios.get(`http://localhost:5000/cep/${cep}`);
+            const data = response.data;
+
+            setFormData(prev => ({
+                ...prev,
+                logradouro: data.logradouro,
+                bairro: data.bairro,
+                cidade: data.cidade,
+                estado: data.estado,
+                endereco: `${data.logradouro}, ${data.bairro}, ${data.cidade} - ${data.estado}`
+            }));
+        } catch (error) {
+            console.error('Erro ao buscar o CEP:', error);
+            toast.error("CEP inválido ou não encontrado.", {
+                position: "top-right",
+                autoClose: 5000,
+                theme: darkMode ? 'dark' : 'light'
+            });
+        }
+    };
+    const handleCepChange = (e) => {
+        const cep = e.target.value;
+        setFormData(prev => ({ ...prev, cep }));
+
+        // Quando o cep estiver completo (ex: 8 dígitos sem traço), busca os dados
+        const cepNumeros = cep.replace(/\D/g, '');
+        if (cepNumeros.length === 8) {
+            getCepData(cepNumeros);
+        }
+    };
+
+    //validar dados do formulário
     const validateForm = () => {
         let isValid = true;
         const newErrors = { dataNascimento: '' };
         const validationErrors = [];
 
         if (!formData.nome_completo.trim()) {
-            validationErrors.push('✖ Nome completo é obrigatório');
+            validationErrors.push('Nome completo é obrigatório');
             isValid = false;
         }
 
-        if (!formData.dataNascimento) {
+        if (!formData.dataNascimento || formData.dataNascimento.trim() === '') {
             newErrors.dataNascimento = 'A data de nascimento é obrigatória.';
+            validationErrors.push('A data de nascimento é obrigatória.');
             isValid = false;
         } else {
             const birthDate = new Date(formData.dataNascimento);
             const today = new Date();
-            let age = today.getFullYear() - birthDate.getFullYear();
-            const monthDiff = today.getMonth() - birthDate.getMonth();
 
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                age--;
-            }
-
-            if (age < 18 || age > 80) {
-                newErrors.dataNascimento = 'A idade deve estar entre 18 e 80 anos.';
-                validationErrors.push('✖ Idade deve ser entre 18 e 80 anos');
+            if (isNaN(birthDate.getTime())) {
+                newErrors.dataNascimento = 'Data de nascimento inválida.';
+                validationErrors.push('Data de nascimento inválida.');
                 isValid = false;
+            } else {
+                let age = today.getFullYear() - birthDate.getFullYear();
+                const monthDiff = today.getMonth() - birthDate.getMonth();
+
+                if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+                    age--;
+                }
+
+                if (age < 18 || age > 80) {
+                    newErrors.dataNascimento = 'A idade deve estar entre 18 e 80 anos.';
+                    validationErrors.push('A idade deve estar entre 18 e 80 anos.');
+                    isValid = false;
+                }
             }
         }
+        function validarCPF(cpf) {
+            cpf = cpf.replace(/[^\d]+/g, ''); // Remove tudo que não é número
 
-        if (!/^\d{11}$/.test(formData.cpf)) {
-            validationErrors.push('✖ CPF deve ter 11 dígitos');
+            if (cpf.length !== 11) return false;
+
+            // Elimina CPFs inválidos conhecidos
+            if (/^(\d)\1{10}$/.test(cpf)) return false;
+
+            let soma = 0;
+            let resto;
+
+            for (let i = 1; i <= 9; i++) {
+                soma += parseInt(cpf.substring(i - 1, i)) * (11 - i);
+            }
+
+            resto = (soma * 10) % 11;
+            if (resto === 10 || resto === 11) resto = 0;
+            if (resto !== parseInt(cpf.substring(9, 10))) return false;
+
+            soma = 0;
+            for (let i = 1; i <= 10; i++) {
+                soma += parseInt(cpf.substring(i - 1, i)) * (12 - i);
+            }
+
+            resto = (soma * 10) % 11;
+            if (resto === 10 || resto === 11) resto = 0;
+            if (resto !== parseInt(cpf.substring(10, 11))) return false;
+
+            return true;
+        }
+
+        if (!validarCPF(formData.cpf)) {
+            validationErrors.push('CPF inválido');
             isValid = false;
         }
 
-        if (!/^[0-9]{6}\/[A-Z]{2}$/.test(formData.crm)) {
-            validationErrors.push('✖ Formato CRM inválido (ex: 123456/SP)');
+        const crm = formData.crm.trim().toUpperCase();
+
+        if (!/^[0-9]{6}\/[A-Z]{2}$/.test(crm)) {
+            validationErrors.push('Formato CRM inválido (ex: 123456/SP)');
             isValid = false;
         }
 
-        if (!/^\d{10,11}$/.test(formData.telefone)) {
-            validationErrors.push('✖ Telefone deve ter 10 ou 11 dígitos');
+        const phone = formData.telefone.replace(/\D/g, ''); // Remove tudo que não é dígito
+
+        if (!/^\d{10,11}$/.test(phone)) {
+            validationErrors.push('Telefone deve ter 10 ou 11 dígitos numéricos');
+            isValid = false;
+        }
+
+        const dominiosPermitidos = ["@hsaintmichel.com"];
+
+        function validarEmailCorporativo(email) {
+            return dominiosPermitidos.some(dominio => email.endsWith(dominio));
+        }
+
+        if (!validarEmailCorporativo(formData.email_corporativo)) {
+            validationErrors.push("O email deve ser corporativo (ex: @hsaintmichel.com)");
             isValid = false;
         }
 
         if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email_corporativo)) {
-            validationErrors.push('✖ Email corporativo inválido');
+            validationErrors.push("Email corporativo inválido");
             isValid = false;
         }
 
         if (!formData.senha_corporativa.trim()) {
-            validationErrors.push('✖ Senha corporativa é obrigatória');
+            validationErrors.push('Senha corporativa é obrigatória');
             isValid = false;
         }
 
         if (!selectedFile) {
-            validationErrors.push('✖ Foto do médico é obrigatória');
+            validationErrors.push('Foto do médico é obrigatória');
             isValid = false;
         } else {
             const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
             if (!allowedTypes.includes(selectedFile.type)) {
-                validationErrors.push('✖ Formato de imagem inválido (use JPEG, PNG ou GIF)');
+                validationErrors.push('Formato de imagem inválido (use JPEG, PNG ou GIF)');
                 isValid = false;
             }
 
             if (selectedFile.size > 2 * 1024 * 1024) {
-                validationErrors.push('✖ A imagem deve ter no máximo 2MB');
+                validationErrors.push('A imagem deve ter no máximo 2MB');
                 isValid = false;
             }
         }
@@ -152,9 +245,9 @@ export default function CadastroMedicos() {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
 
-            toast.success('✅ Médico cadastrado com sucesso!', {
+            toast.success('Médico cadastrado com sucesso!', {
                 position: "top-right",
-                autoClose: 5000,
+                autoClose: 2000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -183,7 +276,7 @@ export default function CadastroMedicos() {
             if (error.response?.data?.message) {
                 errorMessage = error.response.data.message;
             }
-            toast.error(`✖ ${errorMessage}`, {
+            toast.error(`${errorMessage}`, {
                 position: "top-right",
                 autoClose: 5000,
                 hideProgressBar: false,
@@ -200,8 +293,6 @@ export default function CadastroMedicos() {
     return (
         <div className={`page-container ${darkMode ? 'dark-mode' : 'light-mode'}`}>
             <Header />
-            <ToastContainer />
-
             <div className="background">
                 <form onSubmit={handleSubmit} className="formularioAdm">
                     <h2 className="tituloAdm">Cadastro de novos médicos:</h2>
@@ -215,6 +306,7 @@ export default function CadastroMedicos() {
                                     id="nome_completo"
                                     value={formData.nome_completo}
                                     onChange={handleChange}
+                                    maxLength={50}
                                 />
                             </div>
 
@@ -226,18 +318,20 @@ export default function CadastroMedicos() {
                                     value={formData.dataNascimento}
                                     onChange={handleChange}
                                     className={errors.dataNascimento ? 'input-error' : ''}
+                                    min="1950-01-01" // impede datas muito antigas
+                                    max={new Date().toISOString().split("T")[0]} // impede datas futuras
                                 />
-                                {errors.dataNascimento && <span className="error-message">{errors.dataNascimento}</span>}
                             </div>
 
                             <div className="form-groupAdm">
                                 <label htmlFor="cpf">CPF:</label>
-                                <input
-                                    type="text"
-                                    id="cpf"
+                                <IMaskInput
+                                    mask="000.000.000-00"
                                     value={formData.cpf}
-                                    onChange={handleChange}
-                                    placeholder='00000000000'
+                                    onAccept={(value) => handleChange('cpf', value)}
+                                    id="cpf"
+                                    placeholder="000.000.000-00"
+                                    className="seu-estilo"
                                 />
                             </div>
 
@@ -248,31 +342,41 @@ export default function CadastroMedicos() {
                                     id="crm"
                                     value={formData.crm}
                                     onChange={handleChange}
-                                    placeholder='123456/SP'
+                                    placeholder="123456/SP"
+                                    maxLength={9}
+                                    style={{ textTransform: 'uppercase' }}
                                 />
                             </div>
 
                             <div className="form-groupAdm">
                                 <label htmlFor="telefone">Telefone:</label>
-                                <input
+                                <IMaskInput
+                                    mask="(00) 00000-0000"
                                     type="text"
                                     id="telefone"
                                     value={formData.telefone}
-                                    onChange={handleChange}
-                                    placeholder='(DDD)000000000'
+                                    onAccept={(value) => handleChange('telefone', value)}
+                                    placeholder="(11) 91234-5678"
                                 />
                             </div>
                         </div>
 
                         <div className="coluna-vertical">
                             <div className="form-groupSegundo">
-                                <label htmlFor="endereco">Endereço:</label>
+                                <label htmlFor="cep">CEP:</label>
                                 <input
                                     type="text"
-                                    id="endereco"
-                                    value={formData.endereco}
-                                    onChange={handleChange}
+                                    id="cep"
+                                    value={formData.cep}
+                                    onChange={handleCepChange}
+                                    placeholder="Digite o CEP"
+                                    maxLength={9}
                                 />
+                            </div>
+
+                            <div className="form-groupSegundo">
+                                <label>Logradouro:</label>
+                                <input type="text" value={formData.logradouro} readOnly />
                             </div>
 
                             <div className="form-groupSegundo">

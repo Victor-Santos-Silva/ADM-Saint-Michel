@@ -68,6 +68,9 @@ export default function Header() {
 
       <nav className="navbar">
         <div>
+          <Link to='/homeAdm' className='links'>Home</Link>
+        </div>
+        <div>
           <Link to='/verMedicos' className='links'>Visualizar médicos</Link>
         </div>
         <div>

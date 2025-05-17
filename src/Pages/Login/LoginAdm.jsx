@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { useNavigate } from 'react-router-dom';
 import './loginAdm.css';
 import adminImage from '../../assets/Img/admin.png';
+import { toast } from 'react-toastify';
 
 export default function LoginAdm() {
     const navigate = useNavigate();
@@ -51,11 +50,7 @@ export default function LoginAdm() {
             const response = await axios.post('http://localhost:5000/admin/login', formData);
             login(response.data.usuario, response.data.token, response.data.id);
             setFormData({ email: '', senha: '' });
-
-            toast.success('Login realizado com sucesso!', {
-                onClose: () => navigate('/homeAdm')
-            });
-
+            navigate('/homeAdm')
         } catch (error) {
             console.error('Erro no login:', error.response?.data?.error || error.message);
             setError({ email: true, senha: true });
@@ -92,23 +87,8 @@ export default function LoginAdm() {
 
     return (
         <div className='container-page-login-adm' style={{ backgroundImage: `url(${adminImage})` }}>
-          <ToastContainer
-                    position="top-right"
-                    autoClose={5000}
-                    hideProgressBar={false}
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="colored"
-                />
-
             <div className='container-formulario-login-adm'>
-              
                 <h1 className='title-login-adm'>Login Administrativo</h1>
-
                 <form onSubmit={handleSubmit} className='form-login-adm'>
                     <div className='text-field-adm'>
                         <input
@@ -175,8 +155,8 @@ export default function LoginAdm() {
 
                                 <div className='button-group-adm'>
                                     <button type="submit" className='btn-confirm-adm'>Redefinir Senha</button>
-                                    <button 
-                                        type="button" 
+                                    <button
+                                        type="button"
                                         className='btn-cancel-adm'
                                         onClick={() => {
                                             setShowForgotPassword(false);
