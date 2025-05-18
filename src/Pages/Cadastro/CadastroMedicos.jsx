@@ -403,16 +403,6 @@ export default function CadastroMedicos() {
                             </div>
 
                             <div className="form-groupSegundo">
-                                <label htmlFor="nacionalidade">Nacionalidade:</label>
-                                <input
-                                    type="text"
-                                    id="nacionalidade"
-                                    value={formData.nacionalidade}
-                                    onChange={handleChange}
-                                />
-                            </div>
-
-                            <div className="form-groupSegundo">
                                 <label htmlFor="email_corporativo">Email Corporativo:</label>
                                 <input
                                     type="email"

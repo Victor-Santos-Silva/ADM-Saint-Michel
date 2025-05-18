@@ -57,7 +57,7 @@ export default function HomeAdm() {
         setLoading(false);
       }
     };
-    
+
     fetchMedicos();
   }, []);
 
@@ -71,17 +71,17 @@ export default function HomeAdm() {
   return (
     <div className={`homePrincipal ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
       <Header />
-      
-      
+
+
 
       <div className="carrossel-container">
         <Carousel>
           {[imagem1, imagem2, imagem3].map((image, index) => (
             <Carousel.Item key={index} interval={3000}>
-              <img 
-                className="d-block w-100 carrossel-image" 
-                src={image} 
-                alt={`Banner ${index + 1}`} 
+              <img
+                className="d-block w-100 carrossel-image"
+                src={image}
+                alt={`Banner ${index + 1}`}
               />
             </Carousel.Item>
           ))}
@@ -91,7 +91,7 @@ export default function HomeAdm() {
       <main className="content-wrapper">
         <div className="doctors-container">
           <h2 className="section-title">Nossos Médicos</h2>
-          
+
           <div className="filter-container">
             <label className="filter-label">Filtrar por Especialidade:</label>
             <select
@@ -128,7 +128,7 @@ export default function HomeAdm() {
             ) : (
               <div className="no-results">
                 Nenhum médico encontrado{especialidadeSelecionada && ` na especialidade ${especialidadeSelecionada}`}
-                <button 
+                <button
                   className="btn btn-outline-light mt-3"
                   onClick={() => setEspecialidadeSelecionada('')}
                 >
@@ -138,13 +138,13 @@ export default function HomeAdm() {
             )}
           </div>
         </div>
-        
+
         <div className="avisos-container">
           <h3 className="avisos-titulo">Quadro de Avisos</h3>
           <div className="avisos-lista">
             {avisos.map(aviso => (
-              <div 
-                key={aviso.id} 
+              <div
+                key={aviso.id}
                 className={`aviso-item ${aviso.importante ? 'importante' : ''}`}
               >
                 <div className="aviso-cabecalho">

@@ -4,11 +4,13 @@ import Footer from '../../components/Footer/Footer';
 import './perfilMedico.css';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
-import { 
-  FaPhone, FaMapMarkerAlt, FaEnvelope, FaEdit, 
-  FaSave, FaTimes, FaUser, FaIdCard 
+import {
+  FaPhone, FaMapMarkerAlt, FaEnvelope, FaEdit,
+  FaSave, FaTimes, FaUser, FaIdCard,
+  FaRegHospital
 } from 'react-icons/fa';
 import { useTheme } from '../../context/ThemeContext';
+import { Fa0 } from 'react-icons/fa6';
 
 export default function PerfilMedico() {
   const [medico, setMedico] = useState(null);
@@ -45,6 +47,8 @@ export default function PerfilMedico() {
       try {
         const response = await api.get(`/medico/${id}`);
         setMedico(response.data);
+        console.log(response.data);
+
         setEditedMedico({
           nome_completo: response.data.nome_completo,
           crm: response.data.crm,
@@ -92,7 +96,7 @@ export default function PerfilMedico() {
       formData.append('telefone', editedMedico.telefone);
       formData.append('endereco', editedMedico.endereco);
       formData.append('email_corporativo', editedMedico.email_corporativo);
-      
+
       if (editedMedico.foto) {
         formData.append('foto', editedMedico.foto);
       }
@@ -102,13 +106,13 @@ export default function PerfilMedico() {
           'Content-Type': 'multipart/form-data'
         }
       });
-      
+
       setMedico(response.data);
       setEditing(false);
       alert('Dados atualizados com sucesso!');
     } catch (error) {
       console.error('Erro ao atualizar médico:', error);
-      
+
       if (error.response) {
         if (error.response.status === 401) {
           alert('Sessão expirada! Por favor, faça login novamente.');
@@ -132,22 +136,6 @@ export default function PerfilMedico() {
     }));
   };
 
-  const handleFileChange = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setEditedMedico(prev => ({
-        ...prev,
-        foto: file
-      }));
-      
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPreviewImage(reader.result);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
   if (loading) {
     return (
       <div className={`loading-container ${darkMode ? 'dark-mode' : ''}`}>
@@ -168,147 +156,132 @@ export default function PerfilMedico() {
   return (
     <div className={`perfil-medico-page ${darkMode ? 'dark-mode' : ''}`}>
       <Header />
-      <main className="profile-main">
-        <div className="profile-header">
-          <h1 className="profile-title">Perfil do Médico</h1>
-          <div className="profile-breadcrumb">
-          </div>
+      <div className='perfil-medico-header'>
+        <h1>Perfil do Médico</h1>
+      </div>
+
+      <main className='container-perfil-medico'>
+        <div className='perfil-medico-foto-container'>
+          <img
+            src={previewImage || `http://localhost:5000${medico.foto}`}
+            alt={`Dr. ${medico.nome_completo}`}
+            onError={(e) => {
+              e.target.src = '/default-doctor.jpg';
+            }}
+            className='perfil-medico-foto'
+          />
         </div>
 
-        <div className="profile-container">
-          <div className="profile-card">
-            <div className="profile-image-container">
-              <img 
-                src={previewImage || `http://localhost:5000${medico.foto}`} 
-                alt={`Dr. ${medico.nome_completo}`} 
-                className="profile-image"
-                onError={(e) => {
-                  e.target.src = '/default-doctor.jpg';
-                }}
-              />
-              {editing && (
-                <div className="image-upload-container">
-                  <label htmlFor="foto" className="upload-button">
-                    Alterar Foto
-                  </label>
+        <div>
+          <div>
+            {editing ? (
+              <>
+                <div className='perfil-medico-info'>
+                  <FaUser />
                   <input
-                    id="foto"
-                    type="file"
-                    accept="image/*"
-                    onChange={handleFileChange}
-                    style={{ display: 'none' }}
+                    type="text"
+                    name="nome_completo"
+                    value={editedMedico.nome_completo}
+                    onChange={handleChange}
+                    placeholder="Nome Completo"
+                    className='input-edit'
                   />
                 </div>
-              )}
-              <div className="profile-badge">{medico.especialidade}</div>
-            </div>
 
-            <div className="profile-info">
-              <div className="profile-header-actions">
-                {editing ? (
-                  <div className="edit-fields-container">
-                    <div className="input-group">
-                      <FaUser className="input-icon" />
-                      <input
-                        type="text"
-                        name="nome_completo"
-                        value={editedMedico.nome_completo}
-                        onChange={handleChange}
-                        className="edit-input"
-                        placeholder="Nome Completo"
-                      />
-                    </div>
-                    <div className="input-group">
-                      <FaIdCard className="input-icon" />
-                      <input
-                        type="text"
-                        name="crm"
-                        value={editedMedico.crm}
-                        onChange={handleChange}
-                        className="edit-input"
-                        placeholder="CRM"
-                      />
-                    </div>
-                  </div>
-                ) : (
-                  <>
-                    <h2 className="doctor-name">Dr. {medico.nome_completo}</h2>
-                    <p className="doctor-crm">CRM: {medico.crm}</p>
-                  </>
-                )}
+                <div className='perfil-medico-info'>
+                  <FaIdCard />
+                  <input
+                    type="text"
+                    name="crm"
+                    value={editedMedico.crm}
+                    onChange={handleChange}
+                    placeholder="CRM"
+                    className='input-edit'
+                  />
+                </div>
                 
-                {!editing ? (
-                  <button className="edit-button" onClick={handleEdit}>
-                    <FaEdit /> Editar
+                <div className='perfil-medico-info'>
+                  <FaPhone />
+                  <div>
+                    <input
+                      type="text"
+                      name="telefone"
+                      value={editedMedico.telefone || ''}
+                      onChange={handleChange}
+                      className='input-edit'
+                    />
+                  </div>
+                </div>
+
+                <div className='perfil-medico-info'>
+                  <FaMapMarkerAlt />
+                  <input
+                    type="text"
+                    name="endereco"
+                    value={editedMedico.endereco || ''}
+                    onChange={handleChange}
+                    className='input-edit'
+                  />
+                </div>
+
+                <div className='perfil-medico-info'>
+                  <FaEnvelope />
+                  <input
+                    type="email"
+                    name="email_corporativo"
+                    value={editedMedico.email_corporativo || ''}
+                    onChange={handleChange}
+                    className='input-edit'
+                  />
+                </div>
+
+                <div className='botoes-editar'>
+                  <button onClick={handleSave} className='botao-salvar'>
+                    <FaSave /> Salvar
                   </button>
-                ) : (
-                  <div className="edit-actions">
-                    <button className="save-button" onClick={handleSave}>
-                      <FaSave /> Salvar
-                    </button>
-                    <button className="cancel-button" onClick={handleCancel}>
-                      <FaTimes /> Cancelar
-                    </button>
-                  </div>
-                )}
+                  <button onClick={handleCancel} className='botao-cancelar'>
+                    <FaTimes /> Cancelar
+                  </button>
+                </div>
+
+              </>
+            ) : (
+              <div className='info-perfil-medico'>
+                <div className='perfil-medico-info'>
+                  <FaUser />
+                  <h2>Dr. {medico.nome_completo}</h2>
+                </div>
+
+                <div className='perfil-medico-info'>
+                  <FaIdCard />
+                  <p>CRM: {medico.crm}</p>
+                </div>
+
+                <div className='perfil-medico-info'>
+                  <FaRegHospital />
+                  <p>Especialidade: {medico.especialidade}</p>
+                </div>
+
+                <div className='perfil-medico-info'>
+                  <FaPhone />
+                  <p>Telefone: {medico.telefone}</p>
+                </div>
+
+                <div className='perfil-medico-info'>
+                  <FaMapMarkerAlt />
+                  <p>Endereço: {medico.endereco}</p>
+                </div>
+
+                <div className='perfil-medico-info'>
+                  <FaEnvelope />
+                  <p><b>Email:</b> {medico.email_corporativo}</p>
+                </div>
+
+                <button onClick={handleEdit} className='botao-editar'>
+                  <FaEdit /> <b>Editar</b>
+                </button>
               </div>
-
-              <div className="info-grid">
-                <div className="info-item">
-                  <FaPhone className="info-icon" />
-                  <div>
-                    <h4>Telefone</h4>
-                    {editing ? (
-                      <input
-                        type="text"
-                        name="telefone"
-                        value={editedMedico.telefone || ''}
-                        onChange={handleChange}
-                        className="edit-input"
-                      />
-                    ) : (
-                      <p>{medico.telefone}</p>
-                    )}
-                  </div>
-                </div>
-
-                <div className="info-item">
-                  <FaMapMarkerAlt className="info-icon" />
-                  <div>
-                    <h4>Endereço</h4>
-                    {editing ? (
-                      <input
-                        type="text"
-                        name="endereco"
-                        value={editedMedico.endereco || ''}
-                        onChange={handleChange}
-                        className="edit-input"
-                      />
-                    ) : (
-                      <p>{medico.endereco}</p>
-                    )}
-                  </div>
-                </div>
-
-                <div className="info-item">
-                  <FaEnvelope className="info-icon" />
-                  <div>
-                    <h4>E-mail</h4>
-                    {editing ? (
-                      <input
-                        type="email"
-                        name="email_corporativo"
-                        value={editedMedico.email_corporativo || ''}
-                        onChange={handleChange}
-                        className="edit-input"
-                      />
-                    ) : (
-                      <p>{medico.email_corporativo}</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </div>
+            )}
           </div>
         </div>
       </main>

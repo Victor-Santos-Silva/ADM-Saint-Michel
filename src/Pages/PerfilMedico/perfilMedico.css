@@ -1,441 +1,112 @@
-:root {
-    /* Light Theme Variables */
-    --primary-light: #f8f9fa;
-    --secondary-light: #ffffff;
-    --text-light: #333333;
-    --accent-light: #1976d2;
-    --border-light: #e0e0e0;
-    --shadow-light: rgba(0, 0, 0, 0.1);
-    
-    /* Dark Theme Variables */
-    --primary-dark: #000000;
-    --secondary-dark: #1e1e1e;
-    --text-dark: #ffffff;
-    --accent-dark: #bb86fc;
-    --border-dark: #444444;
-    --shadow-dark: rgba(0, 0, 0, 0.5);
-    
-    /* Doctor Theme Colors */
-    --doctor-primary: #1976d2;
-    --doctor-secondary: #e3f2fd;
-    --success-color: #2ecc71;
-}
-
-/* Base Styles */
-.perfil-medico-page {
-    background-color: var(--primary-light);
-    color: var(--text-light);
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    transition: all 0.3s ease;
-}
-
-.perfil-medico-page.dark-mode {
-    background-color: var(--primary-dark);
-    color: var(--text-dark);
-}
-
-/* Main Content */
-.profile-main {
-    padding: 2rem 5%;
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-    flex: 1;
-    padding-bottom: 60px;
-}
-
-/* Header */
-.profile-header {
-    padding: 2rem 5%;
-    background: linear-gradient(135deg, var(--doctor-primary), #115293);
-    color: white;
-    text-align: center;
-}
-
-.dark-mode .profile-header {
-    background: linear-gradient(135deg, var(--accent-dark), #3700b3);
-}
-
-.profile-title {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    font-weight: 600;
-}
-
-/* Profile Card */
-.profile-container {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-.profile-card {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
-    background-color: var(--secondary-light);
-    border-radius: 12px;
-    box-shadow: 0 4px 20px var(--shadow-light);
-    padding: 2rem;
-    margin-top: -3rem;
-    position: relative;
-    z-index: 1;
-    transition: all 0.3s ease;
-}
-
-.dark-mode .profile-card {
-    background-color: var(--secondary-dark);
-    box-shadow: 0 4px 20px var(--shadow-dark);
-}
-
-/* Profile Image */
-.profile-image-container {
-    flex: 1;
-    min-width: 300px;
-    position: relative;
-}
-
-.profile-image {
-    width: 100%;
-    height: 350px;
-    object-fit: cover;
-    border-radius: 10px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-}
-
-.profile-image:hover {
-    transform: scale(1.02);
-}
-
-.profile-badge {
-    position: absolute;
-    top: 1rem;
-    left: 1rem;
-    background-color: var(--doctor-primary);
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
-    font-weight: 600;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.dark-mode .profile-badge {
-    background-color: var(--accent-dark);
-}
-
-/* Profile Info */
-.profile-info {
-    flex: 2;
-    min-width: 300px;
-}
-
-.doctor-name {
-    font-size: 2rem;
-    margin-bottom: 0.5rem;
-    color: var(--doctor-primary);
-    transition: color 0.3s ease;
-}
-
-.dark-mode .doctor-name {
-    color: var(--accent-dark);
-}
-
-.doctor-crm {
-    color: var(--text-light);
-    opacity: 0.8;
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
-}
-
-.dark-mode .doctor-crm {
-    color: var(--text-dark);
-}
-
-/* Info Grid */
-.info-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-    gap: 1.5rem;
-    margin: 2rem 0;
-}
-
-.info-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1rem;
-    background-color: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-}
-
-.dark-mode .info-item {
-    background-color: rgba(255, 255, 255, 0.08);
-}
-
-.info-item:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.info-icon {
-    font-size: 1.2rem;
-    color: var(--doctor-primary);
-    margin-top: 0.2rem;
-    transition: color 0.3s ease;
-}
-
-.dark-mode .info-icon {
-    color: var(--accent-dark);
-}
-
-.info-item h4 {
-    margin: 0 0 0.3rem 0;
-    font-size: 0.9rem;
-    color: var(--text-light);
-    opacity: 0.8;
-    transition: color 0.3s ease;
-}
-
-.dark-mode .info-item h4 {
-    color: var(--text-dark);
-}
-
-.info-item p {
-    margin: 0;
-    font-size: 1rem;
-    font-weight: 500;
-    transition: color 0.3s ease;
-}
-
-.dark-mode .info-item p {
-    color: var(--text-dark);
-}
-
-/* Edit Controls */
-.profile-header-actions {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 1rem;
-}
-
-.edit-button {
-    padding: 0.5rem 1rem;
-    background-color: var(--accent-light);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.dark-mode .edit-button {
-    background-color: var(--accent-dark);
-}
-
-.edit-button:hover {
-    opacity: 0.9;
-    transform: translateY(-1px);
-}
-
-.edit-actions {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.save-button {
-    padding: 0.5rem 1rem;
-    background-color: var(--success-color);
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.save-button:hover {
-    background-color: #27ae60;
-    transform: translateY(-1px);
-}
-
-.cancel-button {
-    padding: 0.5rem 1rem;
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-weight: 500;
-    transition: all 0.3s ease;
-}
-
-.cancel-button:hover {
-    background-color: #c0392b;
-    transform: translateY(-1px);
-}
-
-/* Edit Inputs */
-.edit-fields-container {
-    width: 100%;
-}
-
-.input-group {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    margin-bottom: 1rem;
-}
-
-.edit-input {
-    width: 100%;
-    padding: 0.5rem;
-    border: 1px solid var(--border-light);
-    border-radius: 4px;
-    font-size: 1rem;
-    background-color: var(--secondary-light);
-    color: var(--text-light);
-    transition: all 0.3s ease;
-}
-
-.dark-mode .edit-input {
-    border-color: var(--border-dark);
-    background-color: #333;
-    color: var(--text-dark);
-}
-
-.edit-input:focus {
-    outline: none;
-    border-color: var(--accent-light);
-    box-shadow: 0 0 0 2px rgba(25, 118, 210, 0.2);
-}
-
-.dark-mode .edit-input:focus {
-    border-color: var(--accent-dark);
-    box-shadow: 0 0 0 2px rgba(187, 134, 252, 0.3);
-}
-
-/* Image Upload */
-.image-upload-container {
-    margin-top: 1rem;
-    text-align: center;
-}
-
-.upload-button {
-    padding: 0.5rem 1rem;
-    background-color: var(--doctor-primary);
-    color: white;
-    border-radius: 4px;
-    cursor: pointer;
-    display: inline-block;
-    transition: all 0.3s ease;
-}
-
-.dark-mode .upload-button {
-    background-color: var(--accent-dark);
-}
-
-.upload-button:hover {
-    opacity: 0.9;
-}
-
-/* Loading State */
-.loading-container {
-    display: flex;
-    flex-direction: column;
+.info-perfil-medico {
     align-items: center;
     justify-content: center;
-    height: 100vh;
-    background-color: var(--primary-light);
-    color: var(--text-light);
-    transition: all 0.3s ease;
+    margin-top: 10px;
 }
 
-.dark-mode .loading-container {
-    background-color: var(--primary-dark);
-    color: var(--text-dark);
+.perfil-medico-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
 }
 
-.loading-spinner {
-    border: 5px solid rgba(0, 0, 0, 0.1);
-    border-radius: 50%;
-    border-top: 5px solid var(--doctor-primary);
-    width: 50px;
-    height: 50px;
-    animation: spin 1s linear infinite;
-    margin-bottom: 1rem;
+.container-perfil-medico {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.dark-mode .loading-spinner {
-    border-top-color: var(--accent-dark);
+.perfil-medico-foto-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 20px;
 }
 
-@keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+.perfil-medico-foto {
+    width: 100%;
+    border-radius: 5%;
+    margin-bottom: 20px;
 }
 
-/* Responsive Styles */
-@media (max-width: 1024px) {
-    .profile-card {
-        margin-top: -2rem;
-    }
-    
-    .profile-image {
-        height: 300px;
-    }
+.perfil-medico-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 80%;
 }
 
-@media (max-width: 768px) {
-    .profile-card {
-        flex-direction: column;
-        margin-top: -1rem;
-    }
-    
-    .profile-image {
-        height: 280px;
-    }
-    
-    .profile-title {
-        font-size: 2rem;
-    }
-    
-    .doctor-name {
-        font-size: 1.5rem;
-    }
-    
-    .info-grid {
-        grid-template-columns: 1fr;
-    }
+.input-edit {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    margin-bottom: 10px;
 }
 
-@media (max-width: 480px) {
-    .profile-header {
-        padding: 1.5rem;
-    }
-    
-    .profile-title {
-        font-size: 1.8rem;
-    }
-    
-    .profile-card {
-        padding: 1.5rem;
-    }
-    
-    .profile-image {
-        height: 250px;
-    }
+.botoes-editar {
+    display: flex;
+    justify-content: space-evenly;
+    gap: 10px;
+}
+
+.botao-salvar {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.botao-cancelar {
+    background-color: #f44336;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.botao-editar {
+    background-color: #008CBA;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+
+/* Tema escuro */
+.dark-mode {
+    background-color: #121212;
+    color: #f5f5f5;
+}
+
+.dark-mode .perfil-medico-header {
+    color: #f5f5f5;
+}
+
+.dark-mode .perfil-medico-info {
+    color: #f5f5f5;
+}
+
+.dark-mode .input-edit {
+    background-color: #1e1e1e;
+    color: #f5f5f5;
+    border: 1px solid #555;
+}
+
+.dark-mode .botao-salvar,
+.dark-mode .botao-cancelar,
+.dark-mode .botao-editar {
+    color: white;
+}
+
+.dark-mode .loading-container,
+.dark-mode .error-container {
+    background-color: #121212;
+    color: #f5f5f5;
 }
