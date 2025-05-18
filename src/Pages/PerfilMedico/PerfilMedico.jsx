@@ -11,6 +11,7 @@ import {
 } from 'react-icons/fa';
 import { useTheme } from '../../context/ThemeContext';
 import { Fa0 } from 'react-icons/fa6';
+import { toast } from 'react-toastify';
 
 export default function PerfilMedico() {
   const [medico, setMedico] = useState(null);
@@ -61,7 +62,7 @@ export default function PerfilMedico() {
       } catch (error) {
         console.error('Erro ao buscar médico:', error);
         if (error.response?.status === 401) {
-          alert('Sessão expirada. Faça login novamente.');
+          toast.error('Sessão expirada. Faça login novamente.');
           navigate('/login');
         }
       } finally {
@@ -109,21 +110,21 @@ export default function PerfilMedico() {
 
       setMedico(response.data);
       setEditing(false);
-      alert('Dados atualizados com sucesso!');
+      toast.info('Dados atualizados com sucesso!');
     } catch (error) {
       console.error('Erro ao atualizar médico:', error);
 
       if (error.response) {
         if (error.response.status === 401) {
-          alert('Sessão expirada! Por favor, faça login novamente.');
+          toast.error('Sessão expirada! Por favor, faça login novamente.');
           navigate('/login');
         } else if (error.response.status === 403) {
-          alert('Você não tem permissão para editar este perfil.');
+          toast.error('Você não tem permissão para editar este perfil.');
         } else {
-          alert(`Erro: ${error.response.data.message || 'Erro ao atualizar dados'}`);
+          toast.error(`Erro: ${error.response.data.message || 'Erro ao atualizar dados'}`);
         }
       } else {
-        alert('Erro de conexão. Verifique sua internet e tente novamente.');
+        toast.error('Erro de conexão. Verifique sua internet e tente novamente.');
       }
     }
   };
