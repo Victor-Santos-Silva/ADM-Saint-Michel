@@ -1,112 +1,267 @@
-.info-perfil-medico {
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
+/* Estilos Base */
+.perfil-medico-page {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5f7fa;
+  transition: background-color 0.3s ease;
 }
 
 .perfil-medico-header {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
+  text-align: center;
+  padding: 2rem 0;
+  color: white;
+  margin-bottom: 2rem;
+}
+
+.perfil-medico-header h1 {
+  font-size: 2.5rem;
+  margin: 0;
+  font-weight: 600;
 }
 
 .container-perfil-medico {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  max-width: 1200px;
+  margin: 0 auto 3rem;
+  background: white;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  padding: 2rem;
+  gap: 3rem;
 }
 
 .perfil-medico-foto-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-right: 20px;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
 }
 
 .perfil-medico-foto {
-    width: 100%;
-    border-radius: 5%;
-    margin-bottom: 20px;
+  width: 100%;
+  max-width: 350px;
+  border-radius: 10px;
+  object-fit: cover;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.info-perfil-medico {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
 }
 
 .perfil-medico-info {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 80%;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+  transition: all 0.3s ease;
 }
 
+.perfil-medico-info:hover {
+  background: #e9ecef;
+  transform: translateX(5px);
+}
+
+.perfil-medico-info svg {
+  font-size: 1.5rem;
+  color: #4e73df;
+  min-width: 30px;
+}
+
+.perfil-medico-info h2 {
+  margin: 0;
+  color: #2c3e50;
+  font-size: 1.8rem;
+}
+
+.perfil-medico-info p {
+  margin: 0;
+  color: #495057;
+  font-size: 1.1rem;
+}
+
+.perfil-medico-info p b {
+  color: #2c3e50;
+}
+
+/* Formulário de Edição */
 .input-edit {
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    margin-bottom: 10px;
+  width: 100%;
+  padding: 0.8rem;
+  border: 2px solid #e9ecef;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.3s;
+}
+
+.input-edit:focus {
+  border-color: #4e73df;
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(78, 115, 223, 0.25);
 }
 
 .botoes-editar {
-    display: flex;
-    justify-content: space-evenly;
-    gap: 10px;
+  display: flex;
+  gap: 1rem;
+  margin-top: 1.5rem;
+  justify-content: flex-end;
 }
 
-.botao-salvar {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
-
+/* Botões */
+.botao-editar,
+.botao-salvar,
 .botao-cancelar {
-    background-color: #f44336;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  padding: 0.8rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.3s;
 }
 
 .botao-editar {
-    background-color: #008CBA;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+  background-color: #4e73df;
+  color: white;
+  margin-top: 1.5rem;
 }
 
-
-/* Tema escuro */
-.dark-mode {
-    background-color: #121212;
-    color: #f5f5f5;
+.botao-editar:hover {
+  background-color: #3a5bd9;
+  transform: translateY(-2px);
 }
 
-.dark-mode .perfil-medico-header {
-    color: #f5f5f5;
+.botao-salvar {
+  background-color: #28a745;
+  color: white;
+}
+
+.botao-salvar:hover {
+  background-color: #218838;
+  transform: translateY(-2px);
+}
+
+.botao-cancelar {
+  background-color: #dc3545;
+  color: white;
+}
+
+.botao-cancelar:hover {
+  background-color: #c82333;
+  transform: translateY(-2px);
+}
+
+/* Loading e Erro */
+.loading-container,
+.error-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  text-align: center;
+}
+
+.loading-spinner {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #4e73df;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Modo Escuro */
+.perfil-medico-page.dark-mode {
+  background-color: #121212;
+  color: #e0e0e0;
+}
+
+.dark-mode .container-perfil-medico {
+  background-color: #1e1e1e;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
 }
 
 .dark-mode .perfil-medico-info {
-    color: #f5f5f5;
+  background-color: #2d2d2d;
+  color: #e0e0e0;
+}
+
+.dark-mode .perfil-medico-info:hover {
+  background-color: #3d3d3d;
+}
+
+.dark-mode .perfil-medico-info h2,
+.dark-mode .perfil-medico-info p b {
+  color: #ffffff;
+}
+
+.dark-mode .perfil-medico-info p {
+  color: #b0b0b0;
+}
+
+.dark-mode .perfil-medico-info svg {
+  color: #6e8efb;
 }
 
 .dark-mode .input-edit {
-    background-color: #1e1e1e;
-    color: #f5f5f5;
-    border: 1px solid #555;
+  background-color: #2d2d2d;
+  color: #ffffff;
+  border-color: #444;
 }
 
-.dark-mode .botao-salvar,
-.dark-mode .botao-cancelar,
-.dark-mode .botao-editar {
-    color: white;
+.dark-mode .input-edit:focus {
+  border-color: #6e8efb;
+  box-shadow: 0 0 0 3px rgba(110, 142, 251, 0.25);
 }
 
-.dark-mode .loading-container,
-.dark-mode .error-container {
-    background-color: #121212;
-    color: #f5f5f5;
+/* Responsividade */
+@media (max-width: 992px) {
+  .container-perfil-medico {
+    flex-direction: column;
+    padding: 1.5rem;
+  }
+  
+  .perfil-medico-foto {
+    max-width: 250px;
+    margin-bottom: 1.5rem;
+  }
+}
+
+@media (max-width: 576px) {
+  .perfil-medico-header h1 {
+    font-size: 2rem;
+  }
+  
+  .perfil-medico-info {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .botoes-editar {
+    flex-direction: column;
+  }
+  
+  .botao-editar,
+  .botao-salvar,
+  .botao-cancelar {
+    width: 100%;
+    justify-content: center;
+  }
 }

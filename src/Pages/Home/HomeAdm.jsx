@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Carousel, Spinner } from 'react-bootstrap';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import { useTheme } from '../../context/ThemeContext';
@@ -20,6 +21,8 @@ export default function HomeAdm() {
   const [especialidadeSelecionada, setEspecialidadeSelecionada] = useState('');
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
   const [avisos, setAvisos] = useState([
     {
       id: 1,
@@ -61,6 +64,10 @@ export default function HomeAdm() {
     fetchMedicos();
   }, []);
 
+  const handleCardClick = (id) => {
+    navigate(`/perfilMedico/${id}`);
+  };
+
   const medicosFiltrados = especialidadeSelecionada
     ? medicos.filter(medico => medico.especialidade === especialidadeSelecionada)
     : medicos;
@@ -71,8 +78,6 @@ export default function HomeAdm() {
   return (
     <div className={`homePrincipal ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
       <Header />
-
-
 
       <div className="carrossel-container">
         <Carousel>
@@ -111,7 +116,11 @@ export default function HomeAdm() {
           <div className="doctors-grid">
             {medicosFiltrados.length > 0 ? (
               medicosFiltrados.map((medico) => (
-                <div key={medico.id} className="doctor-card">
+                <div 
+                  key={medico.id} 
+                  className="doctor-card"
+                  onClick={() => handleCardClick(medico.id)}
+                >
                   <img
                     className="doctor-image"
                     src={`http://localhost:5000${medico.foto}`}

@@ -286,6 +286,8 @@ export default function PerfilMedico() {
           </div>
         </div>
       </main>
+      <br />
+      <br />
       <Footer />
     </div>
   );
