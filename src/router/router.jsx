@@ -1,7 +1,5 @@
-// router.jsx
 import { createBrowserRouter } from 'react-router-dom';
-
-import Login from '../Pages/Login/loginAdm'
+import Login from '../Pages/Login/LoginAdm.jsx'
 import ErroPage from '../components/PaginaDeErro/ErrorPage.jsx';
 import CadastroMedicos from '../Pages/Cadastro/CadastroMedicos.jsx';
 import VisualizarMedicos from '../Pages/VerMédicos/VisualizarMedicos.jsx';
