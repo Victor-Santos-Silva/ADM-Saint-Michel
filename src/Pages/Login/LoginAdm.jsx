@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import './loginAdm.css';
-import adminImage from '../../assets/Img/admin.png';
+import adminImage from '../../assets/Img/administracao.png';
 import { toast } from 'react-toastify';
 
 export default function LoginAdm() {
