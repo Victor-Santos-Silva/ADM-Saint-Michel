@@ -3,7 +3,7 @@ import { FaFacebook, FaInstagram, FaLinkedin } from "react-icons/fa";
 import { useTheme } from '../../context/ThemeContext';
 import './footer.css';
 import logoDark from '../../assets/Img/footerLogoAdm.png';
-import logoLight from '../../assets/Img/footerLogoAdmLight.png';
+import logoLight from '../../assets/Img/FooterLogoAdmLight.png';
 
 export default function Footer() {
     const { darkMode } = useTheme();
