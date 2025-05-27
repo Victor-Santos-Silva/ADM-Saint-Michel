@@ -47,7 +47,7 @@ export default function LoginAdm() {
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/admin/login', formData);
+            const response = await axios.post('https://hospital-saint-michel-460809.rj.r.appspot.com/admin/login', formData);
             login(response.data.usuario, response.data.token, response.data.id);
             setFormData({ email: '', senha: '' });
             navigate('/homeAdm')
