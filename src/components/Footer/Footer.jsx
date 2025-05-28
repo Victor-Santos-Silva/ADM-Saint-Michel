@@ -7,13 +7,13 @@ import logoLight from '../../assets/Img/FooterLogoAdmLight.png';
 
 export default function Footer() {
     const { darkMode } = useTheme();
-    
+
     return (
         <footer className={`footer-container ${darkMode ? 'dark-theme' : 'light-theme'}`}>
             <div className='footer-content'>
                 <div className='logo-wrapper'>
-                    <img 
-                        src={darkMode ? logoDark : logoLight} 
+                    <img
+                        src={darkMode ? logoDark : logoLight}
                         className={`footer-logo ${darkMode ? 'dark-logo' : 'light-logo'}`}
                         alt="Hospital Logo"
                     />
@@ -23,9 +23,8 @@ export default function Footer() {
                     <span>Parcerias:</span> <strong>Libbs</strong>
                 </div>
                 <div className="social-icons">
-                    <FaLinkedin className="social-icon" />
-                    <FaFacebook className="social-icon" />
-                    <FaInstagram className="social-icon" />
+                    <a href="https://www.linkedin.com/in/saint-michael-hospital-47ab05359/" target='_blank'><FaLinkedin className="social-icon" /></a>
+                    <a href="https://www.instagram.com/hospital.saintmichel/" target='_blank'><FaInstagram className="social-icon" /></a>
                 </div>
             </div>
         </footer>
