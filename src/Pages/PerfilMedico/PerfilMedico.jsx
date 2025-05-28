@@ -200,18 +200,16 @@ export default function PerfilMedico() {
                     className='input-edit'
                   />
                 </div>
-                
+
                 <div className='perfil-medico-info'>
                   <FaPhone />
-                  <div>
-                    <input
-                      type="text"
-                      name="telefone"
-                      value={editedMedico.telefone || ''}
-                      onChange={handleChange}
-                      className='input-edit'
-                    />
-                  </div>
+                  <input
+                    type="text"
+                    name="telefone"
+                    value={editedMedico.telefone || ''}
+                    onChange={handleChange}
+                    className='input-edit'
+                  />
                 </div>
 
                 <div className='perfil-medico-info'>
