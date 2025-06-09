@@ -37,7 +37,7 @@ export default function PerfilMedico() {
 
   // Configuração do Axios para incluir token nas requisições
   const api = axios.create({
-    baseURL: 'http://localhost:5000',
+    baseURL: 'https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net',
     headers: {
       'Authorization': `Bearer ${getAuthToken()}`
     }
@@ -58,7 +58,7 @@ export default function PerfilMedico() {
           email_corporativo: response.data.email_corporativo,
           foto: null
         });
-        setPreviewImage(`http://localhost:5000${response.data.foto}`);
+        setPreviewImage(`https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net${response.data.foto}`);
       } catch (error) {
         console.error('Erro ao buscar médico:', error);
         if (error.response?.status === 401) {
@@ -86,7 +86,7 @@ export default function PerfilMedico() {
       email_corporativo: medico.email_corporativo,
       foto: null
     });
-    setPreviewImage(`http://localhost:5000${medico.foto}`);
+    setPreviewImage(`https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net${medico.foto}`);
   };
 
   const handleSave = async () => {
@@ -164,7 +164,7 @@ export default function PerfilMedico() {
       <main className='container-perfil-medico'>
         <div className='perfil-medico-foto-container'>
           <img
-            src={previewImage || `http://localhost:5000${medico.foto}`}
+            src={previewImage || `https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net${medico.foto}`}
             alt={`Dr. ${medico.nome_completo}`}
             onError={(e) => {
               e.target.src = '/default-doctor.jpg';

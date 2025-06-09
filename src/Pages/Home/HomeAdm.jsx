@@ -50,7 +50,7 @@ export default function HomeAdm() {
   useEffect(() => {
     const fetchMedicos = async () => {
       try {
-        const { data } = await axios.get('http://localhost:5000/medico');
+        const { data } = await axios.get('https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net/medico');
         setMedicos(data);
         setEspecialidades([...new Set(data.map(m => m.especialidade))]);
       } catch (err) {
@@ -123,7 +123,7 @@ export default function HomeAdm() {
                 >
                   <img
                     className="doctor-image"
-                    src={`http://localhost:5000${medico.foto}`}
+                    src={`https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net${medico.foto}`}
                     alt={medico.nome_completo}
                     onError={(e) => e.target.src = imagemPadrao}
                   />

@@ -15,7 +15,7 @@ export default function VisualizarMedicos() {
   useEffect(() => {
     const fetchMedicos = async () => {
       try {
-        const response = await fetch('http://localhost:5000/medico');
+        const response = await fetch('https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net/medico');
         if (!response.ok) throw new Error('Falha ao carregar médicos');
         const data = await response.json();
         setMedicos(data);
@@ -67,7 +67,7 @@ export default function VisualizarMedicos() {
                 >
                   <div className="card-image-container">
                     <img
-                      src={`http://localhost:5000${medico.foto}`}
+                      src={`https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net${medico.foto}`}
                       alt={`Dr. ${medico.nome_completo}`}
                       className="medico-image"
                       onError={(e) => {

@@ -23,7 +23,7 @@ export default function Header() {
     console.log("user_id:", user_id);
     try {
       setLoading(true);
-      const response = await axios.get(`http://localhost:5000/notificacoes/notificacoes/${id}`);
+      const response = await axios.get(`https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net/notificacoes/notificacoes/${id}`);
       const data = Array.isArray(response.data) ? response.data : response.data.notificacoes || [];
       setNotifications(data);
       setUnreadCount(data.filter(n => !n.lida).length);
@@ -43,7 +43,7 @@ export default function Header() {
 
   const markAsRead = async (notificationId) => {
     try {
-      await axios.patch(`http://localhost:5000/notificacoes/notificacoes/${notificationId}/marcar-como-lida`, { lida: true });
+      await axios.patch(`https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net/notificacoes/notificacoes/${notificationId}/marcar-como-lida`, { lida: true });
       const updated = notifications.map(n =>
         n.id === notificationId ? { ...n, lida: true } : n
       );

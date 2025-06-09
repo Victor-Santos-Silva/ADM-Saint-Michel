@@ -20,7 +20,7 @@ const DuvidaPaciente = () => {
   useEffect(() => {
     const fetchDuvidas = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/duvidas');
+        const response = await axios.get('https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net/duvidas');
         console.log("Resposta de dúvidas:", response.data);
 
         // Acessa o array dentro da propriedade 'data' do response.data
@@ -51,7 +51,7 @@ const DuvidaPaciente = () => {
   useEffect(() => {
     const fetchContatos = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/contato/listar');
+        const response = await axios.get('https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net/contato/listar');
         console.log("teste", response.data);
 
         if (!Array.isArray(response.data)) {

@@ -47,7 +47,7 @@ export default function LoginAdm() {
         }
 
         try {
-            const response = await axios.post('http://localhost:5000/admin/login', formData);
+            const response = await axios.post('https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net/admin/login', formData);
             login(response.data.usuario, response.data.token, response.data.id);
             setFormData({ email: '', senha: '' });
             navigate('/homeAdm')
@@ -72,7 +72,7 @@ export default function LoginAdm() {
         }
 
         try {
-            await axios.patch('http://localhost:5000/admin/esqueciSenha', {
+            await axios.patch('https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net/admin/esqueciSenha', {
                 email: forgotPasswordData.email,
                 novaSenha: forgotPasswordData.novaSenha
             });

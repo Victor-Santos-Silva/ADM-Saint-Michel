@@ -52,7 +52,7 @@ export default function CadastroMedicos() {
 
     const getCepData = async (cep) => {
         try {
-            const response = await axios.get(`http://localhost:5000/cep/${cep}`);
+            const response = await axios.get(`https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net/cep/${cep}`);
             const data = response.data;
 
             setFormData(prev => ({
@@ -241,7 +241,7 @@ export default function CadastroMedicos() {
         formDataToSend.append('foto', selectedFile);
 
         try {
-            await axios.post('http://localhost:5000/medico/cadastro', formDataToSend, {
+            await axios.post('https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net/medico/cadastro', formDataToSend, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             });
 
