@@ -39,11 +39,12 @@ export default function LoginAdm() {
 
     try {
       const response = await axios.post(urlLogin, formData);
-      login(response.data.nome, response.data.token, response.data.id);
-
-      console.log(
-        login(response.data.nome, response.data.token, response.data.id),
+      login(
+        response.data.result.nome,
+        response.data.result.token,
+        response.data.result.id,
       );
+
       setFormData({ email: "", senha: "" });
       navigate("/homeAdm");
     } catch (error) {
