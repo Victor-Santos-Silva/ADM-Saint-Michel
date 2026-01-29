@@ -1,60 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import { Carousel, Spinner } from 'react-bootstrap';
-import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
-import Header from '../../components/Header/Header';
-import Footer from '../../components/Footer/Footer';
-import { useTheme } from '../../context/ThemeContext';
-import { FaSun, FaMoon } from 'react-icons/fa';
-import 'bootstrap/dist/css/bootstrap.min.css';
-import './HomeAdm.css';
-import imagemPadrao from '../../assets/Img/administracao.png';
-import imagem1 from '../../assets/Img/auxiliar.png';
-import imagem2 from '../../assets/Img/grafico.jpg';
-import imagem3 from '../../assets/Img/administracao.png';
+import React, { useState, useEffect } from "react";
+import { Carousel, Spinner } from "react-bootstrap";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import Header from "../../components/Header/Header";
+import Footer from "../../components/Footer/Footer";
+import { useTheme } from "../../context/ThemeContext";
+import { FaSun, FaMoon } from "react-icons/fa";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "./HomeAdm.css";
+import imagemPadrao from "../../assets/Img/administracao.png";
+import imagem1 from "../../assets/Img/auxiliar.png";
+import imagem2 from "../../assets/Img/grafico.jpg";
+import imagem3 from "../../assets/Img/administracao.png";
 
 export default function HomeAdm() {
   const { isDarkMode, toggleTheme } = useTheme();
   const [medicos, setMedicos] = useState([]);
-  const [notification, setNotification] = useState([]);
   const [especialidades, setEspecialidades] = useState([]);
-  const [especialidadeSelecionada, setEspecialidadeSelecionada] = useState('');
+  const [especialidadeSelecionada, setEspecialidadeSelecionada] = useState("");
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  const [avisos, setAvisos] = useState([
-    {
-      id: 1,
-      titulo: "Manutenção programada",
-      mensagem: "O sistema ficará indisponível no próximo sábado das 00h às 06h para manutenção.",
-      data: "15/06/2023",
-      importante: true
-    },
-    {
-      id: 2,
-      titulo: "Novos médicos",
-      mensagem: "Damos as boas-vindas aos novos médicos que se juntaram à nossa equipe este mês.",
-      data: "10/06/2023",
-      importante: false
-    },
-    {
-      id: 3,
-      titulo: "Atualização do sistema",
-      mensagem: "Todos os médicos devem atualizar seus dados até o final do mês.",
-      data: "05/06/2023",
-      importante: true
-    }
-  ]);
-
   useEffect(() => {
     const fetchMedicos = async () => {
       try {
-        const { data } = await axios.get('https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net/medico');
+        const urlAzure =
+          "https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net/medico";
+        const urlMedico = "http://localhost:3000/medico";
+        const { data } = await axios.get(urlMedico);
         setMedicos(data);
-        setEspecialidades([...new Set(data.map(m => m.especialidade))]);
+        setEspecialidades([...new Set(data.map((m) => m.especialidade))]);
       } catch (err) {
-        setError('Erro ao carregar médicos');
+        setError("Erro ao carregar médicos");
         console.error(err);
       } finally {
         setLoading(false);
@@ -68,15 +46,25 @@ export default function HomeAdm() {
     navigate(`/perfilMedico/${id}`);
   };
 
-  const medicosFiltrados = especialidadeSelecionada
+  /* const medicosFiltrados = especialidadeSelecionada
     ? medicos.filter(medico => medico.especialidade === especialidadeSelecionada)
+    : medicos; */
+
+  if (loading)
+    return <Spinner animation="border" className="d-block mx-auto mt-5" />;
+  /* if (error)
+    return (
+      <div className="alert alert-danger mt-5 mx-auto text-center">{error}</div>
+    ); */
+
+  const medicosFiltrados = especialidadeSelecionada
+    ? medicos.filter(
+        (medico) => medico.especialidade === especialidadeSelecionada,
+      )
     : medicos;
 
-  if (loading) return <Spinner animation="border" className="d-block mx-auto mt-5" />;
-  if (error) return <div className="alert alert-danger mt-5 mx-auto text-center">{error}</div>;
-
   return (
-    <div className={`homePrincipal ${isDarkMode ? 'dark-mode' : 'light-mode'}`}>
+    <div className={`homePrincipal ${isDarkMode ? "dark-mode" : "light-mode"}`}>
       <Header />
 
       <div className="carrossel-container">
@@ -116,8 +104,8 @@ export default function HomeAdm() {
           <div className="doctors-grid">
             {medicosFiltrados.length > 0 ? (
               medicosFiltrados.map((medico) => (
-                <div 
-                  key={medico.id} 
+                <div
+                  key={medico.id}
                   className="doctor-card"
                   onClick={() => handleCardClick(medico.id)}
                 >
@@ -125,7 +113,7 @@ export default function HomeAdm() {
                     className="doctor-image"
                     src={`https://apisaintmichel-a2fjc0c4d3bygmhe.eastus2-01.azurewebsites.net${medico.foto}`}
                     alt={medico.nome_completo}
-                    onError={(e) => e.target.src = imagemPadrao}
+                    onError={(e) => (e.target.src = imagemPadrao)}
                   />
                   <div className="doctor-info">
                     <h3 className="doctor-name">{medico.nome_completo}</h3>
@@ -136,33 +124,17 @@ export default function HomeAdm() {
               ))
             ) : (
               <div className="no-results">
-                Nenhum médico encontrado{especialidadeSelecionada && ` na especialidade ${especialidadeSelecionada}`}
+                Nenhum médico encontrado
+                {especialidadeSelecionada &&
+                  ` na especialidade ${especialidadeSelecionada}`}
                 <button
                   className="btn btn-outline-light mt-3"
-                  onClick={() => setEspecialidadeSelecionada('')}
+                  onClick={() => setEspecialidadeSelecionada("")}
                 >
                   Limpar filtro
                 </button>
               </div>
             )}
-          </div>
-        </div>
-
-        <div className="avisos-container">
-          <h3 className="avisos-titulo">Quadro de Avisos</h3>
-          <div className="avisos-lista">
-            {avisos.map(aviso => (
-              <div
-                key={aviso.id}
-                className={`aviso-item ${aviso.importante ? 'importante' : ''}`}
-              >
-                <div className="aviso-cabecalho">
-                  <h4 className="aviso-titulo">{aviso.titulo}</h4>
-                  <span className="aviso-data">{aviso.data}</span>
-                </div>
-                <p className="aviso-mensagem">{aviso.mensagem}</p>
-              </div>
-            ))}
           </div>
         </div>
       </main>
